@@ -1,4 +1,4 @@
-package model.network;
+package util;
 
 public interface HttpCallbackListener {
     /**

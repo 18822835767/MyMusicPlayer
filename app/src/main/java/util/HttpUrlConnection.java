@@ -1,8 +1,13 @@
-package model.network;
+package util;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import util.HttpCallbackListener;
+
+/**
+ * 发送网络请求.
+ * */
 public class HttpUrlConnection {
     private static String TAG = "HttpUrlConnection";
 
@@ -37,4 +42,5 @@ public class HttpUrlConnection {
             }
         }).start();
     }
+    
 }
