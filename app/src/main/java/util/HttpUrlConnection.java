@@ -1,5 +1,7 @@
 package util;
 
+import android.util.Log;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -15,9 +17,12 @@ public class HttpUrlConnection {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                HttpURLConnection connection = null;
                 try{
+                    listener.onStart();
+                    
                     URL url = new URL(requestUrl);
-                    HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+                    connection = (HttpURLConnection)url.openConnection();
                     
                     connection.setRequestMethod("GET");
                     connection.setDoOutput(false);
@@ -37,7 +42,13 @@ public class HttpUrlConnection {
                         listener.onFail();
                     }
                 }catch (Exception e){
-                    listener.onError(e.getMessage());
+                    listener.onError();
+                }finally {
+                    if(connection != null){
+                        connection.disconnect();
+                    }
+                    
+                    listener.onFinish();
                 }
             }
         }).start();

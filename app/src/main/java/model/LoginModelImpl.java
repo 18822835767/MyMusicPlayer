@@ -26,8 +26,18 @@ public class LoginModelImpl implements LoginModel {
             }
 
             @Override
-            public void onError(String errorMsg) {
-                listener.onLoginError(errorMsg);
+            public void onError() {
+                listener.onLoginError();
+            }
+
+            @Override
+            public void onStart() {
+                listener.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                listener.onFinish();
             }
         });
     }

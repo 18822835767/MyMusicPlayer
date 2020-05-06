@@ -37,9 +37,19 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginListener {
     }
 
     @Override
-    public void onLoginError(String errorMsg) {
+    public void onLoginError() {
         onLoginView.showError();
     }
 
-    
+    @Override
+    public void onStart() {
+        onLoginView.showLoading();
+    }
+
+    @Override
+    public void onFinish() {
+        onLoginView.hideLoading();
+    }
+
+
 }

@@ -19,4 +19,14 @@ public interface OnLoginView {
      * 登陆错误后LoginActivity做相应的提示.
      * */
     void showError();
+    
+    /**
+     * LoginView做开始请求业务的UI处理.
+     * */
+    void showLoading();
+
+    /**
+     * LoginView做结束请求业务的UI处理.
+     * */
+    void hideLoading();
 }

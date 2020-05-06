@@ -18,5 +18,15 @@ public interface OnLoginListener {
     /**'
      * 登陆错误(断网...).
      * */
-    void onLoginError(String errorMsg);
+    void onLoginError();
+    
+    /**
+     * Presenter做开始请求时的业务处理.
+     * */
+    void onStart();
+
+    /**
+     * Presenter做结束请求时的业务处理.
+     * */
+    void onFinish();
 }
