@@ -1,8 +1,7 @@
 package presenter;
 
-import model.LoginModel;
+import contract.LoginContract;
 import model.LoginModelImpl;
-import model.OnLoginListener;
 
 /**
  * 这是一个Presenter的实现类.
@@ -12,11 +11,11 @@ import model.OnLoginListener;
  * </p>
  * 
  * */
-public class LoginPresenterImpl implements LoginPresenter, OnLoginListener {
-    private LoginModel loginModel;
-    private OnLoginView onLoginView;
+public class LoginPresenterImpl implements LoginContract.LoginPresenter, LoginContract.OnLoginListener {
+    private LoginContract.LoginModel loginModel;
+    private LoginContract.OnLoginView onLoginView;
     
-    public LoginPresenterImpl(OnLoginView onLoginView){
+    public LoginPresenterImpl(LoginContract.OnLoginView onLoginView){
         this.onLoginView = onLoginView;
         loginModel = new LoginModelImpl();
     }

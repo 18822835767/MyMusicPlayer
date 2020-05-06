@@ -1,9 +1,8 @@
 package view;
 
 import androidx.appcompat.app.AppCompatActivity;
-import presenter.LoginPresenter;
+import contract.LoginContract;
 import presenter.LoginPresenterImpl;
-import presenter.OnLoginView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -17,12 +16,12 @@ import android.widget.Toast;
 
 import com.example.mymusicplayer.R;
 
-public class LoginActivity extends AppCompatActivity implements OnLoginView {
+public class LoginActivity extends AppCompatActivity implements LoginContract.OnLoginView {
 
     private EditText username;
     private EditText password;
     private Button login;
-    private LoginPresenter loginPresenter;
+    private LoginContract.LoginPresenter loginPresenter;
     private ProgressDialog progressDialog;
     
     @Override
