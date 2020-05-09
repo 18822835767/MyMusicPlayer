@@ -32,12 +32,14 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        loginPresenter = new LoginPresenterImpl(this);
-        initView();
+        
+        initData();
         initEvent();
     }
 
-    private void initView(){
+    private void initData(){
+        loginPresenter = new LoginPresenterImpl(this);
+        
         username = (EditText) findViewById(R.id.username);
         password = (EditText)findViewById(R.id.password);
         login = (Button)findViewById(R.id.login);

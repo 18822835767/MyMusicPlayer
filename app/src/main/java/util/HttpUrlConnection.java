@@ -1,24 +1,27 @@
 package util;
 
-import android.util.Log;
+import android.graphics.Bitmap;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import util.HttpCallbackListener;
+import entity.User;
+
 
 /**
  * 发送网络请求.
  * */
 public class HttpUrlConnection {
     private static String TAG = "HttpUrlConnection";
-
+    private static final int UPDATE_IMAGE = 0;
+    
     public static void sendHttpUrlConnection(final String requestUrl, final HttpCallbackListener listener){
         new Thread(new Runnable() {
             @Override
             public void run() {
+                
                 InputStream inputStream = null;
                 ByteArrayOutputStream byteArrayOutputStream = null;
                 HttpURLConnection connection = null;
@@ -66,5 +69,4 @@ public class HttpUrlConnection {
             }
         }).start();
     }
-    
 }

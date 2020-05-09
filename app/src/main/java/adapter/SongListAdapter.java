@@ -1,25 +1,26 @@
 package adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.mymusicplayer.R;
-
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import entity.SongList;
+import util.DownImage;
 
 /**
  * 歌单的ListView的适配器.
  * */
-public class SongListAdapter extends ArrayAdapter<SongList> {
+public class SongListAdapter extends ArrayAdapter<SongList>{
     private int resourceId;//子项布局的id
     
     public SongListAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<SongList> objects) {
@@ -43,8 +44,11 @@ public class SongListAdapter extends ArrayAdapter<SongList> {
             view = convertView;
             viewHolder = (ViewHolder)view.getTag();
         }
-        viewHolder.imageView.setImageResource(songList.getCoverImgUrl());
-        viewHolder.textView.setText(songList.getName());
+        if (songList != null) {
+            viewHolder.textView.setText(songList.getName());
+            DownImage downImage = new DownImage(songList.getCoverImgUrl());
+            downImage.loadImage(drawable -> viewHolder.imageView.setImageDrawable(drawable));
+        }
         return view;
     }
     
@@ -52,4 +56,5 @@ public class SongListAdapter extends ArrayAdapter<SongList> {
         ImageView imageView;
         TextView textView;
     }
+    
 }

@@ -11,9 +11,9 @@
         android:text="我的歌单"
         android:layout_marginTop="10dp"
         android:textStyle="bold"
-        android:layout_gravity="center"
         android:textSize="18sp"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"/>
     
     <ListView
         android:id="@+id/song_list"

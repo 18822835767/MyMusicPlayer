@@ -6,12 +6,12 @@ package entity;
 public class SongList {
     private int id;
     private String name;
-    private int coverImgUrl;//歌单的封面图片
+    private String coverImgUrl;//歌单的封面图片
 
     public SongList() {
     }
 
-    public SongList(int id, String name,int coverImgUrl) {
+    public SongList(int id, String name,String coverImgUrl) {
         this.id = id;
         this.name = name;
         this.coverImgUrl = coverImgUrl;
@@ -33,11 +33,11 @@ public class SongList {
         this.name = name;
     }
 
-    public int getCoverImgUrl() {
+    public String getCoverImgUrl() {
         return coverImgUrl;
     }
 
-    public void setCoverImgUrl(int coverImgUrl) {
+    public void setCoverImgUrl(String coverImgUrl) {
         this.coverImgUrl = coverImgUrl;
     }
 }
