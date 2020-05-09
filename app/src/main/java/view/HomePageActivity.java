@@ -1,6 +1,9 @@
 package view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import entity.User;
 import fragment.MusicBarFragment;
 import widget.BannerViewPager;
@@ -22,6 +25,9 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     private User user;//记录登陆的用户
     private String TAG = "HomePageActivity";
     private Button mySongList;
+    private MusicBarFragment musicBarFragment;
+    
+    public static final String MUSIC_BAR = "musicBar";
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,10 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         //得到登陆的用户
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra(LoginActivity.USER);
+        
+        //添加音乐播放栏
+        musicBarFragment = new MusicBarFragment();
+        setFragment(musicBarFragment);
     }
     
     private void initEvent(){
@@ -59,10 +69,18 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.my_song_list:
                 Intent intent = new Intent(HomePageActivity.this,SongListActivity.class);
+                intent.putExtra(MUSIC_BAR,musicBarFragment);
                 startActivity(intent);
                 break;
             default:
                 break;
         }
+    }
+    
+    private void setFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.music_bar_layout,fragment);
+        transaction.commit();
     }
 }

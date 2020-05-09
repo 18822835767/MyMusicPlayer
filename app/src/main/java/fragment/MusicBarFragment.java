@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import com.example.mymusicplayer.R;
 
+import java.io.Serializable;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -15,7 +17,7 @@ import androidx.fragment.app.Fragment;
 /**
  * "音乐播放栏"的碎片.
  * */
-public class MusicBarFragment extends Fragment {
+public class MusicBarFragment extends Fragment implements Serializable {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, 
