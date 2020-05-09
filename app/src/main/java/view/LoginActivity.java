@@ -2,6 +2,7 @@ package view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import contract.LoginContract;
+import entity.User;
 import presenter.LoginPresenterImpl;
 
 import android.app.AlertDialog;
@@ -18,6 +19,7 @@ import com.example.mymusicplayer.R;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.OnLoginView {
 
+    private User user;//记录登陆的用户
     private EditText username;
     private EditText password;
     private Button login;
