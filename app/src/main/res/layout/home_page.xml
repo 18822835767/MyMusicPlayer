@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--音乐首页-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        >
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:background="@drawable/user"
+            android:layout_marginRight="100dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的音乐"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/search"
+            android:layout_marginLeft="100dp"/>
+
+    </LinearLayout>
+    
+    <widget.BannerViewPager
+        android:id="@+id/banner_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_bar"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"/>
+    
+    <fragment
+        android:id="@+id/music_bar_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="fragment.MusicBarFragment"
+        android:layout_alignParentBottom="true"/>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/banner_view_pager"
+        android:layout_marginTop="10dp">
+        
+        <TextView
+            android:id="@+id/hideText"
+            android:layout_width="25dp"
+            android:layout_height="1dp"
+            android:layout_centerHorizontal="true"/>
+        
+        <Button
+            android:id="@+id/local_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/hideText"
+            android:text="本地音乐" />
+        
+        <Button
+            android:id="@+id/my_song_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/hideText"
+            android:text="我的歌单"/>
+        
+    </RelativeLayout>
+
+</RelativeLayout>

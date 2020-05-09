@@ -7,11 +7,11 @@ import presenter.LoginPresenterImpl;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.mymusicplayer.R;
@@ -55,6 +55,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
             @Override
             public void run() {
                 Toast.makeText(LoginActivity.this,"登陆成功",Toast.LENGTH_SHORT).show();
+
+                //跳转到音乐首页
+                Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
+                startActivity(intent);
+                
+                finish();
             }
         });
     }

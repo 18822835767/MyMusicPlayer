@@ -121,10 +121,10 @@ public class BannerViewPager extends FrameLayout {
         //设置小圆点在
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(new ViewGroup.
                 LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        layoutParams.height = 10;
-        layoutParams.width = 10;
-        layoutParams.leftMargin = 5;//点的左边距
-        layoutParams.rightMargin = 5;//点的右边距
+        layoutParams.height = 20;
+        layoutParams.width = 20;
+        layoutParams.leftMargin = 10;//点的左边距
+        layoutParams.rightMargin = 10;//点的右边距
         for (int i = 0; i < count; i++) {
             ImageView imageView = new ImageView(context);
             //先设置第一个小圆点为红色，其他圈为黑色
@@ -254,7 +254,7 @@ public class BannerViewPager extends FrameLayout {
 
         @Override
         public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            container.removeView((View)object);
+            container.removeView((View) object);
         }
     }
 }
