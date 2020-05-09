@@ -4,7 +4,7 @@ public interface HttpCallbackListener {
     /**
      * 请求成功.
      * */
-    void onSuccess();
+    void onSuccess(String dataMessage);
 
     /**
      * 请求失败.

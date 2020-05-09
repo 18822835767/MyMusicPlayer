@@ -1,6 +1,8 @@
 package contract;
 
 
+import entity.User;
+
 public interface LoginContract {
     /**
      * LoginModel接口，被LoginPresenter调用.
@@ -24,7 +26,7 @@ public interface LoginContract {
         /**
          * 登陆成功.
          * */
-        void onLoginSuccess();
+        void onLoginSuccess(User user);
 
         /**
          * 登陆失败.
@@ -55,7 +57,7 @@ public interface LoginContract {
         /**
          * 登陆成功后LoginActivity做相应的显示.
          * */
-        void showSuccess();
+        void showSuccess(User user);
 
         /**
          * 登陆失败后LoginActivity做相应的显示.

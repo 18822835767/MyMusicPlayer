@@ -2,6 +2,8 @@ package util;
 
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -17,6 +19,8 @@ public class HttpUrlConnection {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                InputStream inputStream = null;
+                ByteArrayOutputStream byteArrayOutputStream = null;
                 HttpURLConnection connection = null;
                 try{
                     listener.onStart();
@@ -37,7 +41,16 @@ public class HttpUrlConnection {
                     int responseCode = connection.getResponseCode();
                     
                     if(HttpURLConnection.HTTP_OK == responseCode){
-                        listener.onSuccess();
+                        inputStream = connection.getInputStream();
+                        byteArrayOutputStream = new ByteArrayOutputStream();
+                        int readLength;
+                        byte[] bytes = new byte[1024];//用于存放每次读取的数据
+                        while((readLength = inputStream.read(bytes)) != -1){
+                            byteArrayOutputStream.write(bytes,0,readLength);
+                        }
+                        String result = byteArrayOutputStream.toString();
+                        
+                        listener.onSuccess(result);
                     }else{
                         listener.onFail();
                     }

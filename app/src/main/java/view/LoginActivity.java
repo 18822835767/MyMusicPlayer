@@ -26,6 +26,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
     private LoginContract.LoginPresenter loginPresenter;
     private ProgressDialog progressDialog;
     
+    public static final String USER = "user";
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
     }
     
     @Override
-    public void showSuccess() {
+    public void showSuccess(User user) {
+        this.user = user;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -60,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
 
                 //跳转到音乐首页
                 Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
+                intent.putExtra(USER,user);
                 startActivity(intent);
                 
                 finish();

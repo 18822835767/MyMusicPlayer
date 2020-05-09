@@ -1,6 +1,7 @@
 package presenter;
 
 import contract.LoginContract;
+import entity.User;
 import model.LoginModelImpl;
 
 /**
@@ -26,8 +27,8 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter, LoginCo
     }
     
     @Override
-    public void onLoginSuccess() {
-        onLoginView.showSuccess();
+    public void onLoginSuccess(User user) {
+        onLoginView.showSuccess(user);
     }
 
     @Override
