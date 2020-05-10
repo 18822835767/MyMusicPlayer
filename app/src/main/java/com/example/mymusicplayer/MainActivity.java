@@ -22,8 +22,7 @@ import java.util.Map;
 /**
  * 程序的主界面.
  */
-public class MainActivity extends AppCompatActivity implements 
-        HomePageFragment.HomePageCallbackListener {
+public class MainActivity extends AppCompatActivity{
 
     private HomePageFragment homePageFragment = null;
     private SongListFragment songListFragment = null;
@@ -31,12 +30,9 @@ public class MainActivity extends AppCompatActivity implements
     
     private LinkedList<Fragment> fragmentLinkedList;//在用户的"眼里"，总共页面的"碎片"
     private Map<Fragment,Integer> map = new HashMap<>();//用于记录各个碎片所对应的值
-    private int count = 0;//在用户的"眼里"，目前页面的总数量
-    private boolean firstOpenHomePageFragment = true;
-    private boolean firstOpenSongListFragment = true;
-    private boolean firstOpenMusicFragment = true;
     
     private User user;//记录登陆的用户
+    private int songListId = 0;//记录用户点击的歌单的id
     
     private final int SHOW_HOME_PAGE = 0;
     private final int SHOW_SONG_LIST = 1;
@@ -70,39 +66,46 @@ public class MainActivity extends AppCompatActivity implements
             case SHOW_HOME_PAGE:
                 if(homePageFragment == null){
                     homePageFragment = new HomePageFragment();
-                    homePageFragment.setCallbackListener(this);
                     transaction.add(R.id.fragment_layout,homePageFragment);
                     map.put(homePageFragment,SHOW_HOME_PAGE);
-                    firstOpenHomePageFragment = false;
                 }else{
                     transaction.show(homePageFragment);
                 }
                 
-                fragmentLinkedList.addLast(homePageFragment);
+                //如果List不包含，则添加碎片
+                if(!fragmentLinkedList.contains(homePageFragment)){
+                    fragmentLinkedList.addLast(homePageFragment);
+                }
                 break;
             case SHOW_SONG_LIST:
                 if(songListFragment == null){
                     songListFragment = new SongListFragment();
                     transaction.add(R.id.fragment_layout,songListFragment);
                     map.put(songListFragment,SHOW_SONG_LIST);
-                    count ++;
                 }else{
                     transaction.show(songListFragment);
                 }
+
+                //如果List不包含，则添加碎片
+                if(!fragmentLinkedList.contains(songListFragment)){
+                    fragmentLinkedList.addLast(songListFragment);
+                }
                 
-                fragmentLinkedList.addLast(songListFragment);
                 break;
             case SHOW_MUSIC:
                 if(musicFragment == null){
                     musicFragment = new MusicFragment();
                     transaction.add(R.id.fragment_layout,musicFragment);
                     map.put(musicFragment,SHOW_MUSIC);
-                    count ++;
                 }else{
                     transaction.show(musicFragment);
                 }
                 
-                fragmentLinkedList.addLast(musicFragment);
+                //如果List不包含，则添加碎片
+                if(!fragmentLinkedList.contains(musicFragment)){
+                    fragmentLinkedList.addLast(musicFragment);
+                }
+                
                 break;
             default:
                 break;
@@ -124,23 +127,44 @@ public class MainActivity extends AppCompatActivity implements
             transaction.hide(musicFragment);
         }
     }
-
-    @Override
+    
+    /**
+     * 展示用户的歌单.
+     * */
     public void showSongList() {
         initFragment(SHOW_SONG_LIST);
     }
     
+    /**
+     * 展示某个歌单中的音乐.
+     * */
+    public void showMusics(int songListId){
+        this.songListId = songListId;
+        initFragment(SHOW_MUSIC);
+    }
+    
+    /**
+     * 碎片通过调用该方法可以得到登陆的用户.
+     * */
     public User getUser(){
         return user;
     }
     
+    /**
+     * 碎片通过调用该方法获得用户点击的歌单的id.
+     * */
+    public int getSongListId(){
+        return songListId;
+    }
+    
     @Override
     public void onBackPressed(){
-        if(count == 1){
+        if(fragmentLinkedList.size() == 1){
+            //只有一个碎片，说明只剩下主界面，接着就是关闭程序了
             super.onBackPressed();
         }else{
+            //不止一个碎片，说明用户只是想返回上一个页面
             fragmentLinkedList.removeLast();
-            count--;
             Fragment fragment = fragmentLinkedList.getLast();
             int nowFragment = map.get(fragment);
             initFragment(nowFragment);

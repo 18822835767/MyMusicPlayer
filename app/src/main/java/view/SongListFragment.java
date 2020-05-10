@@ -6,11 +6,13 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.mymusicplayer.MainActivity;
 import com.example.mymusicplayer.R;
 
+import java.net.InterfaceAddress;
 import java.util.List;
 
 import adapter.SongListAdapter;
@@ -60,7 +62,16 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
     }
 
     public void initEvent() {
-        
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SongList songList = songLists.get(position);
+                if(getActivity() != null){
+                    ((MainActivity)getActivity()).showMusics(songList.getId());
+                }
+                
+            }
+        });
     }
 
     private void setListItem() {
@@ -78,10 +89,6 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
     @Override
     public void showError() {
 
-    }
-
-    public void setUser(User user){
-        this.user = user;
     }
     
     private Handler handler = new Handler(new Handler.Callback() {

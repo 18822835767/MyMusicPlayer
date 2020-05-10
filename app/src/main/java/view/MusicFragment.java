@@ -3,11 +3,13 @@ package view;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.example.mymusicplayer.MainActivity;
 import com.example.mymusicplayer.R;
 
 import java.util.ArrayList;
@@ -24,7 +26,6 @@ import presenter.MusicPresenterImpl;
 import util.ApplicationContext;
 
 public class MusicFragment extends Fragment implements MusicContract.OnMusicView {
-    private int songListId;//记录是哪一张歌单的音乐
     private ListView listView;
     private MusicContract.MusicPresenter musicPresenter;
     private List<Music> musics;
@@ -55,7 +56,7 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
         musics = new ArrayList<>();
 
         musicPresenter = new MusicPresenterImpl(this);
-
+        
         setMusicItem();
     }
 
@@ -66,8 +67,8 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
     /**
      * 设置歌单中的歌曲显示.
      * */
-    private void setMusicItem(){
-        musicPresenter.getMusicList(songListId);
+    public void setMusicItem(){
+        musicPresenter.getMusicList(((MainActivity)getActivity()).getSongListId());
     }
     
     @Override
@@ -98,4 +99,6 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
             return false;
         }
     });
+    
+    
 }

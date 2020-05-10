@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.mymusicplayer.MainActivity;
 import com.example.mymusicplayer.R;
 
 import java.util.ArrayList;
@@ -22,12 +23,10 @@ import widget.BannerViewPager;
  * 音乐首页所对应的view.
  */
 public class HomePageFragment extends Fragment implements View.OnClickListener{
-    private User user;//记录登陆的用户
     private Button mySongList;
     private View view;
     private int songListId;//当用户点击歌单时，记录歌单的id
-    private HomePageCallbackListener callbackListener;
-
+    
     public static final String MUSIC_BAR = "musicBar";
     public static final String USER = "user";
     
@@ -65,25 +64,10 @@ public class HomePageFragment extends Fragment implements View.OnClickListener{
             case R.id.local_songs:
                 break;
             case R.id.my_song_list:
-//                Intent intent = new Intent(HomePageActivity.this, SongListActivity.class);
-//                intent.putExtra(MUSIC_BAR, musicBarFragment);
-//                intent.putExtra(USER,user);
-//                startActivity(intent);
-                callbackListener.showSongList();
+                ((MainActivity)getActivity()).showSongList();
                 break;
             default:
                 break;
         }
-    }
-    
-    public void setCallbackListener(HomePageCallbackListener callbackListener){
-        this.callbackListener = callbackListener;
-    }
-    
-    /**
-     * MainActivity要实现的接口，当用户触发点击事件时，回调该接口.
-     * */
-    public interface HomePageCallbackListener {
-        void showSongList();
     }
 }

@@ -55,7 +55,6 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.On
         
         musicPresenter = new MusicPresenterImpl(this);
         
-        setMusicItem();
     }
     
     private void initEvent(){
