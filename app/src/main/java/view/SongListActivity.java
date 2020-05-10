@@ -30,6 +30,7 @@ public class SongListActivity extends AppCompatActivity implements SongListContr
     private List<SongList> songLists;
     
     public static final String MUSIC = "music";
+    public static final String Fragment = "fragment";
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class SongListActivity extends AppCompatActivity implements SongListContr
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SongList songList = songLists.get(position);
                 Intent intent = new Intent(SongListActivity.this,MusicActivity.class);
+                intent.putExtra(Fragment,fragment);
                 intent.putExtra(MUSIC,songList.getId());
                 startActivity(intent);
             }

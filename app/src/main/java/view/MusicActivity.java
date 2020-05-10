@@ -2,8 +2,12 @@ package view;
 
 import adapter.MusicAdapter;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import contract.MusicContract;
 import entity.Music;
+import fragment.MusicBarFragment;
 import presenter.MusicPresenterImpl;
 
 import android.content.Intent;
@@ -23,6 +27,7 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.On
     private ListView listView;
     private MusicContract.MusicPresenter musicPresenter;
     private List<Music> musics;
+    private MusicBarFragment fragment;
     private static final String TAG = "MusicActivity";
     
     @Override
@@ -37,6 +42,8 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.On
     private void initData(){
         Intent intent = getIntent();
         songListId = intent.getIntExtra(SongListActivity.MUSIC,-1);
+        fragment = (MusicBarFragment) intent.getSerializableExtra(SongListActivity.Fragment);
+        setFragment(fragment);
         
         listView = findViewById(R.id.music_list);
         
@@ -58,6 +65,13 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.On
     
     private void setMusicItem(){
         musicPresenter.getMusicList(songListId);
+    }
+
+    private void setFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.music_bar_layout,fragment);
+        transaction.commit();
     }
     
     @Override
