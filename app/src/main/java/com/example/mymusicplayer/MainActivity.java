@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity{
         }
         if(musicFragment != null){
             transaction.hide(musicFragment);
+            musicFragment = null;
         }
     }
     
