@@ -1,6 +1,7 @@
 package util;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -17,7 +18,7 @@ public class HttpUrlConnection {
     private static String TAG = "HttpUrlConnection";
     private static final int UPDATE_IMAGE = 0;
     
-    public static void sendHttpUrlConnection(final String requestUrl, final HttpCallbackListener listener){
+    public static void sendHttpUrlConnection(String requestUrl, final HttpCallbackListener listener){
         new Thread(new Runnable() {
             @Override
             public void run() {

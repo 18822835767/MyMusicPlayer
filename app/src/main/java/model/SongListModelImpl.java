@@ -1,7 +1,5 @@
 package model;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,17 +9,16 @@ import java.util.List;
 
 import contract.SongListContract;
 import entity.SongList;
-import entity.User;
 import util.HttpCallbackListener;
 import util.HttpUrlConnection;
 
-public class SongListModelImpl implements SongListContract.SongListModel {
+public class SongListModelImpl implements SongListContract.SongListModel{
     private final String SONG_LIST_URL = "http://182.254.170.97:3000/user/playlist?uid=";
     private List<SongList> songLists = new ArrayList<>();
     private final String TAG = "SongListModelImpl";
     
     @Override
-    public void getUserSongList(SongListContract.onSongListListener onSongListListener, int userId) {
+    public void getUserSongList(SongListContract.OnSongListListener onSongListListener, int userId) {
         HttpUrlConnection.sendHttpUrlConnection(SONG_LIST_URL+userId,new HttpCallbackListener(){
             @Override
             public void onSuccess(String dataMessage) {

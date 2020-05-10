@@ -11,7 +11,7 @@ public interface SongListContract {
      * SongListModel接口，被SongListPresenter调用.
      * */
     interface SongListModel{
-       void getUserSongList(SongListContract.onSongListListener onSongListListener, int userId);
+       void getUserSongList(OnSongListListener onSongListListener, int userId);
        void handleJson(String dataMessage) throws JSONException;
     }
     
@@ -26,7 +26,7 @@ public interface SongListContract {
      * 这是将SongListModel请求结果反馈给SongListPresenter的Callback接口.
      * SongListPresenter要去实现这个接口.
      * */
-    interface onSongListListener{
+    interface OnSongListListener {
         /**
          * 成功得到歌单.
          * */
@@ -42,7 +42,7 @@ public interface SongListContract {
      * SongListPresenter将结果反馈给SongListActivity的View接口.
      * 由SongListActivity去实现这个类.
      * */
-    interface onSongListView{
+    interface OnSongListView {
         /**
          * 展示用户歌单.
          * */

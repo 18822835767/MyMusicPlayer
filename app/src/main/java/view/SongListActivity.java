@@ -13,17 +13,15 @@ import presenter.SongListPresenterImpl;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.mymusicplayer.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class SongListActivity extends AppCompatActivity implements SongListContract.onSongListView {
+public class SongListActivity extends AppCompatActivity implements SongListContract.OnSongListView {
     private MusicBarFragment fragment;
     private SongListContract.SongListPresenter songListPresenter;
     private User user;
