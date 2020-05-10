@@ -66,7 +66,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.local_music:
+            case R.id.my_song_list:
                 break;
             case R.id.my_song_list:
                 Intent intent = new Intent(HomePageActivity.this, SongListActivity.class);

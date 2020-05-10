@@ -14,6 +14,8 @@ import presenter.SongListPresenterImpl;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.mymusicplayer.R;
@@ -26,13 +28,18 @@ public class SongListActivity extends AppCompatActivity implements SongListContr
     private SongListContract.SongListPresenter songListPresenter;
     private User user;
     private final String TAG = "SongListActivity";
+    private ListView listView;
+    private List<SongList> songLists;
+    
+    public static final String MUSIC = "music";
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_list);
 
-        initData();        
+        initData();       
+        initEvent();
     }
     
     private void initData(){
@@ -42,6 +49,8 @@ public class SongListActivity extends AppCompatActivity implements SongListContr
         setFragment(fragment);
         //存放用户实体
         user = (User) intent.getSerializableExtra(HomePageActivity.USER);
+
+        listView = (ListView)findViewById(R.id.song_list);
         
         //初始化presenter
         songListPresenter = new SongListPresenterImpl(this);
@@ -49,6 +58,18 @@ public class SongListActivity extends AppCompatActivity implements SongListContr
         setListItem();
     }
 
+    private void initEvent(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SongList songList = songLists.get(position);
+                Intent intent = new Intent(SongListActivity.this,MusicActivity.class);
+                intent.putExtra(MUSIC,songList.getId());
+                startActivity(intent);
+            }
+        });
+    }
+    
     /**
      * 设置ListView中的数据.
      * */
@@ -65,12 +86,12 @@ public class SongListActivity extends AppCompatActivity implements SongListContr
 
     @Override
     public void showSongList(List<SongList> songLists) {
+        this.songLists = songLists;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 SongListAdapter adapter = new SongListAdapter(SongListActivity.this,
                         R.layout.song_list_item,songLists);
-                ListView listView = (ListView)findViewById(R.id.song_list);
                 listView.setAdapter(adapter);
             }
         });
