@@ -39,6 +39,9 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.On
         initEvent();
     }
     
+    /**
+     * 初始化数据.
+     * */
     private void initData(){
         Intent intent = getIntent();
         songListId = intent.getIntExtra(SongListActivity.MUSIC,-1);
@@ -55,6 +58,7 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.On
     }
     
     private void initEvent(){
+        //当用户点击歌单中的歌曲时，进行监听
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -63,10 +67,16 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.On
         });
     }
     
+    /**
+     * 设置歌单中的歌曲显示.
+     * */
     private void setMusicItem(){
         musicPresenter.getMusicList(songListId);
     }
 
+    /**
+     * 引入底部播放栏的碎片.
+     * */
     private void setFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -74,6 +84,9 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.On
         transaction.commit();
     }
     
+    /**
+     * 用于presenter的回调.
+     * */
     @Override
     public void showMusics(List<Music> musics) {
         this.musics = musics;
