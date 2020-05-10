@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.mymusicplayer.MainActivity;
 import com.example.mymusicplayer.R;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.OnLoginView {
@@ -64,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
                 Toast.makeText(LoginActivity.this,"登陆成功",Toast.LENGTH_SHORT).show();
 
                 //跳转到音乐首页
-                Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.putExtra(USER,user);
                 startActivity(intent);
                 
