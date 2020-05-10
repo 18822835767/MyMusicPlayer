@@ -10,9 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="view.MusicActivity"></activity>
-        <activity android:name="view.SongListActivity" />
-        <activity android:name="view.HomePageActivity" />
         <activity android:name="view.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -47,7 +47,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
 
             @Override
             public void onStart() {
-
+                
             }
 
             @Override
