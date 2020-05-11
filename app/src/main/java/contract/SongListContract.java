@@ -16,7 +16,7 @@ public interface SongListContract {
     }
     
     /**
-     * SongListPresenter接口，被SongListActivity调用.
+     * SongListPresenter接口，被SongListFragment调用.
      * */
     interface SongListPresenter{
         void getUserSongList(int userId);
@@ -33,6 +33,11 @@ public interface SongListContract {
         void onSuccess(List<SongList> songLists);
         
         /**
+         * 没能成功得到歌单.
+         * */
+        void onFail();
+        
+        /**
          * 错误(断网...).
          * */
         void onError();
@@ -40,13 +45,18 @@ public interface SongListContract {
     
     /**
      * SongListPresenter将结果反馈给SongListActivity的View接口.
-     * 由SongListActivity去实现这个类.
+     * 由SongListFragment去实现这个类.
      * */
     interface OnSongListView {
         /**
          * 展示用户歌单.
          * */
         void showSongList(List<SongList> songLists);
+
+        /**
+         * 没能成功得到歌单.
+         * */
+        void showFail();
         
         /**
          * 错误(断网等情况...).

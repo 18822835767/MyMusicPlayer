@@ -33,7 +33,7 @@ public class SongListModelImpl implements SongListContract.SongListModel{
 
             @Override
             public void onFail() {
-
+                onSongListListener.onFail();
             }
 
             @Override

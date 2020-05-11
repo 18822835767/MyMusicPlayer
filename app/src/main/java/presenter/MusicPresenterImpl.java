@@ -29,7 +29,12 @@ public class MusicPresenterImpl implements MusicContract.MusicPresenter,
     }
 
     @Override
-    public void onError() {
+    public void onFail() {
+        onMusicView.showFail();
+    }
 
+    @Override
+    public void onError() {
+        onMusicView.showError();
     }
 }

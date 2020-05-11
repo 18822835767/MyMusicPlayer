@@ -37,12 +37,12 @@ public class MusicModelImpl implements MusicContract.MusicModel {
 
             @Override
             public void onFail() {
-
+                onMusicListener.onFail();
             }
 
             @Override
             public void onError() {
-
+                onMusicListener.onError();
             }
 
             @Override

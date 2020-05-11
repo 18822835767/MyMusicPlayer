@@ -27,6 +27,11 @@ public class SongListPresenterImpl implements SongListContract.SongListPresenter
     }
 
     @Override
+    public void onFail() {
+        onSongListView.showFail();
+    }
+
+    @Override
     public void onError() {
         onSongListView.showError();
     }

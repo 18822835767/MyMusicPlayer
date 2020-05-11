@@ -1,5 +1,6 @@
 package view;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.mymusicplayer.MainActivity;
 import com.example.mymusicplayer.R;
@@ -38,6 +40,8 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
     
     //网络请求的访问状态
     private static final int SUCCESS = 0;
+    private static final int FAIL = 1;
+    private static final int ERROR = 2;
 
     @Nullable
     @Override
@@ -87,8 +91,19 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
     }
 
     @Override
-    public void showError() {
+    public void showFail() {
+        this.songLists = songLists;
+        Message message = new Message();
+        message.what = FAIL;
+        handler.sendMessage(message);
+    }
 
+    @Override
+    public void showError() {
+        this.songLists = songLists;
+        Message message = new Message();
+        message.what = ERROR;
+        handler.sendMessage(message);
     }
     
     private Handler handler = new Handler(new Handler.Callback() {
@@ -96,9 +111,26 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
         public boolean handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case SUCCESS:
-                    SongListAdapter adapter = new SongListAdapter(getActivity(),
-                            R.layout.song_list_item, songLists);
-                    listView.setAdapter(adapter);
+                    if(getActivity() != null){
+                        SongListAdapter adapter = new SongListAdapter(getActivity(),
+                                R.layout.song_list_item, songLists);
+                        listView.setAdapter(adapter);
+                    }
+                    break;
+                case FAIL:
+                    if(getActivity() != null){
+                        Toast.makeText(getActivity(),"请求失败",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case ERROR:
+                    if(getActivity() != null){
+                        AlertDialog.Builder errorDialog = new AlertDialog.Builder(getActivity());
+                        errorDialog.setTitle("错误");
+                        errorDialog.setMessage("请检查设备是否联网");
+                        errorDialog.setPositiveButton("OK", (dialog, which) -> {});
+                        errorDialog.show();
+                    }
                     break;
                 default:
                     break;

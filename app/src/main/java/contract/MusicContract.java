@@ -14,7 +14,7 @@ public interface MusicContract {
     }
 
     /**
-     * MusicPresenter接口，被MusicActivity调用.
+     * MusicPresenter接口，被MusicFragment调用.
      * */
     interface MusicPresenter{
         void getMusicList(int songListId);
@@ -31,6 +31,11 @@ public interface MusicContract {
         void onSuccess(List<Music> musics);
 
         /**
+         * 没能成功得到歌单中的歌曲.
+         * */
+        void onFail();
+        
+        /**
          * 错误(断网...).
          * */
         void onError();
@@ -38,7 +43,7 @@ public interface MusicContract {
 
     /**
      * MusicPresenter将结果反馈给MusicActivity的View接口.
-     * 由MusicActivity去实现这个类.
+     * 由MusicFragment去实现这个类.
      * */
     interface OnMusicView {
         /**
@@ -46,6 +51,11 @@ public interface MusicContract {
          * */
         void showMusics(List<Music> music);
 
+        /**
+         * 没能成功得到歌单中的歌曲.
+         * */
+        void showFail();
+        
         /**
          * 错误(断网等情况...).
          * */
