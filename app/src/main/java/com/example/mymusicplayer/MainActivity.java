@@ -24,16 +24,22 @@ import java.util.Map;
  */
 public class MainActivity extends AppCompatActivity{
 
+    //三个碎片
     private HomePageFragment homePageFragment = null;
     private SongListFragment songListFragment = null;
     private MusicFragment musicFragment = null;
+
+    //在用户的"眼里"，总共页面的"碎片"
+    private LinkedList<Fragment> fragmentLinkedList;
+    //用于记录各个碎片所对应的值
+    private Map<Fragment,Integer> map = new HashMap<>();
+
+    //记录登陆的用户
+    private User user;
+    //记录用户点击的歌单的id
+    private int songListId = 0;
     
-    private LinkedList<Fragment> fragmentLinkedList;//在用户的"眼里"，总共页面的"碎片"
-    private Map<Fragment,Integer> map = new HashMap<>();//用于记录各个碎片所对应的值
-    
-    private User user;//记录登陆的用户
-    private int songListId = 0;//记录用户点击的歌单的id
-    
+    //定义三个碎片所对应的值
     private final int SHOW_HOME_PAGE = 0;
     private final int SHOW_SONG_LIST = 1;
     private final int SHOW_MUSIC = 2;
@@ -48,7 +54,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     /**
-     * 初始化资料.
+     * 初始化数据.
      * */
     private void initData(){
         //得到登陆的用户
@@ -58,6 +64,12 @@ public class MainActivity extends AppCompatActivity{
         fragmentLinkedList = new LinkedList<>();
     }
     
+    /**
+     * 展示碎片.
+     * <p>
+     *     碎片引用为null，则创建碎片.不为null,则直接通过transaction.show()
+     * </p>
+     * */
     private void initFragment(int index) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -67,6 +79,7 @@ public class MainActivity extends AppCompatActivity{
                 if(homePageFragment == null){
                     homePageFragment = new HomePageFragment();
                     transaction.add(R.id.fragment_layout,homePageFragment);
+                    //保存碎片所对应的值
                     map.put(homePageFragment,SHOW_HOME_PAGE);
                 }else{
                     transaction.show(homePageFragment);
@@ -81,6 +94,7 @@ public class MainActivity extends AppCompatActivity{
                 if(songListFragment == null){
                     songListFragment = new SongListFragment();
                     transaction.add(R.id.fragment_layout,songListFragment);
+                    //保存碎片所对应的值
                     map.put(songListFragment,SHOW_SONG_LIST);
                 }else{
                     transaction.show(songListFragment);
@@ -96,6 +110,7 @@ public class MainActivity extends AppCompatActivity{
                 if(musicFragment == null){
                     musicFragment = new MusicFragment();
                     transaction.add(R.id.fragment_layout,musicFragment);
+                    //保存碎片所对应的值
                     map.put(musicFragment,SHOW_MUSIC);
                 }else{
                     transaction.show(musicFragment);
@@ -130,14 +145,14 @@ public class MainActivity extends AppCompatActivity{
     }
     
     /**
-     * 展示用户的歌单.
+     * 展示用户的歌单的“碎片”.
      * */
     public void showSongList() {
         initFragment(SHOW_SONG_LIST);
     }
     
     /**
-     * 展示某个歌单中的音乐.
+     * 展示某个歌单中的音乐"碎片".
      * */
     public void showMusics(int songListId){
         this.songListId = songListId;
@@ -158,6 +173,9 @@ public class MainActivity extends AppCompatActivity{
         return songListId;
     }
     
+    /**
+     * 重写"返回键"的方法.
+     * */
     @Override
     public void onBackPressed(){
         if(fragmentLinkedList.size() == 1){
