@@ -43,12 +43,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="40dp"/>
     
-    <FrameLayout
-        android:id="@+id/music_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
-    
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
