@@ -74,7 +74,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
                 if (playPresenter != null) {
                     playPresenter.seekTo(touchProgress);
                 }
-                userTouchProgress = true;
+                userTouchProgress = false;
             }
         });
 

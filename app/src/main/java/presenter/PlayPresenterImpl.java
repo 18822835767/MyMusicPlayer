@@ -2,21 +2,16 @@ package presenter;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.Environment;
-import android.util.Log;
-import android.widget.Toast;
-
-
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import contract.PlayMusicContract;
-import util.ApplicationContext;
 
-public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
+public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
+        MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener {
     private volatile static PlayPresenterImpl instance = null;
 
     private PlayPresenterImpl() {
@@ -39,33 +34,27 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
     private MediaPlayer mediaPlayer;
     private Timer timer;//定时器，每个一段时间通过回调更新UI
     private SeekTimeTask seekTimeTask;
-    
+    private List<String> musics = new ArrayList<>();
+
+    private boolean firstPlay = true;
+    private int currentPosition = 0;//表示当前的播放位置
+
     @Override
     public void playOrPause() {
         switch (currentState) {
             case PLAY_STATE_STOP:
-                //停止状态，先初始化播放器.
-                initPlayer();
+                File file = new File("/sdcard/music.mp3");
+                musics.add(file.getPath());
+                musics.add(file.getPath());
+                musics.add(file.getPath());
 
-                if (mediaPlayer != null) {
-                    try {
-                        try {
-                            File file = new File("/sdcard/music.mp3");
-                            mediaPlayer.setDataSource(file.getPath());
-                            mediaPlayer.prepareAsync();
-                            //加载好资源后进行回调，开始播放
-                            mediaPlayer.setOnPreparedListener(mp -> {
-                                mediaPlayer.start();
-                                startTimer();
-                            });
-                            currentState = PLAY_STATE_PLAY;
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                if (mediaPlayer == null) {
+                    mediaPlayer = new MediaPlayer();
                 }
+                initMediaPlayerData(musics.get(currentPosition));
+                
+                currentState = PLAY_STATE_PLAY;
+
                 break;
             case PLAY_STATE_PLAY:
                 if (mediaPlayer != null) {
@@ -92,6 +81,26 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
     }
 
     /**
+     * 设置MediaPlayer的信息
+     */
+    private void initMediaPlayerData(String dataSource) {
+        if (mediaPlayer != null) {
+            mediaPlayer.reset();
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            try {
+                mediaPlayer.setDataSource(dataSource);
+                mediaPlayer.prepareAsync();
+                //监听
+                mediaPlayer.setOnPreparedListener(this);
+                mediaPlayer.setOnErrorListener(this);
+                mediaPlayer.setOnCompletionListener(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * @param seek 表示进度条播放位置，总共分为100份
      */
     @Override
@@ -107,24 +116,6 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
     public void registOnPlayView(PlayMusicContract.OnPlayView onPlayView) {
         this.onPlayView = onPlayView;
     }
-    
-    /**
-     * 初始化播放器.
-     */
-    private void initPlayer() {
-        if (mediaPlayer == null) {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            //出现错误时给用户提示
-            mediaPlayer.setOnErrorListener((mp, what, extra) -> {
-                onPlayView.showError();
-                //回调时更新状态
-//                currentState = PLAY_STATE_STOP;
-                onPlayView.onPlayStateChange(currentState);
-                return false;
-            });
-        }
-    }
 
     /**
      * 当音乐在播放的时候，开启TimerTask
@@ -136,7 +127,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
         if (seekTimeTask == null) {
             seekTimeTask = new SeekTimeTask();
         }
-        timer.schedule(seekTimeTask, 0, 500);//定时任务，周期为500ms
+        timer.schedule(seekTimeTask, 0, 300);//定时任务，周期为300ms
     }
 
     /**
@@ -150,6 +141,42 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
         if (seekTimeTask != null) {
             seekTimeTask.cancel();
             seekTimeTask = null;
+        }
+    }
+
+    /**
+     * 监听，当MediaPlayer播放完一首音乐后.
+     */
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        firstPlay = false;
+        currentPosition++;
+        if (musics != null && currentPosition < musics.size()) {
+            onPlayView.onSeekChange(0);
+            initMediaPlayerData(musics.get(currentPosition));
+        }
+    }
+
+    /**
+     * 监听，当MediaPlayer播放播放出错时.
+     */
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        onPlayView.showError();
+        onPlayView.onPlayStateChange(currentState);
+        return false;
+    }
+
+    /**
+     * 监听，当MediaPlayer装载好播放的媒体资源时.
+     */
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        if (mp != null) {
+            mp.start();
+            if (firstPlay) {
+                startTimer();
+            }
         }
     }
 
@@ -167,14 +194,9 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
         }
     }
 
-    public MediaPlayer getMediaPlayer(){
+    public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
 
-//    public void setCurrentState(int currentState) {
-//        this.currentState = currentState;
-//    }
-//    
-    
 }
 
