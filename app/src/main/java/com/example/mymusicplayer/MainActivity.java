@@ -1,6 +1,5 @@
 package com.example.mymusicplayer;
 
-import androidx.annotation.LongDef;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -15,11 +14,9 @@ import view.MusicFragment;
 import view.SongListFragment;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -29,7 +26,8 @@ import java.util.Map;
 /**
  * 程序的主界面.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HomePageFragment.OnHomePageListener,
+        SongListFragment.OnSongListListener, MusicFragment.OnMusicListener {
 
     //三个碎片
     private HomePageFragment homePageFragment = null;
@@ -60,14 +58,19 @@ public class MainActivity extends AppCompatActivity {
         initData();
         initFragment(SHOW_HOME_PAGE);
 
-        //权限的判断
+       checkPermission();
+    }
+
+    /**
+     * 权限的判断
+     * */
+    private void checkPermission(){
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.
                 WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{
                     Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
     }
-
 
     /**
      * 初始化数据.
@@ -80,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
         fragmentLinkedList = new LinkedList<>();
     }
 
+    /**
+     * 开启服务.
+     * */
     private void initService(){
         Intent intent = new Intent(MainActivity.this, PlayService.class);
         startService(intent);
@@ -169,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 展示用户的歌单的“碎片”.
      */
+    @Override
     public void showSongList() {
         initFragment(SHOW_SONG_LIST);
     }
@@ -176,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 展示某个歌单中的音乐"碎片".
      */
+    @Override
     public void showMusics(int songListId) {
         this.songListId = songListId;
         initFragment(SHOW_MUSIC);
@@ -184,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 碎片通过调用该方法可以得到登陆的用户.
      */
+    @Override
     public User getUser() {
         return user;
     }
@@ -191,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 碎片通过调用该方法获得用户点击的歌单的id.
      */
+    @Override
     public int getSongListId() {
         return songListId;
     }

@@ -1,6 +1,7 @@
 package view;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,11 +33,19 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
     private List<Music> musics;
     private static final String TAG = "MusicActivity";
     private View view;
+    
+    private OnMusicListener mCallback;//碎片和活动通信的接口引用
 
     //网络请求的访问状态
     private static final int SUCCESS = 0;
     private static final int FAIL = 1;
     private static final int ERROR = 2;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mCallback = (OnMusicListener) context;
+    }
 
     @Nullable
     @Override
@@ -71,7 +80,7 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
      * 设置歌单中的歌曲显示.
      * */
     public void setMusicItem(){
-        musicPresenter.getMusicList(((MainActivity)getActivity()).getSongListId());
+        musicPresenter.getMusicList(mCallback.getSongListId());
     }
     
     @Override
@@ -129,5 +138,8 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
         }
     });
     
+    public interface OnMusicListener{
+        int getSongListId();
+    }
     
 }

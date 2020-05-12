@@ -1,12 +1,12 @@
 package view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.mymusicplayer.MainActivity;
 import com.example.mymusicplayer.R;
 
 import java.util.ArrayList;
@@ -15,8 +15,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import entity.User;
-import util.HttpCallbackListener;
 import widget.BannerViewPager;
 
 /**
@@ -26,7 +24,14 @@ public class HomePageFragment extends Fragment implements View.OnClickListener{
     private Button mySongList;
     private View view;
     private int songListId;//当用户点击歌单时，记录歌单的id
-    
+    private OnHomePageListener mCallback;//碎片和活动通信的接口引用
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mCallback = (OnHomePageListener) context;
+    }
+
     public static final String MUSIC_BAR = "musicBar";
     public static final String USER = "user";
     
@@ -64,10 +69,18 @@ public class HomePageFragment extends Fragment implements View.OnClickListener{
             case R.id.local_songs:
                 break;
             case R.id.my_song_list:
-                ((MainActivity)getActivity()).showSongList();
+                mCallback.showSongList();
                 break;
             default:
                 break;
         }
+    }
+    
+    /**
+     * 当用户点击"我的歌单"或者“本地歌单”的按钮时候调用.
+     * MainActivity去实现，作为碎片和活动之间通信的回调接口.
+     * */
+    public interface OnHomePageListener {
+        void showSongList();
     }
 }

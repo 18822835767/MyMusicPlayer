@@ -1,6 +1,7 @@
 package view;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,10 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.mymusicplayer.MainActivity;
 import com.example.mymusicplayer.R;
 
-import java.net.InterfaceAddress;
 import java.util.List;
 
 import adapter.SongListAdapter;
@@ -25,7 +24,6 @@ import contract.SongListContract;
 import entity.SongList;
 import entity.User;
 import presenter.SongListPresenterImpl;
-import util.ApplicationContext;
 
 public class SongListFragment extends Fragment implements SongListContract.OnSongListView{
     private View view;
@@ -33,6 +31,7 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
     private SongListContract.SongListPresenter songListPresenter;
     private ListView listView;
     private List<SongList> songLists;
+    private OnSongListListener mCallback;//碎片和活动通信的接口引用
 
     private final String TAG = "SongListActivity";
     public static final String MUSIC = "music";
@@ -43,6 +42,12 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
     private static final int FAIL = 1;
     private static final int ERROR = 2;
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mCallback = (OnSongListListener) context;
+    }
+    
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -55,8 +60,10 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
         return view;
     }
 
-    public void initData() {
-        user = ((MainActivity)getActivity()).getUser();
+   
+
+    private void initData() {
+        user = mCallback.getUser();
         listView = view.findViewById(R.id.song_list);
 
         //初始化presenter
@@ -65,13 +72,13 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
         setListItem();
     }
 
-    public void initEvent() {
+    private void initEvent() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SongList songList = songLists.get(position);
-                if(getActivity() != null){
-                    ((MainActivity)getActivity()).showMusics(songList.getId());
+                if(mCallback != null){
+                    mCallback.showMusics(songList.getId());
                 }
                 
             }
@@ -92,7 +99,6 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
 
     @Override
     public void showFail() {
-        this.songLists = songLists;
         Message message = new Message();
         message.what = FAIL;
         handler.sendMessage(message);
@@ -100,7 +106,6 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
 
     @Override
     public void showError() {
-        this.songLists = songLists;
         Message message = new Message();
         message.what = ERROR;
         handler.sendMessage(message);
@@ -138,5 +143,14 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
             return false;
         }
     });
+
+    /**
+     * 当用户点击某张"歌单"的时候调用.
+     * MainActivity去实现，作为碎片和活动之间通信的回调接口.
+     * */
+    public interface OnSongListListener {
+        void showMusics(int songListId);
+        User getUser();
+    }
     
 }

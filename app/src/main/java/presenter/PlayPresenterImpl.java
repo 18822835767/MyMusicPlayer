@@ -4,6 +4,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 
 
 import java.io.File;
@@ -50,10 +51,11 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
                             File file = new File("/sdcard/music.mp3");
                             mediaPlayer.setDataSource(file.getPath());
                             mediaPlayer.prepareAsync();
+                            //加载好资源后进行回调，开始播放
                             mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
                             currentState = PLAY_STATE_PLAY;
                             startTimer();
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     } catch (Exception e) {
