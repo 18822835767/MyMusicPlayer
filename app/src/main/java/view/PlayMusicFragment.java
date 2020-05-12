@@ -17,9 +17,9 @@ import presenter.PlayPresenterImpl;
 
 
 /**
- * "音乐播放栏"的碎片.
+ * 底部"音乐播放栏"的碎片.
  */
-public class MusicBarFragment extends Fragment implements PlayMusicContract.OnPlayView {
+public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnPlayView {
 
     private View view;
     private SeekBar seekBar;

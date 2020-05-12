@@ -2,7 +2,7 @@ package contract;
 
 public interface PlayMusicContract {
     /**
-     * 这是PlayPresenter接口，给MusicBarFragment调用.
+     * 这是PlayPresenter接口，给PlayMusicFragment调用.
      * */
     interface PlayPresenter{
         //表示播放状态
@@ -15,7 +15,7 @@ public interface PlayMusicContract {
     }
 
     /**
-     * 这是playPresenter实现类将结果反馈给MusicBarFragment的view接口，由MusicBarFragment实现，
+     * 这是playPresenter实现类将结果反馈给PlayMusicFragment的view接口，由PlayMusicFragment实现，
      * 达到更新UI的目的.
      * */
     interface OnPlayView{
