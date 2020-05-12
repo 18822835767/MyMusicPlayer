@@ -12,6 +12,8 @@ public interface PlayMusicContract {
         
         void playOrPause();//控制音乐的播放或者暂停
         void seekTo(int seek);//控制音乐的播放进度
+        void registOnPlayView(OnPlayView onPlayView);
+        void unRegistOnPlayView();
     }
 
     /**

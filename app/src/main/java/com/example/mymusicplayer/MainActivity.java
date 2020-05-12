@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import entity.User;
+import service.PlayService;
 import view.HomePageFragment;
 import view.LoginActivity;
 import view.MusicFragment;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initService();
         initData();
         initFragment(SHOW_HOME_PAGE);
 
@@ -77,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentLinkedList = new LinkedList<>();
     }
+
+    private void initService(){
+        Intent intent = new Intent(MainActivity.this, PlayService.class);
+        startService(intent);
+    }
+
 
     /**
      * 展示碎片.

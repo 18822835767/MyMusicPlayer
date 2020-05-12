@@ -14,18 +14,29 @@ import java.util.TimerTask;
 import contract.PlayMusicContract;
 
 public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
+    private volatile static PlayPresenterImpl instance = null;
+
+    private PlayPresenterImpl() {
+    }
+
+    public static PlayPresenterImpl getInstance() {
+        if (instance == null) {
+            synchronized (PlayPresenterImpl.class) {
+                if (instance == null) {
+                    instance = new PlayPresenterImpl();
+                }
+            }
+        }
+        return instance;
+    }
+
 
     private PlayMusicContract.OnPlayView onPlayView;//view接口的引用
     private int currentState = PLAY_STATE_STOP;//表示目前的播放状态，初始是停止播放的状态
     private MediaPlayer mediaPlayer;
     private Timer timer;//定时器，每个一段时间通过回调更新UI
     private SeekTimeTask seekTimeTask;
-    private Boolean playSuccess;
-
-    public PlayPresenterImpl(PlayMusicContract.OnPlayView onPlayView) {
-        this.onPlayView = onPlayView;
-    }
-
+    
     @Override
     public void playOrPause() {
         switch (currentState) {
@@ -39,12 +50,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
                             File file = new File("/sdcard/music.mp3");
                             mediaPlayer.setDataSource(file.getPath());
                             mediaPlayer.prepareAsync();
-                            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                @Override
-                                public void onPrepared(MediaPlayer mp) {
-                                    mediaPlayer.start();
-                                }
-                            });
+                            mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
                             currentState = PLAY_STATE_PLAY;
                             startTimer();
                         } catch (IOException e) {
@@ -89,6 +95,16 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
             int currentProcess = (int) ((seek * 1.0f / 100) * mediaPlayer.getDuration());
             mediaPlayer.seekTo(currentProcess);
         }
+    }
+
+    @Override
+    public void registOnPlayView(PlayMusicContract.OnPlayView onPlayView) {
+        this.onPlayView = onPlayView;
+    }
+
+    @Override
+    public void unRegistOnPlayView() {
+        onPlayView = null;
     }
 
     /**

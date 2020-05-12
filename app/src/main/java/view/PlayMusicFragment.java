@@ -43,7 +43,8 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         seekBar = view.findViewById(R.id.seek_bar);
         playOrPause = view.findViewById(R.id.play_or_pause);
         
-        playPresenter = new PlayPresenterImpl(this);
+        playPresenter = PlayPresenterImpl.getInstance();
+        playPresenter.registOnPlayView(this);
     }
 
     private void initEvent() {
@@ -107,7 +108,5 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
             seekBar.setProgress(seek);
         }
     }
-
-    
     
 }
