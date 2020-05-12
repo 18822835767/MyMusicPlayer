@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import java.io.File;
@@ -13,6 +14,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import contract.PlayMusicContract;
+import util.ApplicationContext;
 
 public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
     private volatile static PlayPresenterImpl instance = null;
@@ -52,9 +54,11 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
                             mediaPlayer.setDataSource(file.getPath());
                             mediaPlayer.prepareAsync();
                             //加载好资源后进行回调，开始播放
-                            mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
+                            mediaPlayer.setOnPreparedListener(mp -> {
+                                mediaPlayer.start();
+                                startTimer();
+                            });
                             currentState = PLAY_STATE_PLAY;
-                            startTimer();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -111,6 +115,14 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            //出现错误时给用户提示
+            mediaPlayer.setOnErrorListener((mp, what, extra) -> {
+                onPlayView.showError();
+                //回调时更新状态
+//                currentState = PLAY_STATE_STOP;
+                onPlayView.onPlayStateChange(currentState);
+                return false;
+            });
         }
     }
 

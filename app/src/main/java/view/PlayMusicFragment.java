@@ -2,11 +2,14 @@ package view;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.example.mymusicplayer.R;
 
@@ -27,7 +30,9 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     private ImageButton playOrPause;
     private PlayMusicContract.PlayPresenter playPresenter;
     private boolean userTouchProgress = false;//用户是否触碰了进度条
-    
+
+    private final int ERROR = 0;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -43,7 +48,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     private void initData() {
         seekBar = view.findViewById(R.id.seek_bar);
         playOrPause = view.findViewById(R.id.play_or_pause);
-        
+
         playPresenter = PlayPresenterImpl.getInstance();
         playPresenter.registOnPlayView(this);
     }
@@ -95,6 +100,10 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
                 //音乐暂停，就把UI设置为"播放"
                 playOrPause.setBackgroundResource(R.drawable.music_play);
                 break;
+            case PlayMusicContract.PlayPresenter.PLAY_STATE_STOP:
+                //音乐停止，就把UI设置为"播放"
+                playOrPause.setBackgroundResource(R.drawable.music_play);
+                break;
             default:
                 break;
         }
@@ -111,7 +120,28 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     }
 
     @Override
+    public void showError() {
+        Message message = new Message();
+        message.what = ERROR;
+        handler.sendMessage(message);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
     }
+
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            switch (msg.what) {
+                case ERROR:
+                    Toast.makeText(getActivity(), "播放出现错误", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+            return false;
+        }
+    });
 }
