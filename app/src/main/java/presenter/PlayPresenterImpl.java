@@ -171,8 +171,10 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
         return mediaPlayer;
     }
 
-    public void setCurrentState(int currentState) {
-        this.currentState = currentState;
-    }
+//    public void setCurrentState(int currentState) {
+//        this.currentState = currentState;
+//    }
+//    
+    
 }
 
