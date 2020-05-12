@@ -101,12 +101,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
     public void registOnPlayView(PlayMusicContract.OnPlayView onPlayView) {
         this.onPlayView = onPlayView;
     }
-
-    @Override
-    public void unRegistOnPlayView() {
-        onPlayView = null;
-    }
-
+    
     /**
      * 初始化播放器.
      */
@@ -156,6 +151,14 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter {
                 onPlayView.onSeekChange(currentPosition);
             }
         }
+    }
+
+    public MediaPlayer getMediaPlayer(){
+        return mediaPlayer;
+    }
+
+    public void setCurrentState(int currentState) {
+        this.currentState = currentState;
     }
 }
 

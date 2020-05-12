@@ -2,6 +2,7 @@ package service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.IBinder;
 import contract.PlayMusicContract;
 import presenter.PlayPresenterImpl;
@@ -26,6 +27,11 @@ public class PlayService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        MediaPlayer mediaPlayer = playPresenter.getMediaPlayer();
+        if(null !=mediaPlayer){
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
         playPresenter = null;
     }
 }

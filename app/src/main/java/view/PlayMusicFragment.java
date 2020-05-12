@@ -1,5 +1,6 @@
 package view;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,5 +109,9 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
             seekBar.setProgress(seek);
         }
     }
-    
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }
