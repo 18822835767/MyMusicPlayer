@@ -103,6 +103,66 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     }
 
     /**
+     * 监听，当MediaPlayer播放完一首音乐后.
+     */
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        mFirstPlay = false;
+        mCurrentPosition++;
+        if (mMusics != null && mCurrentPosition < mMusics.size()) {
+            mOnPlayView.onSeekChange(0);
+            initMediaPlayerData(mMusics.get(mCurrentPosition));
+        }
+    }
+
+    /**
+     * 监听，当MediaPlayer播放播放出错时.
+     */
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        mOnPlayView.showError();
+        mOnPlayView.onPlayStateChange(currentState);
+        return false;
+    }
+
+    /**
+     * 监听，当MediaPlayer装载好播放的媒体资源时.
+     */
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        if (mp != null) {
+            mp.start();
+            if (mFirstPlay) {
+                startTimer();
+            }
+        }
+    }
+
+    /**
+     * 用户点击时，播放下一首歌曲.
+     * */
+    @Override
+    public void playNext() {
+//        if(mCurrentPosition == mMusics.size()-1){
+//            mCurrentPosition = 0;
+//        }else{
+//            mCurrentPosition++;
+//        }
+//
+//        initMediaPlayerData(mMusics.get(mCurrentPosition));
+
+    }
+
+    /**
+     * 用户点击时，播放上一首歌曲.
+     * */
+    @Override
+    public void playPre() {
+
+    }
+
+
+    /**
      * @param seek 表示进度条播放位置，总共分为100份
      */
     @Override
@@ -145,43 +205,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
             mSeekTimeTask = null;
         }
     }
-
-    /**
-     * 监听，当MediaPlayer播放完一首音乐后.
-     */
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        mFirstPlay = false;
-        mCurrentPosition++;
-        if (mMusics != null && mCurrentPosition < mMusics.size()) {
-            mOnPlayView.onSeekChange(0);
-            initMediaPlayerData(mMusics.get(mCurrentPosition));
-        }
-    }
-
-    /**
-     * 监听，当MediaPlayer播放播放出错时.
-     */
-    @Override
-    public boolean onError(MediaPlayer mp, int what, int extra) {
-        mOnPlayView.showError();
-        mOnPlayView.onPlayStateChange(currentState);
-        return false;
-    }
-
-    /**
-     * 监听，当MediaPlayer装载好播放的媒体资源时.
-     */
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        if (mp != null) {
-            mp.start();
-            if (mFirstPlay) {
-                startTimer();
-            }
-        }
-    }
-
+    
     private class SeekTimeTask extends TimerTask {
         @Override
         public void run() {
@@ -199,16 +223,6 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     public MediaPlayer getMediaPlayer() {
         return mMediaPlayer;
     }
-
-    @Override
-    public void playNext() {
-        
-    }
-
-    @Override
-    public void playPre() {
-
-    }
-
+    
 }
 
