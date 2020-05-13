@@ -12,7 +12,7 @@ import util.HttpUrlConnection;
  * LoginModel的实现类.
  */
 public class LoginModelImpl implements LoginContract.LoginModel {
-    private final String LOGIN_URL = "http://182.254.170.97:3000/login/cellphone?phone=";
+    private static final String LOGIN_URL = "http://182.254.170.97:3000/login/cellphone?phone=";
     private User mUser;//登陆的用户
 
     @Override

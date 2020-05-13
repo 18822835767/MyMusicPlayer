@@ -33,7 +33,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         MusicAdapter.ViewHolder viewHolder;
         if(convertView == null){
             view = LayoutInflater.from(getContext()).inflate(mResourceId,parent,false);
-            viewHolder = new MusicAdapter.ViewHolder();
+            viewHolder = new ViewHolder();
             viewHolder.imageView = view.findViewById(R.id.music_image);
             viewHolder.musicName = view.findViewById(R.id.music_name);
             viewHolder.singerName = view.findViewById(R.id.singer_name);
@@ -51,7 +51,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         return view;
     }
 
-    class ViewHolder{
+    static class ViewHolder{
         ImageView imageView;
         TextView musicName;
         TextView singerName;

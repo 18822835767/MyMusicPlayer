@@ -14,7 +14,8 @@ import util.HttpUrlConnection;
 
 public class MusicModelImpl implements MusicContract.MusicModel {
     //根据歌单id获取歌单中的歌曲
-    private final String MUSIC_INFO = "http://182.254.170.97:3000/playlist/detail?id=";
+    private static final String MUSIC_INFO = "http://182.254.170.97:3000/playlist/detail?id=";
+    
     private List<Music> mMusics = new ArrayList<>();
     
     @Override
@@ -27,7 +28,6 @@ public class MusicModelImpl implements MusicContract.MusicModel {
                     handleJson(dataMessage);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    
                 }
                 
                 onMusicListener.onSuccess(mMusics);

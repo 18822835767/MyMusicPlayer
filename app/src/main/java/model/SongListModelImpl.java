@@ -1,5 +1,7 @@
 package model;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +15,7 @@ import util.HttpCallbackListener;
 import util.HttpUrlConnection;
 
 public class SongListModelImpl implements SongListContract.SongListModel{
-    private final String SONG_LIST_URL = "http://182.254.170.97:3000/user/playlist?uid=";
+    private static final String SONG_LIST_URL = "http://182.254.170.97:3000/user/playlist?uid=";
     private List<SongList> mSongLists = new ArrayList<>();
     private final String TAG = "SongListModelImpl";
     
@@ -65,7 +67,7 @@ public class SongListModelImpl implements SongListContract.SongListModel{
             int id = songListJson.getInt("id");
             String name = songListJson.getString("name");
             String coverImgUrl = songListJson.getString("coverImgUrl");
-
+            
             SongList songList = new SongList(id,name,coverImgUrl);
             mSongLists.add(songList);
         }

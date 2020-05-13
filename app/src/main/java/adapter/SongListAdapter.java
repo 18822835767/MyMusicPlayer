@@ -49,7 +49,7 @@ public class SongListAdapter extends ArrayAdapter<SongList>{
         return view;
     }
     
-    class ViewHolder{
+    static class ViewHolder{
         ImageView imageView;
         TextView textView;
     }

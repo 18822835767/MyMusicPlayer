@@ -3,6 +3,7 @@ package presenter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +46,10 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     public void playOrPause() {
         switch (currentState) {
             case PLAY_STATE_STOP:
-//                File file = new File("/sdcard/music.mp3");
-//                mMusics.add(file.getPath());
-//                mMusics.add(file.getPath());
-//                mMusics.add("/sdcard/music2.mp3");
+                File file = new File("/sdcard/music.mp3");
+                mMusicsPath.add(file.getPath());
+                mMusicsPath.add(file.getPath());
+                mMusicsPath.add("/sdcard/music2.mp3");
 
                 if (mMediaPlayer == null) {
                     mMediaPlayer = new MediaPlayer();
@@ -182,8 +183,8 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     @Override
     public void playMusic(List<Music> musics, int position) {
 //        mMusics = musics;
-        mCurrentPosition = position;
-        playOrPause();
+//        mCurrentPosition = position;
+//        playOrPause();
     }
 
 
