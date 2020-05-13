@@ -121,7 +121,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
 
     @Override
     public void showError() {
-        Message message = new Message();
+        Message message = Message.obtain();
         message.what = ERROR;
         handler.sendMessage(message);
     }

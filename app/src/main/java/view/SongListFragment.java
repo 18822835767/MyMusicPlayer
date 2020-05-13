@@ -92,21 +92,21 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
     @Override
     public void showSongList(List<SongList> songLists) {
         this.songLists = songLists;
-        Message message = new Message();
+        Message message = Message.obtain();
         message.what = SUCCESS;
         handler.sendMessage(message);
     }
 
     @Override
     public void showFail() {
-        Message message = new Message();
+        Message message = Message.obtain();
         message.what = FAIL;
         handler.sendMessage(message);
     }
 
     @Override
     public void showError() {
-        Message message = new Message();
+        Message message = Message.obtain();
         message.what = ERROR;
         handler.sendMessage(message);
     }

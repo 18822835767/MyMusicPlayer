@@ -86,21 +86,21 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
     @Override
     public void showMusics(List<Music> musics) {
         this.musics = musics;
-        Message message = new Message();
+        Message message = Message.obtain();
         message.what = SUCCESS;
         handler.sendMessage(message);
     }
 
     @Override
     public void showFail() {
-        Message message = new Message();
+        Message message = Message.obtain();
         message.what = FAIL;
         handler.sendMessage(message);
     }
 
     @Override
     public void showError() {
-        Message message = new Message();
+        Message message = Message.obtain();
         message.what = ERROR;
         handler.sendMessage(message);
     }

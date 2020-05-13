@@ -1,5 +1,6 @@
 package com.example.mymusicplayer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -223,16 +224,13 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "拒绝权限将无法使用该程序", Toast.LENGTH_SHORT).show();
-                    finish();
-                } 
-                break;
-            default:
-                break;
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, 
+                                           @NonNull int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "拒绝权限将无法使用该程序", Toast.LENGTH_SHORT).show();
+                finish();
+            }
         }
     }
 }
