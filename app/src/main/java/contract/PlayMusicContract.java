@@ -16,6 +16,8 @@ public interface PlayMusicContract {
         void seekTo(int seek);//控制音乐的播放进度
         void registOnPlayView(OnPlayView onPlayView);
         MediaPlayer getMediaPlayer();
+        void playNext();
+        void playPre();
     }
 
     /**

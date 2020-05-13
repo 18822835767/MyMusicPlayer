@@ -29,7 +29,9 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     private ImageButton mPlayOrPause;
     private PlayMusicContract.PlayPresenter mPlayPresenter;
     private boolean mUserTouchProgress = false;//用户是否触碰了进度条
-
+    private ImageButton mPlayNext;
+    private ImageButton mPlayPre;
+    
     private final int ERROR = 0;
 
     @Nullable
@@ -50,6 +52,9 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
 
         mPlayPresenter = PlayPresenterImpl.getInstance();
         mPlayPresenter.registOnPlayView(this);
+        
+        mPlayNext = view.findViewById(R.id.next_one);
+        mPlayPre = view.findViewById(R.id.pre_one);
     }
 
     private void initEvent() {
@@ -82,6 +87,9 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
                 mPlayPresenter.playOrPause();
             }
         });
+        
+        mPlayNext.setOnClickListener(v -> mPlayPresenter.playNext());
+        mPlayPre.setOnClickListener(v -> mPlayPresenter.playPre());
 
     }
 

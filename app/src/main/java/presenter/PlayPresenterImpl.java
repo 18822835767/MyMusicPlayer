@@ -2,6 +2,8 @@ package presenter;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.widget.ImageButton;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
                 File file = new File("/sdcard/music.mp3");
                 mMusics.add(file.getPath());
                 mMusics.add(file.getPath());
-                mMusics.add(file.getPath());
+                mMusics.add("/sdcard/music2.mp3");
 
                 if (mMediaPlayer == null) {
                     mMediaPlayer = new MediaPlayer();
@@ -196,6 +198,16 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
 
     public MediaPlayer getMediaPlayer() {
         return mMediaPlayer;
+    }
+
+    @Override
+    public void playNext() {
+        
+    }
+
+    @Override
+    public void playPre() {
+
     }
 
 }
