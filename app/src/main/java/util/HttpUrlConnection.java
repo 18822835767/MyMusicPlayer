@@ -1,5 +1,8 @@
 package util;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -52,8 +55,14 @@ public class HttpUrlConnection {
                             byteArrayOutputStream.write(bytes,0,readLength);
                         }
                         String result = byteArrayOutputStream.toString();
+
+                        //判断提交给服务器的数据是否正确
+                        if(handleCode(result) == 200){
+                            listener.onSuccess(result);
+                        }else{
+                            listener.onFail();
+                        }
                         
-                        listener.onSuccess(result);
                     }else{
                         listener.onFail();
                     }
@@ -68,5 +77,9 @@ public class HttpUrlConnection {
                 }
             }
         }).start();
+    }
+
+    private static int handleCode(String dataMessage) throws JSONException {
+        return new JSONObject(dataMessage).getInt("code");
     }
 }

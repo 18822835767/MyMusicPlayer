@@ -64,4 +64,5 @@ public class LoginModelImpl implements LoginContract.LoginModel {
 
         mUser = new User(id,nickName);
     }
+    
 }

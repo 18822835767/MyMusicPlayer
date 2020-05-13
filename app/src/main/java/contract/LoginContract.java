@@ -12,6 +12,7 @@ public interface LoginContract {
     interface LoginModel {
         void login(OnLoginListener listener, String username, String password);
         void handleJson(String dataMessage) throws JSONException;
+//        int handleCode(String dataMessage ) throws JSONException;
     }
 
     /**
