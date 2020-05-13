@@ -153,7 +153,8 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         public boolean handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case ERROR:
-                    Toast.makeText(getActivity(), "播放出现错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "播放出现错误,自动为您播放下一首",
+                            Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;

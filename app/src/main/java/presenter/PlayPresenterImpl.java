@@ -35,31 +35,38 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
 
     private PlayMusicContract.OnPlayView mOnPlayView;//view接口的引用
     private int currentState = PLAY_STATE_STOP;//表示目前的播放状态，初始是停止播放的状态
-    private MediaPlayer mMediaPlayer  = new MediaPlayer();
+    private MediaPlayer mMediaPlayer = new MediaPlayer();
     private Timer mTimer;//定时器，每个一段时间通过回调更新UI
     private SeekTimeTask mSeekTimeTask;//定时任务
     private List<Music> mMusics = new ArrayList<>();//存放要播放音乐的列表
 
     private boolean mFirstPlay = true;//是否是第一次点击播放
-    private boolean mUserTouchNextOrPre = false;//用户是够触摸了"上一首"或者"下一首"
+    private boolean mReset = false;//判断用户是否调用了mediaPlayer的reset()
     private int mCurrentPosition = 0;//表示当前的播放位置
 
     @Override
     public void playOrPause() {
         switch (currentState) {
             case PLAY_STATE_STOP:
-//                File file = new File("/sdcard/music.mp3");
-//                mMusicsPath.add(file.getPath());
-//                mMusicsPath.add(file.getPath());
-//                mMusicsPath.add("/sdcard/music2.mp3");
-
-                if (mMediaPlayer == null) {
+                if(mMediaPlayer == null){
                     mMediaPlayer = new MediaPlayer();
                 }
-
-                initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
+                
+                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                try {
+                    mMediaPlayer.setDataSource(mMusics.get(mCurrentPosition).getMusicURL());
+                    mMediaPlayer.prepareAsync();
+                    //监听
+                    mMediaPlayer.setOnPreparedListener(this);
+                    mMediaPlayer.setOnErrorListener(this);
+                    mMediaPlayer.setOnCompletionListener(this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 currentState = PLAY_STATE_PLAY;
+                startTimer();
+                mFirstPlay = false;
                 break;
             case PLAY_STATE_PLAY:
                 if (mMediaPlayer != null) {
@@ -86,22 +93,25 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     }
 
     /**
-     * 设置MediaPlayer的信息
+     * 设置MediaPlayer的信息，给歌的地址，放歌.
      */
     private void initMediaPlayerData(String dataSource) {
-        if (mMediaPlayer != null) {
-            mMediaPlayer.reset();
-            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            try {
-                mMediaPlayer.setDataSource(dataSource);
-                mMediaPlayer.prepareAsync();
-                //监听
-                mMediaPlayer.setOnPreparedListener(this);
-                mMediaPlayer.setOnErrorListener(this);
-                mMediaPlayer.setOnCompletionListener(this);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (mMediaPlayer == null) {
+            mMediaPlayer = new MediaPlayer();
+        }
+
+        mReset = true;
+        mMediaPlayer.reset();
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        try {
+            mMediaPlayer.setDataSource(dataSource);
+            mMediaPlayer.prepareAsync();
+            //监听
+            mMediaPlayer.setOnPreparedListener(this);
+            mMediaPlayer.setOnErrorListener(this);
+            mMediaPlayer.setOnCompletionListener(this);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -110,17 +120,18 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
      */
     @Override
     public void onCompletion(MediaPlayer mp) {
-        mFirstPlay = false;
-        mCurrentPosition++;
-        if (mMusics != null) {
-            if (mCurrentPosition < mMusics.size()) {
-                mOnPlayView.onSeekChange(0);
-                initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
-            } else if (mCurrentPosition == mMusics.size()) {
-                mCurrentPosition = 0;
-                initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
-            }
-        }
+//        mFirstPlay = false;
+//            mCurrentPosition++;
+//            if (mMusics != null) {
+//                if (mCurrentPosition < mMusics.size()) {
+//                    mOnPlayView.onSeekChange(0);
+//                    initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
+//                } else if (mCurrentPosition == mMusics.size()) {
+//                    mCurrentPosition = 0;
+//                    initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
+//                }
+//        }
+        playNext();
     }
 
     /**
@@ -128,11 +139,14 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
      */
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        if (!mUserTouchNextOrPre) {
+        if (!mReset) {
+            //mediaPlayer没有经过了reset()，正常出错
             mOnPlayView.showError();
             mOnPlayView.onPlayStateChange(currentState);
+            playNext();
         } else {
-            mUserTouchNextOrPre = false;
+            //调用了reset(),实际并没有出错
+            mReset = false;
         }
         return true;
     }
@@ -144,9 +158,9 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     public void onPrepared(MediaPlayer mp) {
         if (mp != null) {
             mp.start();
-            if (mFirstPlay) {
-                startTimer();
-            }
+//            if (mFirstPlay) {
+//                startTimer();
+//            }
         }
     }
 
@@ -155,8 +169,8 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
      */
     @Override
     public void playNext() {
-        mUserTouchNextOrPre = true;//标记用户触碰了下一首或上一首
-        mFirstPlay = false;//表示不是第一次播放
+//        mUserTouchNextOrPre = true;//标记用户触碰了下一首或上一首
+//        mFirstPlay = false;//表示不是第一次播放
         if (mCurrentPosition == mMusics.size() - 1) {
             mCurrentPosition = 0;
         } else {
@@ -171,8 +185,8 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
      */
     @Override
     public void playPre() {
-        mUserTouchNextOrPre = true;//标记用户触碰了下一首或上一首
-        mFirstPlay = false;//表示不是第一次播放
+//        mUserTouchNextOrPre = true;//标记用户触碰了下一首或上一首
+//        mFirstPlay = false;//表示不是第一次播放
         if (mCurrentPosition == 0) {
             mCurrentPosition = mMusics.size() - 1;
         } else {
@@ -186,7 +200,12 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     public void playMusic(List<Music> musics, int position) {
         mMusics = musics;
         mCurrentPosition = position;
-        initMediaPlayerData(musics.get(position).getMusicURL());
+        
+        if(mFirstPlay){
+            playOrPause();
+        }else{
+            initMediaPlayerData(musics.get(position).getMusicURL());
+        }
     }
 
 
