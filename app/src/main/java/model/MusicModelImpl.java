@@ -27,7 +27,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
             @Override
             public void onSuccess(String dataMessage) {
                 try {
-                    handleJson(dataMessage);
+                    handleMusicInfoJson(dataMessage);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -61,6 +61,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
         });
     }
     
+   
     private void setMusicUrl(Music music){
         HttpUrlConnection.sendHttpUrlConnection(MUSIC_URL + music.getId(), 
                 new HttpCallbackListener() {
@@ -97,7 +98,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
     }
 
     @Override
-    public void handleJson(String dataMessage) throws JSONException {
+    public void handleMusicInfoJson(String dataMessage) throws JSONException {
         JSONObject jsonObject = new JSONObject(dataMessage);
         JSONObject playList = jsonObject.getJSONObject("playlist");
         JSONArray tracks = playList.getJSONArray("tracks");
@@ -127,7 +128,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
     /**
      * JSON解析得到音乐的URL
      * */
-    public String handleMusicUrlJson(String dataMessage) throws JSONException{
+    private String handleMusicUrlJson(String dataMessage) throws JSONException{
         JSONObject jsonObject = new JSONObject(dataMessage);
         JSONArray data = jsonObject.getJSONArray("data");
         JSONObject musicInfo = data.getJSONObject(0);
