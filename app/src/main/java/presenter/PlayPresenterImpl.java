@@ -110,9 +110,14 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     public void onCompletion(MediaPlayer mp) {
         mFirstPlay = false;
         mCurrentPosition++;
-        if (mMusics != null && mCurrentPosition < mMusics.size()) {
-            mOnPlayView.onSeekChange(0);
-            initMediaPlayerData(mMusics.get(mCurrentPosition));
+        if (mMusics != null ) {
+            if(mCurrentPosition < mMusics.size()){
+                mOnPlayView.onSeekChange(0);
+                initMediaPlayerData(mMusics.get(mCurrentPosition));
+            }else if(mCurrentPosition == mMusics.size()){
+                mCurrentPosition = 0;
+                initMediaPlayerData(mMusics.get(mCurrentPosition));
+            }
         }
     }
 
@@ -164,7 +169,15 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
      * */
     @Override
     public void playPre() {
-
+        mUserTouchNextOrPre = true;//标记用户触碰了下一首或上一首
+        mFirstPlay = false;//表示不是第一次播放
+        if(mCurrentPosition == 0){
+            mCurrentPosition = mMusics.size()-1;
+        }else{
+            mCurrentPosition--;
+        }
+        
+        initMediaPlayerData(mMusics.get(mCurrentPosition));
     }
 
 
