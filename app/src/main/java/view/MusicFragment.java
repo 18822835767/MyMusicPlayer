@@ -8,6 +8,7 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -70,7 +71,12 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
     }
 
     private void initEvent(){
-        
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mCallback.playMusics(mMusics,position);
+            }
+        });
     }
 
     /**
@@ -137,6 +143,8 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
     
     public interface OnMusicListener{
         int getSongListId();
+        //用户点击歌单中的歌曲时，就把歌单中的歌以及歌的位置传出去
+        void playMusics(List<Music> musics,int position);
     }
     
 }

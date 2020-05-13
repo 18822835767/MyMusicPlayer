@@ -73,15 +73,12 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
     }
 
     private void initEvent() {
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SongList songList = mSongLists.get(position);
-                if(mCallback != null){
-                    mCallback.showMusics(songList.getId());
-                }
-                
+        mListView.setOnItemClickListener((parent, view, position, id) -> {
+            SongList songList = mSongLists.get(position);
+            if(mCallback != null){
+                mCallback.showMusics(songList.getId());
             }
+            
         });
     }
 

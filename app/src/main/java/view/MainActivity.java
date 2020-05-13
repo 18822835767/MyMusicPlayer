@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import entity.Music;
 import entity.User;
 import service.PlayService;
 
@@ -20,6 +21,7 @@ import com.example.mymusicplayer.R;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     private HomePageFragment mHomePageFragment = null;
     private SongListFragment mSongListFragment = null;
     private MusicFragment mMusicFragment = null;
+    
+    //播放音乐的碎片(底部的播放栏).
+    private PlayMusicFragment mPlayMusicFragment;
 
     //在用户的"眼里"，总共页面的"碎片"
     private LinkedList<Fragment> mFragmentLinkedList;
@@ -80,6 +85,9 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         mUser = (User) intent.getSerializableExtra(LoginActivity.USER);
 
         mFragmentLinkedList = new LinkedList<>();
+        
+        mPlayMusicFragment = (PlayMusicFragment) getSupportFragmentManager().findFragmentById
+                (R.id.play_music_fragment);
     }
 
     /**
@@ -202,6 +210,13 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     @Override
     public int getSongListId() {
         return mSongListId;
+    }
+
+    @Override
+    public void playMusics(List<Music> musics, int position) {
+        if(mPlayMusicFragment != null){
+            mPlayMusicFragment.playMusics(musics,position);
+        }
     }
 
     /**

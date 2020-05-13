@@ -12,10 +12,13 @@ import android.widget.Toast;
 
 import com.example.mymusicplayer.R;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import contract.PlayMusicContract;
+import entity.Music;
 import presenter.PlayPresenterImpl;
 
 
@@ -91,6 +94,13 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         mPlayNext.setOnClickListener(v -> mPlayPresenter.playNext());
         mPlayPre.setOnClickListener(v -> mPlayPresenter.playPre());
 
+    }
+    
+    /**
+     * 用户点击歌单中的歌曲时，MainActivity调用该方法
+     * */
+    public void playMusics(List<Music> musics, int position){
+        
     }
 
     /**
