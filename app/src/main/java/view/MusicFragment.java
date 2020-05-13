@@ -123,7 +123,7 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
                    if(getActivity() != null){
                        AlertDialog.Builder errorDialog = new AlertDialog.Builder(getActivity());
                        errorDialog.setTitle("错误");
-                       errorDialog.setMessage("请检查设备是否联网");
+                       errorDialog.setMessage("请求错误");
                        errorDialog.setPositiveButton("OK", (dialog, which) -> {});
                        errorDialog.show();
                    }

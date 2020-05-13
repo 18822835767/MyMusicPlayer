@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
             public void run() {
                 AlertDialog.Builder errorDialog = new AlertDialog.Builder(LoginActivity.this);
                 errorDialog.setTitle("错误");
-                errorDialog.setMessage("请检查设备是否联网");
+                errorDialog.setMessage("请求错误");
                 errorDialog.setPositiveButton("OK", (dialog, which) -> {});
                 errorDialog.show();
             }
