@@ -8,12 +8,12 @@
         android:id="@+id/my_song_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="我的歌单"
+        android:text="@string/my_songlist"
         android:layout_marginTop="10dp"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginStart="10dp"/>
     
     <ListView
         android:id="@+id/song_list"

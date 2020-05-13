@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MyMusicPlayer</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="welcome">Welcome!</string>
+    <string name="login">Login</string>
+    <string name="songlist_music">歌单音乐</string>
+    <string name="my_songlist">我的歌单</string>
+    <string name="my_music">我的音乐</string>
+    <string name="local_music">本地音乐</string>
 </resources>

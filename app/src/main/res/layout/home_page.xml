@@ -17,20 +17,20 @@
             android:layout_width="30dp"
             android:layout_height="25dp"
             android:background="@drawable/user"
-            android:layout_marginRight="100dp"/>
+            android:layout_marginEnd="100dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的音乐"
-            android:textSize="20dp"
+            android:text="@string/my_music"
+            android:textSize="20sp"
             android:textStyle="bold"/>
 
         <ImageButton
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/search"
-            android:layout_marginLeft="100dp"/>
+            android:layout_marginStart="100dp"/>
 
     </LinearLayout>
     
@@ -60,14 +60,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@id/hideText"
-            android:text="本地音乐" />
+            android:text="@string/local_music" />
         
         <Button
             android:id="@+id/my_song_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/hideText"
-            android:text="我的歌单"/>
+            android:text="@string/my_songlist"/>
         
     </RelativeLayout>
 
