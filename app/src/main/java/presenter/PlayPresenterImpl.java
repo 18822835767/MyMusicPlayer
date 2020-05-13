@@ -39,6 +39,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     private List<String> mMusics = new ArrayList<>();
 
     private boolean mFirstPlay = true;
+    private boolean mUserTouchNextOrPre = false;
     private int mCurrentPosition = 0;//表示当前的播放位置
 
     @Override
@@ -120,9 +121,13 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
      */
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        mOnPlayView.showError();
-        mOnPlayView.onPlayStateChange(currentState);
-        return false;
+        if(!mUserTouchNextOrPre){
+            mOnPlayView.showError();
+            mOnPlayView.onPlayStateChange(currentState);
+        }else{
+            mUserTouchNextOrPre = false;
+        }
+        return true;
     }
 
     /**
@@ -143,14 +148,15 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
      * */
     @Override
     public void playNext() {
-//        if(mCurrentPosition == mMusics.size()-1){
-//            mCurrentPosition = 0;
-//        }else{
-//            mCurrentPosition++;
-//        }
-//
-//        initMediaPlayerData(mMusics.get(mCurrentPosition));
+        mUserTouchNextOrPre = true;//标记用户触碰了下一首或上一首
+        mFirstPlay = false;//表示不是第一次播放
+        if(mCurrentPosition == mMusics.size()-1){
+            mCurrentPosition = 0;
+        }else{
+            mCurrentPosition++;
+        }
 
+        initMediaPlayerData(mMusics.get(mCurrentPosition));
     }
 
     /**
