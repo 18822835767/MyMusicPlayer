@@ -15,7 +15,9 @@ import util.HttpUrlConnection;
 public class MusicModelImpl implements MusicContract.MusicModel {
     //根据歌单id获取歌单中的歌曲
     private static final String MUSIC_INFO = "http://182.254.170.97:3000/playlist/detail?id=";
-    
+    //根据歌曲id获取音乐播放的URL
+    private static final String MUSIC_URL = "http://182.254.170.97:3000/song/url?id=";
+    //存放音乐的list
     private List<Music> mMusics = new ArrayList<>();
     
     @Override
@@ -28,6 +30,10 @@ public class MusicModelImpl implements MusicContract.MusicModel {
                     handleJson(dataMessage);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+                
+                for(Music music : mMusics){
+                    setMusicUrl(music);
                 }
                 
                 onMusicListener.onSuccess(mMusics);
@@ -46,6 +52,41 @@ public class MusicModelImpl implements MusicContract.MusicModel {
             @Override
             public void onStart() {
                 
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+    
+    private void setMusicUrl(Music music){
+        HttpUrlConnection.sendHttpUrlConnection(MUSIC_URL + music.getId(), 
+                new HttpCallbackListener() {
+            @Override
+            public void onSuccess(String dataMessage) {
+                try {
+                    String url = handleMusicUrlJson(dataMessage);
+                    music.setMusicURL(url);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void onStart() {
+
             }
 
             @Override
@@ -81,5 +122,16 @@ public class MusicModelImpl implements MusicContract.MusicModel {
             Music music = new Music(name, id, pirUrl,singerName);
             mMusics.add(music);
         }
+    }
+    
+    /**
+     * JSON解析得到音乐的URL
+     * */
+    public String handleMusicUrlJson(String dataMessage) throws JSONException{
+        JSONObject jsonObject = new JSONObject(dataMessage);
+        JSONArray data = jsonObject.getJSONArray("data");
+        JSONObject musicInfo = data.getJSONObject(0);
+        //url不为null则正常获取，为null则返回字符串"null"
+        return musicInfo.optString("url");
     }
 }
