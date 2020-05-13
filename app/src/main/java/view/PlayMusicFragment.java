@@ -36,7 +36,9 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     private ImageButton mPlayPre;
     
     private final int ERROR = 0;
-
+    private final int SUCCESS = 1;
+    private final int FAIL = 2;
+    
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -144,6 +146,14 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     }
 
     @Override
+    public void showFail(String msg) {
+        Message message = Message.obtain();
+        message.what = FAIL;
+        message.obj = msg;
+        handler.sendMessage(message);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
     }
@@ -152,6 +162,11 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         @Override
         public boolean handleMessage(@NonNull Message msg) {
             switch (msg.what) {
+                case FAIL:
+                    String message = (String) msg.obj; 
+                    Toast.makeText(getActivity(), message,
+                            Toast.LENGTH_SHORT).show();
+                    break;
                 case ERROR:
                     Toast.makeText(getActivity(), "播放出现错误,自动为您播放下一首",
                             Toast.LENGTH_SHORT).show();

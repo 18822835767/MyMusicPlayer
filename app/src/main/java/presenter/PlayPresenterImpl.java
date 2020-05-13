@@ -171,6 +171,11 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     public void playNext() {
 //        mUserTouchNextOrPre = true;//标记用户触碰了下一首或上一首
 //        mFirstPlay = false;//表示不是第一次播放
+        if(mMusics.size() == 0){
+            mOnPlayView.showFail("当前没有歌哦");
+            return;
+        }
+        
         if (mCurrentPosition == mMusics.size() - 1) {
             mCurrentPosition = 0;
         } else {
@@ -187,6 +192,11 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     public void playPre() {
 //        mUserTouchNextOrPre = true;//标记用户触碰了下一首或上一首
 //        mFirstPlay = false;//表示不是第一次播放
+        if(mMusics.size() == 0){
+            mOnPlayView.showFail("当前没有歌哦");
+            return;
+        }
+        
         if (mCurrentPosition == 0) {
             mCurrentPosition = mMusics.size() - 1;
         } else {
