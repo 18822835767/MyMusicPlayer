@@ -5,13 +5,24 @@ public class Music {
     private int id;
     private String picUrl;
 
+    public String getSingerName() {
+        return singerName;
+    }
+
+    public void setSingerName(String singerName) {
+        this.singerName = singerName;
+    }
+
+    private String singerName;
+
     public Music() {
     }
 
-    public Music(String name, int id, String picUrl) {
+    public Music(String name, int id, String picUrl,String singerName) {
         this.name = name;
         this.id = id;
         this.picUrl = picUrl;
+        this.singerName = singerName;
     }
 
     public String getName() {

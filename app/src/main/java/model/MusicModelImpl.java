@@ -14,12 +14,12 @@ import util.HttpUrlConnection;
 
 public class MusicModelImpl implements MusicContract.MusicModel {
     //根据歌单id获取歌单中的歌曲
-    private final String MUSIC_URL = "http://182.254.170.97:3000/playlist/detail?id=";
+    private final String MUSIC_INFO = "http://182.254.170.97:3000/playlist/detail?id=";
     private List<Music> mMusics = new ArrayList<>();
     
     @Override
     public void getMusicList(MusicContract.OnMusicListener onMusicListener, int songListId) {
-        HttpUrlConnection.sendHttpUrlConnection(MUSIC_URL + songListId,
+        HttpUrlConnection.sendHttpUrlConnection(MUSIC_INFO + songListId,
                 new HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {
@@ -64,12 +64,21 @@ public class MusicModelImpl implements MusicContract.MusicModel {
         for (int i = 0; i < tracks.length(); i++) {
             JSONObject musicJson = tracks.getJSONObject(i);
             JSONObject al = musicJson.getJSONObject("al");
-
+            JSONArray arArray = musicJson.getJSONArray("ar");
+            
+            //获取歌手名字
+            StringBuilder builder = new StringBuilder();
+            for(int j = 0;j<arArray.length();j++){
+                builder.append(arArray.getJSONObject(j).getString("name")).append(" ");
+            }
+            
+            //歌名 歌id 专辑URL  歌手名字
             String name = musicJson.getString("name");
             int id = musicJson.getInt("id");
             String pirUrl = al.getString("picUrl");
-
-            Music music = new Music(name, id, pirUrl);
+            String singerName = builder.toString();
+            
+            Music music = new Music(name, id, pirUrl,singerName);
             mMusics.add(music);
         }
     }

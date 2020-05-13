@@ -34,15 +34,17 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         if(convertView == null){
             view = LayoutInflater.from(getContext()).inflate(mResourceId,parent,false);
             viewHolder = new MusicAdapter.ViewHolder();
-            viewHolder.imageView = (ImageView) view.findViewById(R.id.music_image);
-            viewHolder.textView =  (TextView)view.findViewById(R.id.music_name);
+            viewHolder.imageView = view.findViewById(R.id.music_image);
+            viewHolder.musicName = view.findViewById(R.id.music_name);
+            viewHolder.singerName = view.findViewById(R.id.singer_name);
             view.setTag(viewHolder);
         }else{
             view = convertView;
             viewHolder = (MusicAdapter.ViewHolder)view.getTag();
         }
         if (music != null) {
-            viewHolder.textView.setText(music.getName());
+            viewHolder.musicName.setText(music.getName());
+            viewHolder.singerName.setText(music.getSingerName());
             DownImage downImage = new DownImage(music.getPicUrl());
             downImage.loadImage(drawable -> viewHolder.imageView.setImageDrawable(drawable));
         }
@@ -51,6 +53,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
 
     class ViewHolder{
         ImageView imageView;
-        TextView textView;
+        TextView musicName;
+        TextView singerName;
     }
 }

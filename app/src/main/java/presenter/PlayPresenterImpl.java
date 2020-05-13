@@ -2,15 +2,14 @@ package presenter;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.widget.ImageButton;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import contract.PlayMusicContract;
+import entity.Music;
 
 public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener {
@@ -35,29 +34,29 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     private int currentState = PLAY_STATE_STOP;//表示目前的播放状态，初始是停止播放的状态
     private MediaPlayer mMediaPlayer;
     private Timer mTimer;//定时器，每个一段时间通过回调更新UI
-    private SeekTimeTask mSeekTimeTask;
-    private List<String> mMusics = new ArrayList<>();
+    private SeekTimeTask mSeekTimeTask;//定时任务
+    private List<String> mMusicsPath = new ArrayList<>();//存放音乐的播放地址
 
-    private boolean mFirstPlay = true;
-    private boolean mUserTouchNextOrPre = false;
+    private boolean mFirstPlay = true;//是否是第一次点击播放
+    private boolean mUserTouchNextOrPre = false;//用户是够触摸了"上一首"或者"下一首"
     private int mCurrentPosition = 0;//表示当前的播放位置
 
     @Override
     public void playOrPause() {
         switch (currentState) {
             case PLAY_STATE_STOP:
-                File file = new File("/sdcard/music.mp3");
-                mMusics.add(file.getPath());
-                mMusics.add(file.getPath());
-                mMusics.add("/sdcard/music2.mp3");
+//                File file = new File("/sdcard/music.mp3");
+//                mMusics.add(file.getPath());
+//                mMusics.add(file.getPath());
+//                mMusics.add("/sdcard/music2.mp3");
 
                 if (mMediaPlayer == null) {
                     mMediaPlayer = new MediaPlayer();
                 }
-                initMediaPlayerData(mMusics.get(mCurrentPosition));
+                
+                initMediaPlayerData(mMusicsPath.get(mCurrentPosition));
                 
                 currentState = PLAY_STATE_PLAY;
-
                 break;
             case PLAY_STATE_PLAY:
                 if (mMediaPlayer != null) {
@@ -82,7 +81,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
             mOnPlayView.onPlayStateChange(currentState);
         }
     }
-
+    
     /**
      * 设置MediaPlayer的信息
      */
@@ -110,13 +109,13 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     public void onCompletion(MediaPlayer mp) {
         mFirstPlay = false;
         mCurrentPosition++;
-        if (mMusics != null ) {
-            if(mCurrentPosition < mMusics.size()){
+        if (mMusicsPath != null ) {
+            if(mCurrentPosition < mMusicsPath.size()){
                 mOnPlayView.onSeekChange(0);
-                initMediaPlayerData(mMusics.get(mCurrentPosition));
-            }else if(mCurrentPosition == mMusics.size()){
+                initMediaPlayerData(mMusicsPath.get(mCurrentPosition));
+            }else if(mCurrentPosition == mMusicsPath.size()){
                 mCurrentPosition = 0;
-                initMediaPlayerData(mMusics.get(mCurrentPosition));
+                initMediaPlayerData(mMusicsPath.get(mCurrentPosition));
             }
         }
     }
@@ -155,13 +154,13 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     public void playNext() {
         mUserTouchNextOrPre = true;//标记用户触碰了下一首或上一首
         mFirstPlay = false;//表示不是第一次播放
-        if(mCurrentPosition == mMusics.size()-1){
+        if(mCurrentPosition == mMusicsPath.size()-1){
             mCurrentPosition = 0;
         }else{
             mCurrentPosition++;
         }
 
-        initMediaPlayerData(mMusics.get(mCurrentPosition));
+        initMediaPlayerData(mMusicsPath.get(mCurrentPosition));
     }
 
     /**
@@ -172,12 +171,19 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
         mUserTouchNextOrPre = true;//标记用户触碰了下一首或上一首
         mFirstPlay = false;//表示不是第一次播放
         if(mCurrentPosition == 0){
-            mCurrentPosition = mMusics.size()-1;
+            mCurrentPosition = mMusicsPath.size()-1;
         }else{
             mCurrentPosition--;
         }
         
-        initMediaPlayerData(mMusics.get(mCurrentPosition));
+        initMediaPlayerData(mMusicsPath.get(mCurrentPosition));
+    }
+
+    @Override
+    public void playMusic(List<Music> musics, int position) {
+//        mMusics = musics;
+        mCurrentPosition = position;
+        playOrPause();
     }
 
 

@@ -2,6 +2,10 @@ package contract;
 
 import android.media.MediaPlayer;
 
+import java.util.List;
+
+import entity.Music;
+
 public interface PlayMusicContract {
     /**
      * 这是PlayPresenter接口，给PlayMusicFragment调用.
@@ -18,6 +22,7 @@ public interface PlayMusicContract {
         MediaPlayer getMediaPlayer();
         void playNext();
         void playPre();
+        void playMusic(List<Music> musics,int position);//用户点播音乐时,传入歌所在的列表,以及该歌的位置
     }
 
     /**
@@ -28,5 +33,10 @@ public interface PlayMusicContract {
         void onPlayStateChange(int state);//播放状态改变了，通知view层更新UI
         void onSeekChange(int seek);//通知view层更新进度条UI
         void showError();//播放出现错误时给用户提示
+    }
+    
+    interface PlayModel{
+        //获取音乐播放的URL
+        List<String> getMusicsUrl(List<Music> musics);
     }
 }
