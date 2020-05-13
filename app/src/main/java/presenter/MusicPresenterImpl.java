@@ -1,7 +1,5 @@
 package presenter;
 
-import android.util.Log;
-
 import java.util.List;
 
 import contract.MusicContract;
@@ -10,31 +8,31 @@ import model.MusicModelImpl;
 
 public class MusicPresenterImpl implements MusicContract.MusicPresenter, 
         MusicContract.OnMusicListener {
-    private MusicContract.MusicModel musicModel;
-    private MusicContract.OnMusicView onMusicView;
+    private MusicContract.MusicModel mMusicModel;
+    private MusicContract.OnMusicView mOnMusicView;
 
     public MusicPresenterImpl(MusicContract.OnMusicView onMusicView){
-        this.onMusicView = onMusicView;
-        musicModel = new MusicModelImpl();
+        this.mOnMusicView = onMusicView;
+        mMusicModel = new MusicModelImpl();
     }
     
     @Override
     public void getMusicList(int songListId) {
-        musicModel.getMusicList(this,songListId);
+        mMusicModel.getMusicList(this,songListId);
     }
 
     @Override
     public void onSuccess(List<Music> musics) {
-        onMusicView.showMusics(musics);
+        mOnMusicView.showMusics(musics);
     }
 
     @Override
     public void onFail() {
-        onMusicView.showFail();
+        mOnMusicView.showFail();
     }
 
     @Override
     public void onError() {
-        onMusicView.showError();
+        mOnMusicView.showError();
     }
 }

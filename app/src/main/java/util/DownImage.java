@@ -9,10 +9,10 @@ import java.net.URL;
 import androidx.annotation.NonNull;
 
 public class DownImage {
-    private String image_path;
+    private String mImagePath;
     
-    public DownImage(String image_path){
-        this.image_path = image_path;
+    public DownImage(String imagePath){
+        this.mImagePath = imagePath;
     }
     
     public void loadImage(final ImageCallback imageCallback){
@@ -30,7 +30,7 @@ public class DownImage {
             public void run() {
                 try{
                     //第二个参数是 图片的名字，可用于debug，这里直接传入null
-                    Drawable drawable = Drawable.createFromStream(new URL(image_path).openStream(),
+                    Drawable drawable = Drawable.createFromStream(new URL(mImagePath).openStream(),
                             null);
                     Message message = Message.obtain();
                     message.obj = drawable;

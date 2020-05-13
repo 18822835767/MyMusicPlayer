@@ -21,9 +21,9 @@ import widget.BannerViewPager;
  * 音乐首页所对应的view.
  */
 public class HomePageFragment extends Fragment implements View.OnClickListener{
-    private Button mySongList;
+    private Button mMySongList;
     private View view;
-    private int songListId;//当用户点击歌单时，记录歌单的id
+    private int mSongListId;//当用户点击歌单时，记录歌单的id
     private OnHomePageListener mCallback;//碎片和活动通信的接口引用
 
     @Override
@@ -56,11 +56,11 @@ public class HomePageFragment extends Fragment implements View.OnClickListener{
         imageUrl.add(R.drawable.thr);
         banner.setData(imageUrl);
 
-        mySongList = (Button) view.findViewById(R.id.my_song_list);
+        mMySongList = (Button) view.findViewById(R.id.my_song_list);
     }
 
     private void initEvent() {
-        mySongList.setOnClickListener(this);
+        mMySongList.setOnClickListener(this);
     }
 
     @Override

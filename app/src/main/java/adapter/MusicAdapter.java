@@ -15,15 +15,14 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import entity.Music;
-import entity.SongList;
 import util.DownImage;
 
 public class MusicAdapter extends ArrayAdapter<Music> {
-    private int resourceId;//子项布局的id
+    private int mResourceId;//子项布局的id
 
     public MusicAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<Music> objects) {
         super(context, textViewResourceId, objects);
-        resourceId = textViewResourceId;
+        mResourceId = textViewResourceId;
     }
 
     @NonNull
@@ -33,7 +32,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         View view;
         MusicAdapter.ViewHolder viewHolder;
         if(convertView == null){
-            view = LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
+            view = LayoutInflater.from(getContext()).inflate(mResourceId,parent,false);
             viewHolder = new MusicAdapter.ViewHolder();
             viewHolder.imageView = (ImageView) view.findViewById(R.id.music_image);
             viewHolder.textView =  (TextView)view.findViewById(R.id.music_name);

@@ -27,10 +27,10 @@ import presenter.SongListPresenterImpl;
 
 public class SongListFragment extends Fragment implements SongListContract.OnSongListView{
     private View view;
-    private User user;
-    private SongListContract.SongListPresenter songListPresenter;
-    private ListView listView;
-    private List<SongList> songLists;
+    private User mUser;
+    private SongListContract.SongListPresenter mSongListPresenter;
+    private ListView mListView;
+    private List<SongList> mSongLists;
     private OnSongListListener mCallback;//碎片和活动通信的接口引用
 
     private final String TAG = "SongListActivity";
@@ -63,20 +63,20 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
    
 
     private void initData() {
-        user = mCallback.getUser();
-        listView = view.findViewById(R.id.song_list);
+        mUser = mCallback.getUser();
+        mListView = view.findViewById(R.id.song_list);
 
         //初始化presenter
-        songListPresenter = new SongListPresenterImpl(this);
+        mSongListPresenter = new SongListPresenterImpl(this);
 
         setListItem();
     }
 
     private void initEvent() {
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SongList songList = songLists.get(position);
+                SongList songList = mSongLists.get(position);
                 if(mCallback != null){
                     mCallback.showMusics(songList.getId());
                 }
@@ -86,12 +86,12 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
     }
 
     private void setListItem() {
-        songListPresenter.getUserSongList(user.getId());
+        mSongListPresenter.getUserSongList(mUser.getId());
     }
 
     @Override
     public void showSongList(List<SongList> songLists) {
-        this.songLists = songLists;
+        this.mSongLists = songLists;
         Message message = Message.obtain();
         message.what = SUCCESS;
         handler.sendMessage(message);
@@ -118,8 +118,8 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
                 case SUCCESS:
                     if(getActivity() != null){
                         SongListAdapter adapter = new SongListAdapter(getActivity(),
-                                R.layout.song_list_item, songLists);
-                        listView.setAdapter(adapter);
+                                R.layout.song_list_item, mSongLists);
+                        mListView.setAdapter(adapter);
                     }
                     break;
                 case FAIL:

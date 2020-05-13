@@ -1,4 +1,4 @@
-package com.example.mymusicplayer;
+package view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,16 +9,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import entity.User;
 import service.PlayService;
-import view.HomePageFragment;
-import view.LoginActivity;
-import view.MusicFragment;
-import view.SongListFragment;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import com.example.mymusicplayer.R;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,19 +29,19 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         SongListFragment.OnSongListListener, MusicFragment.OnMusicListener {
 
     //三个碎片
-    private HomePageFragment homePageFragment = null;
-    private SongListFragment songListFragment = null;
-    private MusicFragment musicFragment = null;
+    private HomePageFragment mHomePageFragment = null;
+    private SongListFragment mSongListFragment = null;
+    private MusicFragment mMusicFragment = null;
 
     //在用户的"眼里"，总共页面的"碎片"
-    private LinkedList<Fragment> fragmentLinkedList;
+    private LinkedList<Fragment> mFragmentLinkedList;
     //用于记录各个碎片所对应的值
-    private Map<Fragment, Integer> map = new HashMap<>();
+    private Map<Fragment, Integer> mMap = new HashMap<>();
 
     //记录登陆的用户
-    private User user;
+    private User mUser;
     //记录用户点击的歌单的id
-    private int songListId = 0;
+    private int mSongListId = 0;
 
     //定义三个碎片所对应的值
     private final int SHOW_HOME_PAGE = 0;
@@ -79,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     private void initData() {
         //得到登陆的用户
         Intent intent = getIntent();
-        user = (User) intent.getSerializableExtra(LoginActivity.USER);
+        mUser = (User) intent.getSerializableExtra(LoginActivity.USER);
 
-        fragmentLinkedList = new LinkedList<>();
+        mFragmentLinkedList = new LinkedList<>();
     }
 
     /**
@@ -105,49 +103,49 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         hideFragment(transaction);
         switch (index) {
             case SHOW_HOME_PAGE:
-                if (homePageFragment == null) {
-                    homePageFragment = new HomePageFragment();
-                    transaction.add(R.id.fragment_layout, homePageFragment);
+                if (mHomePageFragment == null) {
+                    mHomePageFragment = new HomePageFragment();
+                    transaction.add(R.id.fragment_layout, mHomePageFragment);
                     //保存碎片所对应的值
-                    map.put(homePageFragment, SHOW_HOME_PAGE);
+                    mMap.put(mHomePageFragment, SHOW_HOME_PAGE);
                 } else {
-                    transaction.show(homePageFragment);
+                    transaction.show(mHomePageFragment);
                 }
 
                 //如果List不包含，则添加碎片
-                if (!fragmentLinkedList.contains(homePageFragment)) {
-                    fragmentLinkedList.addLast(homePageFragment);
+                if (!mFragmentLinkedList.contains(mHomePageFragment)) {
+                    mFragmentLinkedList.addLast(mHomePageFragment);
                 }
                 break;
             case SHOW_SONG_LIST:
-                if (songListFragment == null) {
-                    songListFragment = new SongListFragment();
-                    transaction.add(R.id.fragment_layout, songListFragment);
+                if (mSongListFragment == null) {
+                    mSongListFragment = new SongListFragment();
+                    transaction.add(R.id.fragment_layout, mSongListFragment);
                     //保存碎片所对应的值
-                    map.put(songListFragment, SHOW_SONG_LIST);
+                    mMap.put(mSongListFragment, SHOW_SONG_LIST);
                 } else {
-                    transaction.show(songListFragment);
+                    transaction.show(mSongListFragment);
                 }
 
                 //如果List不包含，则添加碎片
-                if (!fragmentLinkedList.contains(songListFragment)) {
-                    fragmentLinkedList.addLast(songListFragment);
+                if (!mFragmentLinkedList.contains(mSongListFragment)) {
+                    mFragmentLinkedList.addLast(mSongListFragment);
                 }
 
                 break;
             case SHOW_MUSIC:
-                if (musicFragment == null) {
-                    musicFragment = new MusicFragment();
-                    transaction.add(R.id.fragment_layout, musicFragment);
+                if (mMusicFragment == null) {
+                    mMusicFragment = new MusicFragment();
+                    transaction.add(R.id.fragment_layout, mMusicFragment);
                     //保存碎片所对应的值
-                    map.put(musicFragment, SHOW_MUSIC);
+                    mMap.put(mMusicFragment, SHOW_MUSIC);
                 } else {
-                    transaction.show(musicFragment);
+                    transaction.show(mMusicFragment);
                 }
 
                 //如果List不包含，则添加碎片
-                if (!fragmentLinkedList.contains(musicFragment)) {
-                    fragmentLinkedList.addLast(musicFragment);
+                if (!mFragmentLinkedList.contains(mMusicFragment)) {
+                    mFragmentLinkedList.addLast(mMusicFragment);
                 }
 
                 break;
@@ -161,15 +159,15 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
      * 隐藏Fragment.
      */
     private void hideFragment(FragmentTransaction transaction) {
-        if (homePageFragment != null) {
-            transaction.hide(homePageFragment);
+        if (mHomePageFragment != null) {
+            transaction.hide(mHomePageFragment);
         }
-        if (songListFragment != null) {
-            transaction.hide(songListFragment);
+        if (mSongListFragment != null) {
+            transaction.hide(mSongListFragment);
         }
-        if (musicFragment != null) {
-            transaction.hide(musicFragment);
-            musicFragment = null;
+        if (mMusicFragment != null) {
+            transaction.hide(mMusicFragment);
+            mMusicFragment = null;
         }
     }
 
@@ -186,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
      */
     @Override
     public void showMusics(int songListId) {
-        this.songListId = songListId;
+        this.mSongListId = songListId;
         initFragment(SHOW_MUSIC);
     }
 
@@ -195,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
      */
     @Override
     public User getUser() {
-        return user;
+        return mUser;
     }
 
     /**
@@ -203,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
      */
     @Override
     public int getSongListId() {
-        return songListId;
+        return mSongListId;
     }
 
     /**
@@ -211,14 +209,14 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
      */
     @Override
     public void onBackPressed() {
-        if (fragmentLinkedList.size() == 1) {
+        if (mFragmentLinkedList.size() == 1) {
             //只有一个碎片，说明只剩下主界面，接着就是关闭程序了
             super.onBackPressed();
         } else {
             //不止一个碎片，说明用户只是想返回上一个页面
-            fragmentLinkedList.removeLast();
-            Fragment fragment = fragmentLinkedList.getLast();
-            int nowFragment = map.get(fragment);
+            mFragmentLinkedList.removeLast();
+            Fragment fragment = mFragmentLinkedList.getLast();
+            int nowFragment = mMap.get(fragment);
             initFragment(nowFragment);
         }
     }

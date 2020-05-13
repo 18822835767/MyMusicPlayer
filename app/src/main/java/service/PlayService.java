@@ -8,13 +8,13 @@ import contract.PlayMusicContract;
 import presenter.PlayPresenterImpl;
 
 public class PlayService extends Service {
-    private PlayMusicContract.PlayPresenter playPresenter;
+    private PlayMusicContract.PlayPresenter mPlayPresenter;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if(playPresenter == null){
-            playPresenter = PlayPresenterImpl.getInstance();
+        if(mPlayPresenter == null){
+            mPlayPresenter = PlayPresenterImpl.getInstance();
         }
     }
 
@@ -27,12 +27,12 @@ public class PlayService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        MediaPlayer mediaPlayer = playPresenter.getMediaPlayer();
+        MediaPlayer mediaPlayer = mPlayPresenter.getMediaPlayer();
         if(null !=mediaPlayer){
             mediaPlayer.stop();
             mediaPlayer.release();
         }
-        playPresenter = null;
+        mPlayPresenter = null;
     }
 }
 

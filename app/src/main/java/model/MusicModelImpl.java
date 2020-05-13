@@ -1,7 +1,5 @@
 package model;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,7 +15,7 @@ import util.HttpUrlConnection;
 public class MusicModelImpl implements MusicContract.MusicModel {
     //根据歌单id获取歌单中的歌曲
     private final String MUSIC_URL = "http://182.254.170.97:3000/playlist/detail?id=";
-    private List<Music> musics = new ArrayList<>();
+    private List<Music> mMusics = new ArrayList<>();
     
     @Override
     public void getMusicList(MusicContract.OnMusicListener onMusicListener, int songListId) {
@@ -32,7 +30,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
                     
                 }
                 
-                onMusicListener.onSuccess(musics);
+                onMusicListener.onSuccess(mMusics);
             }
 
             @Override
@@ -72,7 +70,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
             String pirUrl = al.getString("picUrl");
 
             Music music = new Music(name, id, pirUrl);
-            musics.add(music);
+            mMusics.add(music);
         }
     }
 }

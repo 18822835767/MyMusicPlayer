@@ -13,42 +13,42 @@ import model.LoginModelImpl;
  * 
  * */
 public class LoginPresenterImpl implements LoginContract.LoginPresenter, LoginContract.OnLoginListener {
-    private LoginContract.LoginModel loginModel;
-    private LoginContract.OnLoginView onLoginView;
+    private LoginContract.LoginModel mLoginModel;
+    private LoginContract.OnLoginView mOnLoginView;
     
     public LoginPresenterImpl(LoginContract.OnLoginView onLoginView){
-        this.onLoginView = onLoginView;
-        loginModel = new LoginModelImpl();
+        this.mOnLoginView = onLoginView;
+        mLoginModel = new LoginModelImpl();
     }
 
     @Override
     public void login(String username, String password) {
-        loginModel.login(this,username,password);
+        mLoginModel.login(this,username,password);
     }
     
     @Override
     public void onLoginSuccess(User user) {
-        onLoginView.showSuccess(user);
+        mOnLoginView.showSuccess(user);
     }
 
     @Override
     public void onLoginFail() {
-        onLoginView.showFail();
+        mOnLoginView.showFail();
     }
 
     @Override
     public void onLoginError() {
-        onLoginView.showError();
+        mOnLoginView.showError();
     }
 
     @Override
     public void onStart() {
-        onLoginView.showLoading();
+        mOnLoginView.showLoading();
     }
 
     @Override
     public void onFinish() {
-        onLoginView.hideLoading();
+        mOnLoginView.hideLoading();
     }
 
 

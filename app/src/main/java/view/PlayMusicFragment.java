@@ -1,6 +1,5 @@
 package view;
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,10 +25,10 @@ import presenter.PlayPresenterImpl;
 public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnPlayView {
 
     private View view;
-    private SeekBar seekBar;
-    private ImageButton playOrPause;
-    private PlayMusicContract.PlayPresenter playPresenter;
-    private boolean userTouchProgress = false;//用户是否触碰了进度条
+    private SeekBar mSeekBar;
+    private ImageButton mPlayOrPause;
+    private PlayMusicContract.PlayPresenter mPlayPresenter;
+    private boolean mUserTouchProgress = false;//用户是否触碰了进度条
 
     private final int ERROR = 0;
 
@@ -46,15 +45,15 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     }
 
     private void initData() {
-        seekBar = view.findViewById(R.id.seek_bar);
-        playOrPause = view.findViewById(R.id.play_or_pause);
+        mSeekBar = view.findViewById(R.id.seek_bar);
+        mPlayOrPause = view.findViewById(R.id.play_or_pause);
 
-        playPresenter = PlayPresenterImpl.getInstance();
-        playPresenter.registOnPlayView(this);
+        mPlayPresenter = PlayPresenterImpl.getInstance();
+        mPlayPresenter.registOnPlayView(this);
     }
 
     private void initEvent() {
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 //进度条发生改变时   
@@ -63,7 +62,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 //用户开始触摸进度条时
-                userTouchProgress = true;
+                mUserTouchProgress = true;
             }
 
             @Override
@@ -71,16 +70,16 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
                 //用户释放进度条时
                 int touchProgress = seekBar.getProgress();
 
-                if (playPresenter != null) {
-                    playPresenter.seekTo(touchProgress);
+                if (mPlayPresenter != null) {
+                    mPlayPresenter.seekTo(touchProgress);
                 }
-                userTouchProgress = false;
+                mUserTouchProgress = false;
             }
         });
 
-        playOrPause.setOnClickListener(v -> {
-            if (playPresenter != null) {
-                playPresenter.playOrPause();
+        mPlayOrPause.setOnClickListener(v -> {
+            if (mPlayPresenter != null) {
+                mPlayPresenter.playOrPause();
             }
         });
 
@@ -94,15 +93,15 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         switch (state) {
             case PlayMusicContract.PlayPresenter.PLAY_STATE_PLAY:
                 //音乐在播放中，就把UI设置为"暂停"
-                playOrPause.setBackgroundResource(R.drawable.music_pause);
+                mPlayOrPause.setBackgroundResource(R.drawable.music_pause);
                 break;
             case PlayMusicContract.PlayPresenter.PLAY_STATE_PAUSE:
                 //音乐暂停，就把UI设置为"播放"
-                playOrPause.setBackgroundResource(R.drawable.music_play);
+                mPlayOrPause.setBackgroundResource(R.drawable.music_play);
                 break;
             case PlayMusicContract.PlayPresenter.PLAY_STATE_STOP:
                 //音乐停止，就把UI设置为"播放"
-                playOrPause.setBackgroundResource(R.drawable.music_play);
+                mPlayOrPause.setBackgroundResource(R.drawable.music_play);
                 break;
             default:
                 break;
@@ -114,8 +113,8 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
      */
     @Override
     public void onSeekChange(int seek) {
-        if (!userTouchProgress) {
-            seekBar.setProgress(seek);
+        if (!mUserTouchProgress) {
+            mSeekBar.setProgress(seek);
         }
     }
 

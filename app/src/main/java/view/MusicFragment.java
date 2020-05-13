@@ -2,18 +2,15 @@ package view;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.mymusicplayer.MainActivity;
 import com.example.mymusicplayer.R;
 
 import java.util.ArrayList;
@@ -28,9 +25,9 @@ import entity.Music;
 import presenter.MusicPresenterImpl;
 
 public class MusicFragment extends Fragment implements MusicContract.OnMusicView {
-    private ListView listView;
-    private MusicContract.MusicPresenter musicPresenter;
-    private List<Music> musics;
+    private ListView mListView;
+    private MusicContract.MusicPresenter mMusicPresenter;
+    private List<Music> mMusics;
     private static final String TAG = "MusicActivity";
     private View view;
     
@@ -63,11 +60,11 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
      * 初始化数据.
      * */
     private void initData(){
-        listView = view.findViewById(R.id.music_list);
+        mListView = view.findViewById(R.id.music_list);
 
-        musics = new ArrayList<>();
+        mMusics = new ArrayList<>();
 
-        musicPresenter = new MusicPresenterImpl(this);
+        mMusicPresenter = new MusicPresenterImpl(this);
         
         setMusicItem();
     }
@@ -80,12 +77,12 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
      * 设置歌单中的歌曲显示.
      * */
     public void setMusicItem(){
-        musicPresenter.getMusicList(mCallback.getSongListId());
+        mMusicPresenter.getMusicList(mCallback.getSongListId());
     }
     
     @Override
     public void showMusics(List<Music> musics) {
-        this.musics = musics;
+        this.mMusics = musics;
         Message message = Message.obtain();
         message.what = SUCCESS;
         handler.sendMessage(message);
@@ -112,8 +109,8 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
                 case SUCCESS:
                     if(getActivity() != null){
                         MusicAdapter adapter = new MusicAdapter(getActivity(),
-                                R.layout.music_item,musics);
-                        listView.setAdapter(adapter);
+                                R.layout.music_item, mMusics);
+                        mListView.setAdapter(adapter);
                     }
                     break;
                 case FAIL:

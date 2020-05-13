@@ -1,11 +1,5 @@
 package util;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -21,7 +15,7 @@ import entity.User;
 public class HttpUrlConnection {
     private static String TAG = "HttpUrlConnection";
     
-    private HttpCallbackListener ilistener;
+    private HttpCallbackListener mListener;
     
     
     public static void sendHttpUrlConnection(String requestUrl, final HttpCallbackListener listener){

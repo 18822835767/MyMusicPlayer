@@ -7,7 +7,6 @@ import presenter.LoginPresenterImpl;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,17 +14,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.mymusicplayer.MainActivity;
 import com.example.mymusicplayer.R;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.OnLoginView {
 
-    private User user;//记录登陆的用户
-    private EditText username;
-    private EditText password;
-    private Button login;
-    private LoginContract.LoginPresenter loginPresenter;
-    private ProgressDialog progressDialog;
+    private User mUser;//记录登陆的用户
+    private EditText mUsername;
+    private EditText mPassword;
+    private Button mLogin;
+    private LoginContract.LoginPresenter mLoginPresenter;
+    private ProgressDialog mProgressDialog;
     
     public static final String USER = "user";
     
@@ -39,26 +37,26 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
     }
 
     private void initData(){
-        loginPresenter = new LoginPresenterImpl(this);
+        mLoginPresenter = new LoginPresenterImpl(this);
         
-        username = (EditText) findViewById(R.id.username);
-        password = (EditText)findViewById(R.id.password);
-        login = (Button)findViewById(R.id.login);
-        progressDialog = new ProgressDialog(LoginActivity.this);
+        mUsername = (EditText) findViewById(R.id.username);
+        mPassword = (EditText)findViewById(R.id.password);
+        mLogin = (Button)findViewById(R.id.login);
+        mProgressDialog = new ProgressDialog(LoginActivity.this);
     }
     
     private void initEvent(){
-        login.setOnClickListener(new View.OnClickListener() {
+        mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginPresenter.login(username.getText().toString(),password.getText().toString());
+                mLoginPresenter.login(mUsername.getText().toString(), mPassword.getText().toString());
             }
         });
     }
     
     @Override
     public void showSuccess(User user) {
-        this.user = user;
+        this.mUser = user;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -103,9 +101,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                progressDialog.setMessage("Logining...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
+                mProgressDialog.setMessage("Logining...");
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.show();
             }
         });
     }
@@ -115,7 +113,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                progressDialog.dismiss();
+                mProgressDialog.dismiss();
             }
         });
     }

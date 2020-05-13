@@ -1,7 +1,6 @@
 package adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +18,11 @@ import util.DownImage;
  * 歌单的ListView的适配器.
  * */
 public class SongListAdapter extends ArrayAdapter<SongList>{
-    private int resourceId;//子项布局的id
+    private int mResourceId;//子项布局的id
     
     public SongListAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<SongList> objects) {
         super(context, textViewResourceId, objects);
-        resourceId = textViewResourceId;
+        mResourceId = textViewResourceId;
     }
 
     @NonNull
@@ -33,7 +32,7 @@ public class SongListAdapter extends ArrayAdapter<SongList>{
         View view;
         ViewHolder viewHolder;
         if(convertView == null){
-            view = LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
+            view = LayoutInflater.from(getContext()).inflate(mResourceId,parent,false);
             viewHolder = new ViewHolder();
             viewHolder.imageView = (ImageView) view.findViewById(R.id.song_list_image);
             viewHolder.textView =  (TextView)view.findViewById(R.id.song_list_name);

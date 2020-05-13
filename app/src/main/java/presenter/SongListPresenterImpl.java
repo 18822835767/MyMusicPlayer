@@ -8,32 +8,32 @@ import model.SongListModelImpl;
 
 public class SongListPresenterImpl implements SongListContract.SongListPresenter,
         SongListContract.OnSongListListener {
-    private SongListContract.SongListModel songListModel;
-    private SongListContract.OnSongListView onSongListView;
+    private SongListContract.SongListModel mSongListModel;
+    private SongListContract.OnSongListView mOnSongListView;
     
     public SongListPresenterImpl(SongListContract.OnSongListView onSongListView){
-        this.onSongListView = onSongListView;
-        songListModel = new SongListModelImpl();
+        this.mOnSongListView = onSongListView;
+        mSongListModel = new SongListModelImpl();
     }
     
     @Override
     public void getUserSongList(int id) {
-        songListModel.getUserSongList(this,id);
+        mSongListModel.getUserSongList(this,id);
     }
 
     @Override
     public void onSuccess(List<SongList> songLists) {
-        onSongListView.showSongList(songLists);        
+        mOnSongListView.showSongList(songLists);        
     }
 
     @Override
     public void onFail() {
-        onSongListView.showFail();
+        mOnSongListView.showFail();
     }
 
     @Override
     public void onError() {
-        onSongListView.showError();
+        mOnSongListView.showError();
     }
     
 }

@@ -13,7 +13,7 @@ import util.HttpUrlConnection;
  */
 public class LoginModelImpl implements LoginContract.LoginModel {
     private final String LOGIN_URL = "http://182.254.170.97:3000/login/cellphone?phone=";
-    private User user;//登陆的用户
+    private User mUser;//登陆的用户
 
     @Override
     public void login(final LoginContract.OnLoginListener listener, String username, String password) {
@@ -27,7 +27,7 @@ public class LoginModelImpl implements LoginContract.LoginModel {
                     e.printStackTrace();
                 }
 
-                listener.onLoginSuccess(user);
+                listener.onLoginSuccess(mUser);
             }
 
             @Override
@@ -62,6 +62,6 @@ public class LoginModelImpl implements LoginContract.LoginModel {
         JSONObject profileJson = jsonObject.getJSONObject("profile");
         String nickName = profileJson.getString("nickname");
 
-        user = new User(id,nickName);
+        mUser = new User(id,nickName);
     }
 }

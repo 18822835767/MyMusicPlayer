@@ -14,7 +14,7 @@ import util.HttpUrlConnection;
 
 public class SongListModelImpl implements SongListContract.SongListModel{
     private final String SONG_LIST_URL = "http://182.254.170.97:3000/user/playlist?uid=";
-    private List<SongList> songLists = new ArrayList<>();
+    private List<SongList> mSongLists = new ArrayList<>();
     private final String TAG = "SongListModelImpl";
     
     @Override
@@ -28,7 +28,7 @@ public class SongListModelImpl implements SongListContract.SongListModel{
                     e.printStackTrace();
                 }
 
-                onSongListListener.onSuccess(songLists);
+                onSongListListener.onSuccess(mSongLists);
             }
 
             @Override
@@ -67,7 +67,7 @@ public class SongListModelImpl implements SongListContract.SongListModel{
             String coverImgUrl = songListJson.getString("coverImgUrl");
 
             SongList songList = new SongList(id,name,coverImgUrl);
-            songLists.add(songList);
+            mSongLists.add(songList);
         }
     }
 }

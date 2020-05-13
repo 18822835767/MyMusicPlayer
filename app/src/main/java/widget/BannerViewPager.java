@@ -15,7 +15,6 @@ import com.example.mymusicplayer.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Attributes;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,25 +29,25 @@ import androidx.viewpager.widget.ViewPager;
  * </p>
  */
 public class BannerViewPager extends FrameLayout {
-    private ViewPager viewPager;
-    private LinearLayout indicatorGroup;//展示 小圆点的线性布局
-    private List<Integer> imageUrls;//存放图片的Url，是“实际图片”的数量
-    private List<View> views;//存放要展示的图片，"实际图片"的数量。
-    private ImageView[] tips;//存放 小圆点的数组
-    private int count;//用户看到的图片数量
-    private int bannerTime = 1500;//轮播图的间隔时间，即1.5s.
-    private int currentItem = 0;//表示 轮播图的当前选中项(从0开始).
-    private long slideTime = 0;//保存 手 滑动时的时间。下面进行判断，防止手滑动后又立即轮播
+    private ViewPager mViewPager;
+    private LinearLayout mIndicatorGroup;//展示 小圆点的线性布局
+    private List<Integer> mImageUrls;//存放图片的Url，是“实际图片”的数量
+    private List<View> mViews;//存放要展示的图片，"实际图片"的数量。
+    private ImageView[] mTips;//存放 小圆点的数组
+    private int mCount;//用户看到的图片数量
+    private int mBannerTime = 1500;//轮播图的间隔时间，即1.5s.
+    private int mCurrentItem = 0;//表示 轮播图的当前选中项(从0开始).
+    private long mSlideTime = 0;//保存 手 滑动时的时间。下面进行判断，防止手滑动后又立即轮播
     private final int START = 10;
     private final int STOP = 20;
-    private Context context;
-    private Handler handler;
+    private Context mContext;
+    private Handler mHandler;
 
     public BannerViewPager(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
-        imageUrls = new ArrayList<>();
-        views = new ArrayList<>();
+        this.mContext = context;
+        mImageUrls = new ArrayList<>();
+        mViews = new ArrayList<>();
         init(context, attrs);
     }
 
@@ -57,21 +56,21 @@ public class BannerViewPager extends FrameLayout {
      */
     private void init(Context context, AttributeSet attrs) {
         View view = LayoutInflater.from(context).inflate(R.layout.banner_view_pager, this);
-        viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        indicatorGroup = (LinearLayout) findViewById(R.id.indicator);
-        handler = new Handler(new Handler.Callback() {
+        mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        mIndicatorGroup = (LinearLayout) findViewById(R.id.indicator);
+        mHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
                     case START:
-                        viewPager.setCurrentItem(currentItem + 1);
-                        handler.removeCallbacks(runnable);
-                        handler.postDelayed(runnable, bannerTime);//在bannerTime后会调用runnable的run()
+                        mViewPager.setCurrentItem(mCurrentItem + 1);
+                        mHandler.removeCallbacks(runnable);
+                        mHandler.postDelayed(runnable, mBannerTime);//在bannerTime后会调用runnable的run()
                         break;
                     case STOP:
-                        slideTime = 0;
-                        handler.removeCallbacks(runnable);
-                        handler.postDelayed(runnable, bannerTime);
+                        mSlideTime = 0;
+                        mHandler.removeCallbacks(runnable);
+                        mHandler.postDelayed(runnable, mBannerTime);
                         break;
                     default:
                         break;
@@ -88,11 +87,11 @@ public class BannerViewPager extends FrameLayout {
         @Override
         public void run() {
             long now = System.currentTimeMillis();//记录现在的时间
-            if (now - slideTime > bannerTime - 500) {
+            if (now - mSlideTime > mBannerTime - 500) {
                 //手动滑动，且时间满足该条件
-                handler.sendEmptyMessage(START);
+                mHandler.sendEmptyMessage(START);
             } else {
-                handler.sendEmptyMessage(STOP);
+                mHandler.sendEmptyMessage(STOP);
             }
         }
     };
@@ -101,12 +100,12 @@ public class BannerViewPager extends FrameLayout {
      * 初始化imageUrls的资源。
      */
     public void setData(List<Integer> imageUrls) {
-        this.imageUrls.clear();
-        this.count = imageUrls.size();//存放用户“看到”的图片数量.
+        this.mImageUrls.clear();
+        this.mCount = imageUrls.size();//存放用户“看到”的图片数量.
         //“轮播图”里存放的数量 = 用户看到的+2
-        this.imageUrls.add(imageUrls.get(count - 1));
-        this.imageUrls.addAll(imageUrls);
-        this.imageUrls.add(imageUrls.get(0));
+        this.mImageUrls.add(imageUrls.get(mCount - 1));
+        this.mImageUrls.addAll(imageUrls);
+        this.mImageUrls.add(imageUrls.get(0));
 
         initIndicator();
         getShowImage();
@@ -117,7 +116,7 @@ public class BannerViewPager extends FrameLayout {
      * 设置“小圆点”指示器在线性布局中的参数
      */
     private void initIndicator() {
-        tips = new ImageView[count];
+        mTips = new ImageView[mCount];
         //设置小圆点在
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(new ViewGroup.
                 LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -125,8 +124,8 @@ public class BannerViewPager extends FrameLayout {
         layoutParams.width = 20;
         layoutParams.leftMargin = 10;//点的左边距
         layoutParams.rightMargin = 10;//点的右边距
-        for (int i = 0; i < count; i++) {
-            ImageView imageView = new ImageView(context);
+        for (int i = 0; i < mCount; i++) {
+            ImageView imageView = new ImageView(mContext);
             //先设置第一个小圆点为红色，其他圈为黑色
             if (i == 0) {
                 imageView.setBackgroundResource(R.drawable.red_circle);
@@ -134,8 +133,8 @@ public class BannerViewPager extends FrameLayout {
                 imageView.setBackgroundResource(R.drawable.black_circle);
             }
 
-            tips[i] = imageView;
-            indicatorGroup.addView(imageView, layoutParams);
+            mTips[i] = imageView;
+            mIndicatorGroup.addView(imageView, layoutParams);
         }
     }
 
@@ -143,12 +142,12 @@ public class BannerViewPager extends FrameLayout {
      * 加载图片，存放到views容器里
      */
     private void getShowImage() {
-        for (int i = 0; i < imageUrls.size(); i++) {
-            ImageView imageView = new ImageView(context);
+        for (int i = 0; i < mImageUrls.size(); i++) {
+            ImageView imageView = new ImageView(mContext);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setImageResource(imageUrls.get(i));
+            imageView.setImageResource(mImageUrls.get(i));
 
-            views.add(imageView);
+            mViews.add(imageView);
         }
     }
 
@@ -160,10 +159,10 @@ public class BannerViewPager extends FrameLayout {
      */
     private void setUI() {
         BannerAdapter adapter = new BannerAdapter();
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(onPageChangeListener);
-        viewPager.setCurrentItem(1);
-        handler.postDelayed(runnable, bannerTime);
+        mViewPager.setAdapter(adapter);
+        mViewPager.addOnPageChangeListener(onPageChangeListener);
+        mViewPager.setCurrentItem(1);
+        mHandler.postDelayed(runnable, mBannerTime);
     }
 
     /**
@@ -178,39 +177,39 @@ public class BannerViewPager extends FrameLayout {
         //主要是为了设置小圆点的下标
         @Override
         public void onPageSelected(int position) {
-            int max = views.size();
+            int max = mViews.size();
             int temp = position;//当前pager的下标
-            currentItem = position;
+            mCurrentItem = position;
             if (position == 0) {
                 //选择到最左边的pager时
-                currentItem = max - 1;
+                mCurrentItem = max - 1;
             } else if (position == max) {
                 //选择到最右边的pager时
-                currentItem = 1;
+                mCurrentItem = 1;
             }
             //小圆点的下标
-            temp = currentItem - 1;
+            temp = mCurrentItem - 1;
             setIndicator(temp);
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            currentItem = viewPager.getCurrentItem();
+            mCurrentItem = mViewPager.getCurrentItem();
             switch (state) {
                 //自然滑动时
                 case ViewPager.SCROLL_STATE_IDLE:
-                    if(currentItem == 0){
+                    if(mCurrentItem == 0){
                         //滑动到最左边的那张时,重新设置图片
-                        viewPager.setCurrentItem(count,false);
-                    }else if(currentItem == count + 1){
+                        mViewPager.setCurrentItem(mCount,false);
+                    }else if(mCurrentItem == mCount + 1){
                         //滑动到最右边的那张时,重新设置图片
-                        viewPager.setCurrentItem(1,false);
+                        mViewPager.setCurrentItem(1,false);
                     }
                     break;
                 //用户用手去滑动时
                 case ViewPager.SCROLL_STATE_DRAGGING:
                     //记录用户用手开始拖拽时的时间
-                    slideTime = System.currentTimeMillis();
+                    mSlideTime = System.currentTimeMillis();
                     break;
                 default:
                     break;
@@ -225,11 +224,11 @@ public class BannerViewPager extends FrameLayout {
      * </p>
      * */
     private void setIndicator(int position) {
-        for(int i=0;i< tips.length ;i++){
+        for(int i = 0; i< mTips.length ; i++){
             if(i == position){
-                tips[i].setBackgroundResource(R.drawable.red_circle);
+                mTips[i].setBackgroundResource(R.drawable.red_circle);
             }else{
-                tips[i].setBackgroundResource(R.drawable.black_circle);
+                mTips[i].setBackgroundResource(R.drawable.black_circle);
             }
         }
     }
@@ -237,7 +236,7 @@ public class BannerViewPager extends FrameLayout {
     class BannerAdapter extends PagerAdapter {
         @Override
         public int getCount() {
-            return views.size();
+            return mViews.size();
         }
 
         @Override
@@ -248,8 +247,8 @@ public class BannerViewPager extends FrameLayout {
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            container.addView(views.get(position));
-            return views.get(position);
+            container.addView(mViews.get(position));
+            return mViews.get(position);
         }
 
         @Override
