@@ -15,11 +15,11 @@ import entity.SongList;
 import util.DownImage;
 
 /**
- * 歌单的ListView的适配器.
+ * 点击“我的歌单”时的ListView的适配器.
  * */
 public class SongListAdapter extends ArrayAdapter<SongList>{
     private int mResourceId;//子项布局的id
-    private DownImage downImage = DownImage.getInstance();
+    private DownImage downImage = DownImage.getInstance();//加载网络图片
     
     public SongListAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<SongList> objects) {
         super(context, textViewResourceId, objects);

@@ -1,5 +1,8 @@
 package util;
 
+/**
+ * 发送网络请求时，要实现该接口.
+ * */
 public interface HttpCallbackListener {
     /**
      * 请求成功.

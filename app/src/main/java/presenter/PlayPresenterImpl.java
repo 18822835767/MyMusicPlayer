@@ -14,6 +14,9 @@ import java.util.TimerTask;
 import contract.PlayMusicContract;
 import entity.Music;
 
+/**
+ * 因为要使播放器在服务中，又使播放器可以收到PlayMusicFragment，所以采取单例模式.
+ */
 public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener {
     private volatile static PlayPresenterImpl instance = null;
@@ -46,16 +49,17 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
 
     @Override
     public void playOrPause() {
-        if(mMusics.size() == 0){
+        if (mMusics.size() == 0) {
             mOnPlayView.showFail("当前没有歌哦");
             return;
         }
         switch (currentState) {
+            //表示第一次播放时
             case PLAY_STATE_STOP:
-                if(mMediaPlayer == null){
+                if (mMediaPlayer == null) {
                     mMediaPlayer = new MediaPlayer();
                 }
-                
+
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 try {
                     mMediaPlayer.setDataSource(mMusics.get(mCurrentPosition).getMusicURL());
@@ -72,6 +76,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
                 startTimer();
                 mFirstPlay = false;
                 break;
+            //从播放到暂停
             case PLAY_STATE_PLAY:
                 if (mMediaPlayer != null) {
                     mMediaPlayer.pause();
@@ -79,6 +84,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
                     stopTimer();
                 }
                 break;
+            //从暂停到播放
             case PLAY_STATE_PAUSE:
                 if (mMediaPlayer != null) {
                     mMediaPlayer.start();
@@ -120,26 +126,19 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     }
 
     /**
-     * 监听，当MediaPlayer播放完一首音乐后.
+     * 监听，当MediaPlayer播放完一首音乐后,自动播放下一首.
      */
     @Override
     public void onCompletion(MediaPlayer mp) {
-//        mFirstPlay = false;
-//            mCurrentPosition++;
-//            if (mMusics != null) {
-//                if (mCurrentPosition < mMusics.size()) {
-//                    mOnPlayView.onSeekChange(0);
-//                    initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
-//                } else if (mCurrentPosition == mMusics.size()) {
-//                    mCurrentPosition = 0;
-//                    initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
-//                }
-//        }
         playNext();
     }
 
     /**
      * 监听，当MediaPlayer播放播放出错时.
+     * <p>
+     *    如果是因为调用了reset()而出错，则不处理.
+     *    如果是因为播放出错，则给提示信息，自动播放下一首.
+     * </p>
      */
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
@@ -162,10 +161,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     public void onPrepared(MediaPlayer mp) {
         if (mp != null) {
             mp.start();
-//            if (mFirstPlay) {
-//                startTimer();
-//            }
-            mOnPlayView.showMusicInfo(mMusics.get(mCurrentPosition));
+            mOnPlayView.showMusicInfo(mMusics.get(mCurrentPosition));//播放栏中显示歌曲的信息
         }
     }
 
@@ -174,13 +170,11 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
      */
     @Override
     public void playNext() {
-//        mUserTouchNextOrPre = true;//标记用户触碰了下一首或上一首
-//        mFirstPlay = false;//表示不是第一次播放
-        if(mMusics.size() == 0){
+        if (mMusics.size() == 0) {
             mOnPlayView.showFail("当前没有歌哦");
             return;
         }
-        
+
         if (mCurrentPosition == mMusics.size() - 1) {
             mCurrentPosition = 0;
         } else {
@@ -195,13 +189,11 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
      */
     @Override
     public void playPre() {
-//        mUserTouchNextOrPre = true;//标记用户触碰了下一首或上一首
-//        mFirstPlay = false;//表示不是第一次播放
-        if(mMusics.size() == 0){
+        if (mMusics.size() == 0) {
             mOnPlayView.showFail("当前没有歌哦");
             return;
         }
-        
+
         if (mCurrentPosition == 0) {
             mCurrentPosition = mMusics.size() - 1;
         } else {
@@ -211,21 +203,24 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
         initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
     }
 
+    /**
+     * 用户点击歌单中的某首歌播放时，主活动会调用这个方法.
+     * */
     @Override
     public void playMusic(List<Music> musics, int position) {
         mMusics = musics;
         mCurrentPosition = position;
-        
-        if(mFirstPlay){
+
+        if (mFirstPlay) {
             playOrPause();
-        }else{
+        } else {
             initMediaPlayerData(musics.get(position).getMusicURL());
         }
     }
 
 
     /**
-     * @param seek 表示进度条播放位置，总共分为100份
+     * @param seek 表示进度条播放位置，进度条总共分为100份
      */
     @Override
     public void seekTo(int seek) {
@@ -236,6 +231,9 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
         }
     }
 
+    /**
+     * 为PlayPresenter注册view接口.
+     * */
     @Override
     public void registOnPlayView(PlayMusicContract.OnPlayView onPlayView) {
         this.mOnPlayView = onPlayView;
@@ -268,6 +266,9 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
         }
     }
 
+    /**
+     * 更新进度条的位置.
+     * */
     private class SeekTimeTask extends TimerTask {
         @Override
         public void run() {
@@ -285,6 +286,5 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     public MediaPlayer getMediaPlayer() {
         return mMediaPlayer;
     }
-
 }
 

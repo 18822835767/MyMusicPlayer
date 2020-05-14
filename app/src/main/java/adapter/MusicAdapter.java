@@ -18,9 +18,12 @@ import androidx.annotation.Nullable;
 import entity.Music;
 import util.DownImage;
 
+/**
+ * 用户点击某张歌单时，显示音乐的ListView的适配器.
+ * */
 public class MusicAdapter extends ArrayAdapter<Music> {
     private int mResourceId;//子项布局的id
-    private DownImage downImage = DownImage.getInstance();
+    private DownImage downImage = DownImage.getInstance();//用于加载网络图片
 
     public MusicAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<Music> objects) {
         super(context, textViewResourceId, objects);

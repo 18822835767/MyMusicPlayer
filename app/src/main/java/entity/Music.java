@@ -1,11 +1,11 @@
 package entity;
 
 public class Music {
-    private String name;
-    private long id;
-    private String picUrl;
-    private String singerName;
-    private String musicURL = "";
+    private String name;//歌曲名字
+    private long id;//歌曲id
+    private String picUrl;//专辑url
+    private String singerName;//歌手名字
+    private String musicURL = "";//歌曲url
 
     public Music() {
     }

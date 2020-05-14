@@ -20,6 +20,9 @@ public class MusicModelImpl implements MusicContract.MusicModel {
     //存放音乐的list
     private List<Music> mMusics = new ArrayList<>();
     
+    /**
+     * 获得歌单中的音乐列表--数据.
+     * */
     @Override
     public void getMusicList(MusicContract.OnMusicListener onMusicListener, long songListId) {
         HttpUrlConnection.sendHttpUrlConnection(MUSIC_INFO + songListId,
@@ -61,7 +64,9 @@ public class MusicModelImpl implements MusicContract.MusicModel {
         });
     }
     
-   
+   /**
+    * 获得音乐播放的url.
+    * */
     private void setMusicUrl(Music music){
         HttpUrlConnection.sendHttpUrlConnection(MUSIC_URL + music.getId(), 
                 new HttpCallbackListener() {

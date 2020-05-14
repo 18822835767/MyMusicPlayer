@@ -19,6 +19,9 @@ public class SongListModelImpl implements SongListContract.SongListModel{
     private List<SongList> mSongLists = new ArrayList<>();
     private final String TAG = "SongListModelImpl";
     
+    /**
+     * 当用户点击"我的歌单"时，会加载歌单数据.
+     * */
     @Override
     public void getUserSongList(SongListContract.OnSongListListener onSongListListener, long userId) {
         HttpUrlConnection.sendHttpUrlConnection(SONG_LIST_URL+userId,new HttpCallbackListener(){

@@ -50,6 +50,4 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter, LoginCo
     public void onFinish() {
         mOnLoginView.hideLoading();
     }
-
-
 }

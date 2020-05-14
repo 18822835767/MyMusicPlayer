@@ -4,8 +4,8 @@ package entity;
  * 歌单对应的实体类.
  * */
 public class SongList {
-    private long id;
-    private String name;
+    private long id;//歌单id
+    private String name;//歌单名字
     private String coverImgUrl;//歌单的封面图片
 
     public SongList() {

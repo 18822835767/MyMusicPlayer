@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import presenter.PlayPresenterImpl;
 
 /**
- * 采取单例模式.
+ * 采取单例模式,加载网络图片.
  * */
 public class DownImage {
     private volatile static DownImage instance = null;
@@ -56,6 +56,9 @@ public class DownImage {
         }).start();
     }
     
+    /**
+     * 加载图片方实现该接口，用于回调，返回加载好后的drawable.
+     * */
     @FunctionalInterface
     public interface ImageCallback{
         void getDrawable(Drawable drawable);

@@ -7,6 +7,9 @@ import android.os.IBinder;
 import contract.PlayMusicContract;
 import presenter.PlayPresenterImpl;
 
+/**
+ * 当音乐在播放状态时，会开启这一个服务.
+ * */
 public class PlayService extends Service {
     private PlayMusicContract.PlayPresenter mPlayPresenter;
 
@@ -24,6 +27,9 @@ public class PlayService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    /**
+     * 服务终止时，释放mediaplayer相关资源.
+     * */
     @Override
     public void onDestroy() {
         super.onDestroy();
