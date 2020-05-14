@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,7 +142,7 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
     });
     
     public interface OnMusicListener{
-        int getSongListId();
+        long getSongListId();
         //用户点击歌单中的歌曲时，就把歌单中的歌以及歌的位置传出去
         void playMusics(List<Music> musics,int position);
     }

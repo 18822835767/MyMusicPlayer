@@ -17,7 +17,7 @@ public class SongListPresenterImpl implements SongListContract.SongListPresenter
     }
     
     @Override
-    public void getUserSongList(int id) {
+    public void getUserSongList(long id) {
         mSongListModel.getUserSongList(this,id);
     }
 

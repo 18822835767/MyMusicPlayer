@@ -21,7 +21,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
     private List<Music> mMusics = new ArrayList<>();
     
     @Override
-    public void getMusicList(MusicContract.OnMusicListener onMusicListener, int songListId) {
+    public void getMusicList(MusicContract.OnMusicListener onMusicListener, long songListId) {
         HttpUrlConnection.sendHttpUrlConnection(MUSIC_INFO + songListId,
                 new HttpCallbackListener() {
             @Override
@@ -116,7 +116,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
             
             //歌名 歌id 专辑URL  歌手名字
             String name = musicJson.getString("name");
-            int id = musicJson.getInt("id");
+            long id = musicJson.getLong("id");
             String pirUrl = al.getString("picUrl");
             String singerName = builder.toString();
             

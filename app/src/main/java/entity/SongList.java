@@ -4,20 +4,20 @@ package entity;
  * 歌单对应的实体类.
  * */
 public class SongList {
-    private int id;
+    private long id;
     private String name;
     private String coverImgUrl;//歌单的封面图片
 
     public SongList() {
     }
 
-    public SongList(int id, String name,String coverImgUrl) {
+    public SongList(long id, String name,String coverImgUrl) {
         this.id = id;
         this.name = name;
         this.coverImgUrl = coverImgUrl;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

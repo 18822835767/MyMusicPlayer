@@ -57,7 +57,7 @@ public class LoginModelImpl implements LoginContract.LoginModel {
         JSONObject jsonObject = new JSONObject(dataMessage);
 
         JSONObject accountJson = jsonObject.getJSONObject("account");
-        int id = accountJson.getInt("id");
+        long id = accountJson.getLong("id");
 
         JSONObject profileJson = jsonObject.getJSONObject("profile");
         String nickName = profileJson.getString("nickname");

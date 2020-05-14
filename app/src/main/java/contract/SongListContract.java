@@ -11,7 +11,7 @@ public interface SongListContract {
      * SongListModel接口，被SongListPresenter调用.
      * */
     interface SongListModel{
-       void getUserSongList(OnSongListListener onSongListListener, int userId);
+       void getUserSongList(OnSongListListener onSongListListener, long userId);
        void handleJson(String dataMessage) throws JSONException;
     }
     
@@ -19,7 +19,7 @@ public interface SongListContract {
      * SongListPresenter接口，被SongListFragment调用.
      * */
     interface SongListPresenter{
-        void getUserSongList(int userId);
+        void getUserSongList(long userId);
     }
     
     /**

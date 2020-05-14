@@ -2,7 +2,7 @@ package entity;
 
 public class Music {
     private String name;
-    private int id;
+    private long id;
     private String picUrl;
     private String singerName;
     private String musicURL = "";
@@ -10,7 +10,7 @@ public class Music {
     public Music() {
     }
 
-    public Music(String name, int id, String picUrl,String singerName) {
+    public Music(String name, long id, String picUrl,String singerName) {
         this.name = name;
         this.id = id;
         this.picUrl = picUrl;
@@ -33,7 +33,7 @@ public class Music {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

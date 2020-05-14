@@ -35,9 +35,4 @@ public interface PlayMusicContract {
         void showError();//播放出现错误时给用户提示
         void showFail(String msg);
     }
-    
-    interface PlayModel{
-        //获取音乐播放的URL
-        List<String> getMusicsUrl(List<Music> musics);
-    }
 }

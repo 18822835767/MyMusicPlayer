@@ -9,7 +9,7 @@ public interface MusicContract {
      * MusicModel接口，被MusicPresenter调用.
      * */
     interface MusicModel{
-        void getMusicList(OnMusicListener onMusicListener, int songListId);
+        void getMusicList(OnMusicListener onMusicListener, long songListId);
         void handleMusicInfoJson(String dataMessage) throws JSONException;
     }
 
@@ -17,7 +17,7 @@ public interface MusicContract {
      * MusicPresenter接口，被MusicFragment调用.
      * */
     interface MusicPresenter{
-        void getMusicList(int songListId);
+        void getMusicList(long songListId);
     }
 
     /**

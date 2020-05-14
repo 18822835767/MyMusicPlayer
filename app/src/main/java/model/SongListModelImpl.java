@@ -20,7 +20,7 @@ public class SongListModelImpl implements SongListContract.SongListModel{
     private final String TAG = "SongListModelImpl";
     
     @Override
-    public void getUserSongList(SongListContract.OnSongListListener onSongListListener, int userId) {
+    public void getUserSongList(SongListContract.OnSongListListener onSongListListener, long userId) {
         HttpUrlConnection.sendHttpUrlConnection(SONG_LIST_URL+userId,new HttpCallbackListener(){
             @Override
             public void onSuccess(String dataMessage) {
@@ -64,7 +64,7 @@ public class SongListModelImpl implements SongListContract.SongListModel{
         for(int i=0;i<songListsJson.length();i++){
             JSONObject songListJson = songListsJson.getJSONObject(i);
 
-            int id = songListJson.getInt("id");
+            long id = songListJson.getLong("id");
             String name = songListJson.getString("name");
             String coverImgUrl = songListJson.getString("coverImgUrl");
             

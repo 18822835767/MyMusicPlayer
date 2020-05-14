@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     //记录登陆的用户
     private User mUser;
     //记录用户点击的歌单的id
-    private int mSongListId = 0;
+    private long mSongListId = 0;
 
     //定义三个碎片所对应的值
     private final int SHOW_HOME_PAGE = 0;
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
      * 展示某个歌单中的音乐"碎片".
      */
     @Override
-    public void showMusics(int songListId) {
+    public void showMusics(long songListId) {
         this.mSongListId = songListId;
         initFragment(SHOW_MUSIC);
     }
@@ -206,9 +206,10 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
 
     /**
      * 碎片通过调用该方法获得用户点击的歌单的id.
+     * @return
      */
     @Override
-    public int getSongListId() {
+    public long getSongListId() {
         return mSongListId;
     }
 

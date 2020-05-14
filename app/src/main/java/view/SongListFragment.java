@@ -146,7 +146,7 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
      * MainActivity去实现，作为碎片和活动之间通信的回调接口.
      * */
     public interface OnSongListListener {
-        void showMusics(int songListId);
+        void showMusics(long songListId);
         User getUser();
     }
     
