@@ -46,6 +46,10 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
 
     @Override
     public void playOrPause() {
+        if(mMusics.size() == 0){
+            mOnPlayView.showFail("当前没有歌哦");
+            return;
+        }
         switch (currentState) {
             case PLAY_STATE_STOP:
                 if(mMediaPlayer == null){
