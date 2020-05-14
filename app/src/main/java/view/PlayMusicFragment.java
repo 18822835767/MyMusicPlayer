@@ -1,5 +1,6 @@
 package view;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -40,6 +41,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     private TextView mSingerName;
     private TextView mMusicName;
     private ImageView mMusicPicture; 
+    private DownImage downImage = DownImage.getInstance();;
     
     private final int ERROR = 0;
     private final int SUCCESS = 1;
@@ -153,7 +155,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     public void showMusicInfo(Music music) {
         mMusicName.setText(music.getName());
         mSingerName.setText(music.getSingerName());
-//        mMusicPicture.setImageDrawable(DownImage);
+        downImage.loadImage(music.getPicUrl(), drawable -> mMusicPicture.setImageDrawable(drawable));
     }
 
     @Override

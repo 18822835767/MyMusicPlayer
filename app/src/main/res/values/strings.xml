@@ -8,4 +8,6 @@
     <string name="my_songlist">我的歌单</string>
     <string name="my_music">我的音乐</string>
     <string name="local_music">本地音乐</string>
+    <string name="music_name">歌曲名字</string>
+    <string name="singer">歌手</string>
 </resources>

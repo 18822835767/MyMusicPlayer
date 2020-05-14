@@ -165,6 +165,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
 //            if (mFirstPlay) {
 //                startTimer();
 //            }
+            mOnPlayView.showMusicInfo(mMusics.get(mCurrentPosition));
         }
     }
 
