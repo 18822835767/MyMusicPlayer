@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mymusicplayer.R;
@@ -34,6 +36,9 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     private boolean mUserTouchProgress = false;//用户是否触碰了进度条
     private ImageButton mPlayNext;
     private ImageButton mPlayPre;
+    private TextView mSingerName;
+    private TextView mMusicName;
+    private ImageView mMusicPicture; 
     
     private final int ERROR = 0;
     private final int SUCCESS = 1;
@@ -54,12 +59,14 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     private void initData() {
         mSeekBar = view.findViewById(R.id.seek_bar);
         mPlayOrPause = view.findViewById(R.id.play_or_pause);
-
-        mPlayPresenter = PlayPresenterImpl.getInstance();
-        mPlayPresenter.registOnPlayView(this);
-        
         mPlayNext = view.findViewById(R.id.next_one);
         mPlayPre = view.findViewById(R.id.pre_one);
+        mSingerName = view.findViewById(R.id.singer_name);
+        mMusicName = view.findViewById(R.id.music_name);
+        mMusicPicture = view.findViewById(R.id.music_picture);
+        
+        mPlayPresenter = PlayPresenterImpl.getInstance();
+        mPlayPresenter.registOnPlayView(this);
     }
 
     private void initEvent() {
@@ -136,6 +143,14 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         if (!mUserTouchProgress) {
             mSeekBar.setProgress(seek);
         }
+    }
+
+    /**
+     * 底部播放栏，展示歌曲的信息：专辑图片，歌手名字，歌名.
+     * */
+    @Override
+    public void showMusicInfo(Music music) {
+        
     }
 
     @Override

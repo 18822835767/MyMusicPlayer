@@ -32,6 +32,7 @@ public interface PlayMusicContract {
     interface OnPlayView{
         void onPlayStateChange(int state);//播放状态改变了，通知view层更新UI
         void onSeekChange(int seek);//通知view层更新进度条UI
+        void showMusicInfo(Music music);//展示歌曲的信息：专辑图片，歌手名字，歌名
         void showError();//播放出现错误时给用户提示
         void showFail(String msg);
     }
