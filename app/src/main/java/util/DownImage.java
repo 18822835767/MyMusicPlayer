@@ -7,15 +7,29 @@ import android.os.Message;
 import java.net.URL;
 
 import androidx.annotation.NonNull;
+import presenter.PlayPresenterImpl;
 
+/**
+ * 采取单例模式.
+ * */
 public class DownImage {
-    private String mImagePath;
-    
-    public DownImage(String imagePath){
-        this.mImagePath = imagePath;
+    private volatile static DownImage instance = null;
+
+    private DownImage() {
+    }
+
+    public static DownImage getInstance() {
+        if (instance == null) {
+            synchronized (DownImage.class) {
+                if (instance == null) {
+                    instance = new DownImage();
+                }
+            }
+        }
+        return instance;
     }
     
-    public void loadImage(final ImageCallback imageCallback){
+    public void loadImage(String imagePath,final ImageCallback imageCallback){
         final Handler handler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(@NonNull Message msg) {
@@ -30,7 +44,7 @@ public class DownImage {
             public void run() {
                 try{
                     //第二个参数是 图片的名字，可用于debug，这里直接传入null
-                    Drawable drawable = Drawable.createFromStream(new URL(mImagePath).openStream(),
+                    Drawable drawable = Drawable.createFromStream(new URL(imagePath).openStream(),
                             null);
                     Message message = Message.obtain();
                     message.obj = drawable;

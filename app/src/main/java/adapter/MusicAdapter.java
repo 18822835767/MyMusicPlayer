@@ -1,6 +1,7 @@
 package adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import util.DownImage;
 
 public class MusicAdapter extends ArrayAdapter<Music> {
     private int mResourceId;//子项布局的id
+    private DownImage downImage = DownImage.getInstance();
 
     public MusicAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<Music> objects) {
         super(context, textViewResourceId, objects);
@@ -45,8 +47,8 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         if (music != null) {
             viewHolder.musicName.setText(music.getName());
             viewHolder.singerName.setText(music.getSingerName());
-            DownImage downImage = new DownImage(music.getPicUrl());
-            downImage.loadImage(drawable -> viewHolder.imageView.setImageDrawable(drawable));
+            downImage.loadImage(music.getPicUrl(), drawable -> 
+                    viewHolder.imageView.setImageDrawable(drawable));
         }
         return view;
     }

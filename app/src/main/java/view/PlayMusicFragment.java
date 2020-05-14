@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import contract.PlayMusicContract;
 import entity.Music;
 import presenter.PlayPresenterImpl;
+import util.DownImage;
 
 
 /**
@@ -150,7 +151,9 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
      * */
     @Override
     public void showMusicInfo(Music music) {
-        
+        mMusicName.setText(music.getName());
+        mSingerName.setText(music.getSingerName());
+//        mMusicPicture.setImageDrawable(DownImage);
     }
 
     @Override

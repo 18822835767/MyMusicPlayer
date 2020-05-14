@@ -19,6 +19,7 @@ import util.DownImage;
  * */
 public class SongListAdapter extends ArrayAdapter<SongList>{
     private int mResourceId;//子项布局的id
+    private DownImage downImage = DownImage.getInstance();
     
     public SongListAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<SongList> objects) {
         super(context, textViewResourceId, objects);
@@ -43,8 +44,8 @@ public class SongListAdapter extends ArrayAdapter<SongList>{
         }
         if (songList != null) {
             viewHolder.textView.setText(songList.getName());
-            DownImage downImage = new DownImage(songList.getCoverImgUrl());
-            downImage.loadImage(drawable -> viewHolder.imageView.setImageDrawable(drawable));
+            downImage.loadImage(songList.getCoverImgUrl(), drawable ->
+                    viewHolder.imageView.setImageDrawable(drawable));
         }
         return view;
     }
