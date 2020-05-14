@@ -25,10 +25,13 @@ import contract.MusicContract;
 import entity.Music;
 import presenter.MusicPresenterImpl;
 
+/**
+ * 展示音乐列表.
+ * */
 public class MusicFragment extends Fragment implements MusicContract.OnMusicView {
-    private ListView mListView;
+    private ListView mListView;//展示音乐列表.
     private MusicContract.MusicPresenter mMusicPresenter;
-    private List<Music> mMusics;
+    private List<Music> mMusics;//保存列表中的音乐.
     private static final String TAG = "MusicActivity";
     private View view;
     
@@ -39,6 +42,9 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
     private static final int FAIL = 1;
     private static final int ERROR = 2;
 
+    /**
+     * 得到回调接口.
+     * */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -82,10 +88,13 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
     /**
      * 设置歌单中的歌曲显示.
      * */
-    public void setMusicItem(){
+    private void setMusicItem(){
         mMusicPresenter.getMusicList(mCallback.getSongListId());
     }
     
+    /**
+     * 展示音乐列表.
+     * */
     @Override
     public void showMusics(List<Music> musics) {
         this.mMusics = musics;
@@ -94,6 +103,9 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
         handler.sendMessage(message);
     }
 
+    /**
+     * 展示音乐列表失败.
+     * */
     @Override
     public void showFail() {
         Message message = Message.obtain();
@@ -101,6 +113,9 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
         handler.sendMessage(message);
     }
 
+    /**
+     * 出现错误.
+     * */
     @Override
     public void showError() {
         Message message = Message.obtain();
@@ -140,7 +155,10 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
             return false;
         }
     });
-    
+
+    /**
+     * MainActivity去实现，作为碎片和活动之间通信的回调接口.
+     * */
     public interface OnMusicListener{
         long getSongListId();
         //用户点击歌单中的歌曲时，就把歌单中的歌以及歌的位置传出去

@@ -21,7 +21,7 @@ import widget.BannerViewPager;
  * 音乐首页所对应的view.
  */
 public class HomePageFragment extends Fragment implements View.OnClickListener{
-    private Button mMySongList;
+    private Button mMySongList;//“我的歌单”按钮
     private View view;
     private int mSongListId;//当用户点击歌单时，记录歌单的id
     private OnHomePageListener mCallback;//碎片和活动通信的接口引用
@@ -32,9 +32,6 @@ public class HomePageFragment extends Fragment implements View.OnClickListener{
         mCallback = (OnHomePageListener) context;
     }
 
-    public static final String MUSIC_BAR = "musicBar";
-    public static final String USER = "user";
-    
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -47,6 +44,9 @@ public class HomePageFragment extends Fragment implements View.OnClickListener{
         return view;
     }
 
+    /**
+     * 初始化轮播图数据.
+     * */
     private void initData() {
         //为轮播图设置数据
         BannerViewPager banner = (BannerViewPager) view.findViewById(R.id.banner_view_pager);

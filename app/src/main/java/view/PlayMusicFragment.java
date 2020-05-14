@@ -32,8 +32,8 @@ import util.DownImage;
 public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnPlayView {
 
     private View view;
-    private SeekBar mSeekBar;
-    private ImageButton mPlayOrPause;
+    private SeekBar mSeekBar;//进度条
+    private ImageButton mPlayOrPause;//播放或者暂停按钮
     private PlayMusicContract.PlayPresenter mPlayPresenter;
     private boolean mUserTouchProgress = false;//用户是否触碰了进度条
     private ImageButton mPlayNext;
@@ -59,6 +59,9 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         return view;
     }
 
+    /**
+     * 初始化数据.
+     * */
     private void initData() {
         mSeekBar = view.findViewById(R.id.seek_bar);
         mPlayOrPause = view.findViewById(R.id.play_or_pause);
@@ -91,7 +94,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
                 int touchProgress = seekBar.getProgress();
 
                 if (mPlayPresenter != null) {
-                    mPlayPresenter.seekTo(touchProgress);
+                    mPlayPresenter.seekTo(touchProgress);//更新进度条
                 }
                 mUserTouchProgress = false;
             }
@@ -158,6 +161,9 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         downImage.loadImage(music.getPicUrl(), drawable -> mMusicPicture.setImageDrawable(drawable));
     }
 
+    /**
+     * 播放音乐出现错误时.
+     * */
     @Override
     public void showError() {
         Message message = Message.obtain();

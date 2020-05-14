@@ -25,6 +25,9 @@ import entity.SongList;
 import entity.User;
 import presenter.SongListPresenterImpl;
 
+/**
+ * 歌单列表的碎片.
+ * */
 public class SongListFragment extends Fragment implements SongListContract.OnSongListView{
     private View view;
     private User mUser;
@@ -82,6 +85,9 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
         });
     }
 
+    /**
+     * 设置歌单列表每一项的数据.
+     * */
     private void setListItem() {
         mSongListPresenter.getUserSongList(mUser.getId());
     }

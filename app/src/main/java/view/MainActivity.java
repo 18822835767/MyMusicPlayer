@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     private HomePageFragment mHomePageFragment = null;
     private SongListFragment mSongListFragment = null;
     private MusicFragment mMusicFragment = null;
-    
+
     //播放音乐的碎片(底部的播放栏).
     private PlayMusicFragment mPlayMusicFragment;
 
@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     private final int SHOW_HOME_PAGE = 0;
     private final int SHOW_SONG_LIST = 1;
     private final int SHOW_MUSIC = 2;
+    
+    //权限请求码
+    private final int REQUEST_CODE = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,17 +65,17 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         initData();
         initFragment(SHOW_HOME_PAGE);
 
-       checkPermission();
+        checkPermission();
     }
 
     /**
      * 权限的判断
-     * */
-    private void checkPermission(){
+     */
+    private void checkPermission() {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.
                 WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
         }
     }
 
@@ -85,15 +88,15 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         mUser = (User) intent.getSerializableExtra(LoginActivity.USER);
 
         mFragmentLinkedList = new LinkedList<>();
-        
+
         mPlayMusicFragment = (PlayMusicFragment) getSupportFragmentManager().findFragmentById
                 (R.id.play_music_fragment);
     }
 
     /**
      * 开启服务.
-     * */
-    private void initService(){
+     */
+    private void initService() {
         Intent intent = new Intent(MainActivity.this, PlayService.class);
         startService(intent);
     }
@@ -110,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         hideFragment(transaction);
         switch (index) {
+            //展示音乐首页
             case SHOW_HOME_PAGE:
                 if (mHomePageFragment == null) {
                     mHomePageFragment = new HomePageFragment();
@@ -125,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                     mFragmentLinkedList.addLast(mHomePageFragment);
                 }
                 break;
+            //展示歌单
             case SHOW_SONG_LIST:
                 if (mSongListFragment == null) {
                     mSongListFragment = new SongListFragment();
@@ -141,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                 }
 
                 break;
+            //展示音乐列表
             case SHOW_MUSIC:
                 if (mMusicFragment == null) {
                     mMusicFragment = new MusicFragment();
@@ -206,17 +212,19 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
 
     /**
      * 碎片通过调用该方法获得用户点击的歌单的id.
-     * @return
      */
     @Override
     public long getSongListId() {
         return mSongListId;
     }
 
+    /**
+     * 用户点击歌单中的音乐时，则调用碎片中相应的方法播放音乐.
+     * */
     @Override
     public void playMusics(List<Music> musics, int position) {
-        if(mPlayMusicFragment != null){
-            mPlayMusicFragment.playMusics(musics,position);
+        if (mPlayMusicFragment != null) {
+            mPlayMusicFragment.playMusics(musics, position);
         }
     }
 
@@ -237,10 +245,13 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         }
     }
 
+    /**
+     * 处理权限的结果.
+     * */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, 
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode == 1) {
+        if (requestCode == REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "拒绝权限将无法使用该程序", Toast.LENGTH_SHORT).show();
                 finish();

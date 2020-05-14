@@ -26,6 +26,7 @@ import androidx.viewpager.widget.ViewPager;
  * <p>
  * 通过无线循环实现。
  * 假如展示三张图片V1 V2 V3，那么程序中的图片实际上是V3 V1 V2 V3 V1。
+ * 暂时轮播项目中的资源文件.
  * </p>
  */
 public class BannerViewPager extends FrameLayout {
@@ -62,11 +63,13 @@ public class BannerViewPager extends FrameLayout {
             @Override
             public boolean handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
+                    //下一张图片
                     case START:
                         mViewPager.setCurrentItem(mCurrentItem + 1);
                         mHandler.removeCallbacks(runnable);
                         mHandler.postDelayed(runnable, mBannerTime);//在bannerTime后会调用runnable的run()
                         break;
+                    //不切换下一张图片
                     case STOP:
                         mSlideTime = 0;
                         mHandler.removeCallbacks(runnable);
@@ -198,12 +201,12 @@ public class BannerViewPager extends FrameLayout {
             switch (state) {
                 //自然滑动时
                 case ViewPager.SCROLL_STATE_IDLE:
-                    if(mCurrentItem == 0){
+                    if (mCurrentItem == 0) {
                         //滑动到最左边的那张时,重新设置图片
-                        mViewPager.setCurrentItem(mCount,false);
-                    }else if(mCurrentItem == mCount + 1){
+                        mViewPager.setCurrentItem(mCount, false);
+                    } else if (mCurrentItem == mCount + 1) {
                         //滑动到最右边的那张时,重新设置图片
-                        mViewPager.setCurrentItem(1,false);
+                        mViewPager.setCurrentItem(1, false);
                     }
                     break;
                 //用户用手去滑动时
@@ -220,19 +223,22 @@ public class BannerViewPager extends FrameLayout {
     /**
      * 负责小圆点的切换.
      * <p>
-     *     把当前正显示的图片的小圆点变红色.
+     * 把当前正显示的图片的小圆点变红色.
      * </p>
-     * */
+     */
     private void setIndicator(int position) {
-        for(int i = 0; i< mTips.length ; i++){
-            if(i == position){
+        for (int i = 0; i < mTips.length; i++) {
+            if (i == position) {
                 mTips[i].setBackgroundResource(R.drawable.red_circle);
-            }else{
+            } else {
                 mTips[i].setBackgroundResource(R.drawable.black_circle);
             }
         }
     }
 
+    /**
+     * ViewPager适配器.
+     * */
     class BannerAdapter extends PagerAdapter {
         @Override
         public int getCount() {

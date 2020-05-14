@@ -18,7 +18,6 @@ import com.example.mymusicplayer.R;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.OnLoginView {
 
-    private User mUser;//记录登陆的用户
     private EditText mUsername;
     private EditText mPassword;
     private Button mLogin;
@@ -39,36 +38,30 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
     private void initData(){
         mLoginPresenter = new LoginPresenterImpl(this);
         
-        mUsername = (EditText) findViewById(R.id.username);
-        mPassword = (EditText)findViewById(R.id.password);
-        mLogin = (Button)findViewById(R.id.login);
+        mUsername = findViewById(R.id.username);
+        mPassword = findViewById(R.id.password);
+        mLogin = findViewById(R.id.login);
         mProgressDialog = new ProgressDialog(LoginActivity.this);
     }
     
     private void initEvent(){
-        mLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLoginPresenter.login(mUsername.getText().toString(), mPassword.getText().toString());
-            }
-        });
+        mLogin.setOnClickListener(v -> mLoginPresenter.login(mUsername.getText().toString(), 
+                mPassword.getText().toString()));
     }
     
     @Override
     public void showSuccess(User user) {
-        this.mUser = user;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(LoginActivity.this,"登陆成功",Toast.LENGTH_SHORT).show();
+        //记录登陆的用户
+        runOnUiThread(() -> {
+            Toast.makeText(LoginActivity.this,"登陆成功",Toast.LENGTH_SHORT).show();
 
-                //跳转到音乐首页
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra(USER,user);
-                startActivity(intent);
-                
-                finish();
-            }
+            //跳转到音乐首页
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra(USER,user);
+            startActivity(intent);
+            
+            //销毁当前活动
+            finish();
         });
     }
 
