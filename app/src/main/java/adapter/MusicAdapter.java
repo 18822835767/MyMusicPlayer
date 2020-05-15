@@ -56,6 +56,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         return view;
     }
 
+    //todo 每个Adapter中都有一个内部类ViewHolder，有没有更优雅的方式实现所有adapter都使用同一个ViewHolder
     static class ViewHolder{
         ImageView imageView;
         TextView musicName;

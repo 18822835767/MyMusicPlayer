@@ -22,6 +22,8 @@ public class HttpUrlConnection {
     
     
     public static void sendHttpUrlConnection(String requestUrl, final HttpCallbackListener listener){
+        //todo 每一次发送请求，都得这样创建一个线程。
+        // 事实上在多线程操作中，直接构造一个线程用完就丢是很低效的，想想有没有办法解决
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -67,6 +69,7 @@ public class HttpUrlConnection {
                         listener.onFail();
                     }
                 }catch (Exception e){
+                    //todo 直接onError而不告知外界是出了什么错误，这样子不是很可取
                     listener.onError();
                 }finally {
                     if(connection != null){

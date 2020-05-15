@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
         runOnUiThread(() -> {
             Toast.makeText(LoginActivity.this,"登陆成功",Toast.LENGTH_SHORT).show();
 
+            //todo Activity的启动方式想想有没有更优雅的写法，降低activity之间的耦合
             //跳转到音乐首页
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.putExtra(USER,user);
@@ -103,6 +104,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
 
     @Override
     public void hideLoading() {
+        //todo 尽量不要直接就runOnUiThread，可以考虑设计一个线程调度工具。
+        // 了解一下Handler
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

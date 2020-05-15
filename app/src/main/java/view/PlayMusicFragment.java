@@ -123,6 +123,16 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
      */
     @Override
     public void onPlayStateChange(int state) {
+        //todo 其实是存在这种写法的
+        // switch(a){
+        //  case 1:
+        //      doSomething;
+        //      break;
+        //  case 2:
+        //  case 3:
+        //      doSomething;
+        //      break;
+        // }
         switch (state) {
             case PlayMusicContract.PlayPresenter.PLAY_STATE_PLAY:
                 //音乐在播放中，就把UI设置为"暂停"
@@ -184,12 +194,14 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         super.onDestroy();
     }
 
+    //todo 这里使用callback是否是想解决什么问题
+    // 想一下为什么会出现这个问题
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case FAIL:
-                    String message = (String) msg.obj; 
+                    String message = (String) msg.obj;
                     Toast.makeText(getActivity(), message,
                             Toast.LENGTH_SHORT).show();
                     break;

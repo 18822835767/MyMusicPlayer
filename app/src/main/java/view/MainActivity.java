@@ -27,6 +27,10 @@ import java.util.Map;
 /**
  * 程序的主界面.
  */
+//todo
+// 1.一般包名都是com.xxx.xxx.view什么的，而不是直接把分包放在src下的。
+// 你这个项目的包名应该是com.example.mymusicplayer吧
+// 2.app中出现了歌单歌曲的图片错位的问题，要好好解决一下
 public class MainActivity extends AppCompatActivity implements HomePageFragment.OnHomePageListener,
         SongListFragment.OnSongListListener, MusicFragment.OnMusicListener {
 
@@ -49,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     private long mSongListId = 0;
 
     //定义三个碎片所对应的值
+    //todo 常量一般用static final
+    // 而且可以考虑解决一下常量过于分散不好管理的问题
     private final int SHOW_HOME_PAGE = 0;
     private final int SHOW_SONG_LIST = 1;
     private final int SHOW_MUSIC = 2;
@@ -108,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
      * 碎片引用为null，则创建碎片.不为null,则直接通过transaction.show()
      * </p>
      */
+    //todo switch里面的逻辑重复性极高，这里的可优化空间还很大
     private void initFragment(int index) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -240,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
             //不止一个碎片，说明用户只是想返回上一个页面
             mFragmentLinkedList.removeLast();
             Fragment fragment = mFragmentLinkedList.getLast();
+            //todo 飘黄可以稍微处理一下
             int nowFragment = mMap.get(fragment);
             initFragment(nowFragment);
         }
@@ -258,4 +266,5 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
             }
         }
     }
+
 }
