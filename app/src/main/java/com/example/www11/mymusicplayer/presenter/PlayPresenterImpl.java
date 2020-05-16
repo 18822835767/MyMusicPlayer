@@ -2,8 +2,10 @@ package com.example.www11.mymusicplayer.presenter;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import java.io.IOException;
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -44,6 +46,12 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     private boolean mFirstPlay = true;//是否是第一次点击播放
     private boolean mReset = false;//判断用户是否调用了mediaPlayer的reset()
     private int mCurrentPosition = 0;//表示当前的播放位置
+
+    private final int ORDER_PLAY = 0;//列表循环播放
+    private final int RANDOM_PLAY = 1;//随机播放
+    private final int LOOP_PLAY = 2;//单曲循环
+
+    private int mPlayMode = ORDER_PLAY;//记录播放的方式，默认是列表循环
 
     @Override
     public void playOrPause() {
@@ -134,8 +142,8 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     /**
      * 监听，当MediaPlayer播放播放出错时.
      * <p>
-     *    如果是因为调用了reset()而出错，则不处理.
-     *    如果是因为播放出错，则给提示信息，自动播放下一首.
+     * 如果是因为调用了reset()而出错，则不处理.
+     * 如果是因为播放出错，则给提示信息，自动播放下一首.
      * </p>
      */
     @Override
@@ -173,10 +181,22 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
             return;
         }
 
-        if (mCurrentPosition == mMusics.size() - 1) {
-            mCurrentPosition = 0;
-        } else {
-            mCurrentPosition++;
+        switch (mPlayMode) {
+            //列表循环播放
+            case ORDER_PLAY:
+                if (mCurrentPosition == mMusics.size() - 1) {
+                    mCurrentPosition = 0;
+                } else {
+                    mCurrentPosition++;
+                }
+                break;
+            //随机播放
+            case RANDOM_PLAY:
+                mCurrentPosition = (int) (Math.random() * mMusics.size());
+                break;
+            //单曲循环不用做处理
+            default:
+                break;
         }
 
         initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
@@ -203,7 +223,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
 
     /**
      * 用户点击歌单中的某首歌播放时，主活动会调用这个方法.
-     * */
+     */
     @Override
     public void playMusic(List<Music> musics, int position) {
         mMusics = musics;
@@ -231,7 +251,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
 
     /**
      * 为PlayPresenter注册view接口.
-     * */
+     */
     @Override
     public void registOnPlayView(PlayMusicContract.OnPlayView onPlayView) {
         this.mOnPlayView = onPlayView;
@@ -266,7 +286,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
 
     /**
      * 更新进度条的位置.
-     * */
+     */
     private class SeekTimeTask extends TimerTask {
         @Override
         public void run() {
