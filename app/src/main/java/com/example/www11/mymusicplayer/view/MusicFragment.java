@@ -8,7 +8,6 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -17,12 +16,11 @@ import com.example.mymusicplayer.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.www11.mymusicplayer.adapter.MusicAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.www11.mymusicplayer.adapter.MusicAdapter2;
+import com.example.www11.mymusicplayer.adapter.MusicAdapter;
 import com.example.www11.mymusicplayer.contract.MusicContract;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.presenter.MusicPresenterImpl;
@@ -79,12 +77,8 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
     }
 
     private void initEvent(){
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mCallback.playMusics(mMusics,position);
-            }
-        });
+        mListView.setOnItemClickListener((parent, view, position, id) -> 
+                mCallback.playMusics(mMusics,position));
     }
 
     /**
@@ -131,10 +125,8 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
             switch (msg.what) {
                 case SUCCESS:
                     if(getActivity() != null){
-                        MusicAdapter2 adapter = new MusicAdapter2(getActivity(),
+                        MusicAdapter adapter = new MusicAdapter(getActivity(),
                                 R.layout.music_item, mMusics);
-//                        MusicAdapter adapter = new MusicAdapter(getActivity(),
-//                                R.layout.music_item, mMusics);
                         mListView.setAdapter(adapter);
                     }
                     break;

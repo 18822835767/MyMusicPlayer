@@ -15,14 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.www11.mymusicplayer.entity.SongList;
 import com.example.www11.mymusicplayer.util.BitmapWorkertask;
-import com.example.www11.mymusicplayer.util.DownImage;
+
 
 /**
  * 点击“我的歌单”时的ListView的适配器.
  * */
 public class SongListAdapter extends ArrayAdapter<SongList>{
     private int mResourceId;//子项布局的id
-    private DownImage downImage = DownImage.getInstance();//加载网络图片
     private ListView mListView;//歌单所在的listview
     private boolean scrolling = false;//listview是否处于滚动状态
     

@@ -1,5 +1,6 @@
 package com.example.www11.mymusicplayer.view;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,8 +23,7 @@ import androidx.fragment.app.Fragment;
 import com.example.www11.mymusicplayer.contract.PlayMusicContract;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.presenter.PlayPresenterImpl;
-import com.example.www11.mymusicplayer.util.DownImage;
-
+import com.example.www11.mymusicplayer.util.BitmapWorkertask;
 
 /**
  * 底部"音乐播放栏"的碎片.
@@ -39,8 +39,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     private ImageButton mPlayPre;
     private TextView mSingerName;
     private TextView mMusicName;
-    private ImageView mMusicPicture; 
-    private DownImage downImage = DownImage.getInstance();;
+    private ImageView mMusicPicture;
     
     private final int ERROR = 0;
     private final int SUCCESS = 1;
@@ -155,7 +154,16 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     public void showMusicInfo(Music music) {
         mMusicName.setText(music.getName());
         mSingerName.setText(music.getSingerName());
-        downImage.loadImage(music.getPicUrl(), drawable -> mMusicPicture.setImageDrawable(drawable));
+        BitmapWorkertask task = new BitmapWorkertask(mMusicPicture.getWidth(),
+                mMusicPicture.getHeight(), new BitmapWorkertask.ImageCallback() {
+            @Override
+            public void getDrawable(Drawable drawable) {
+                if(drawable != null){
+                    mMusicPicture.setImageDrawable(drawable);
+                }
+            }
+        });
+        task.execute(music.getPicUrl());
     }
 
     /**
