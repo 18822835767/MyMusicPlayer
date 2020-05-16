@@ -27,8 +27,6 @@ import java.util.Map;
 /**
  * 程序的主界面.
  */
-//todo
-// 2.app中出现了歌单歌曲的图片错位的问题，要好好解决一下
 public class MainActivity extends AppCompatActivity implements HomePageFragment.OnHomePageListener,
         SongListFragment.OnSongListListener, MusicFragment.OnMusicListener {
 
@@ -245,8 +243,13 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
             //不止一个碎片，说明用户只是想返回上一个页面
             mFragmentLinkedList.removeLast();
             Fragment fragment = mFragmentLinkedList.getLast();
-            //todo 飘黄可以稍微处理一下
-            int nowFragment = mMap.get(fragment);
+            int nowFragment = -1;
+            if(mMap != null){
+                Integer integer =  mMap.get(fragment);
+                if(integer != null){
+                    nowFragment = integer;
+                }
+            }
             initFragment(nowFragment);
         }
     }
