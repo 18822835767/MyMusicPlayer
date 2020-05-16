@@ -13,6 +13,8 @@ import java.util.TimerTask;
 
 import com.example.www11.mymusicplayer.contract.PlayMusicContract;
 import com.example.www11.mymusicplayer.entity.Music;
+import com.example.www11.mymusicplayer.view.PlayMusicFragment;
+
 
 /**
  * 因为要使播放器在服务中，又使播放器可以收到PlayMusicFragment，所以采取单例模式.
@@ -46,12 +48,8 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     private boolean mFirstPlay = true;//是否是第一次点击播放
     private boolean mReset = false;//判断用户是否调用了mediaPlayer的reset()
     private int mCurrentPosition = 0;//表示当前的播放位置
-
-    private final int ORDER_PLAY = 0;//列表循环播放
-    private final int RANDOM_PLAY = 1;//随机播放
-    private final int LOOP_PLAY = 2;//单曲循环
-
-    private int mPlayMode = ORDER_PLAY;//记录播放的方式，默认是列表循环
+    
+    private int mPlayMode = PlayMusicFragment.ORDER_PLAY;//记录播放的方式，默认是列表循环
 
     @Override
     public void playOrPause() {
@@ -183,7 +181,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
 
         switch (mPlayMode) {
             //列表循环播放
-            case ORDER_PLAY:
+            case PlayMusicFragment.ORDER_PLAY:
                 if (mCurrentPosition == mMusics.size() - 1) {
                     mCurrentPosition = 0;
                 } else {
@@ -191,7 +189,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
                 }
                 break;
             //随机播放
-            case RANDOM_PLAY:
+            case PlayMusicFragment.RANDOM_PLAY:
                 mCurrentPosition = (int) (Math.random() * mMusics.size());
                 break;
             //单曲循环不用做处理
@@ -257,6 +255,10 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
         this.mOnPlayView = onPlayView;
     }
 
+    public void changePlayMode(int mode){
+        mPlayMode = mode;
+    }
+    
     /**
      * 当音乐在播放的时候，开启TimerTask
      */
@@ -300,7 +302,8 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
             }
         }
     }
-
+    
+    
     public MediaPlayer getMediaPlayer() {
         return mMediaPlayer;
     }

@@ -40,10 +40,18 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     private TextView mSingerName;
     private TextView mMusicName;
     private ImageView mMusicPicture;
+    private ImageButton mPlayModeBtn;
     
+    //请求所对应的值
     private final int ERROR = 0;
     private final int SUCCESS = 1;
     private final int FAIL = 2;
+
+    public static final int ORDER_PLAY = 0;//列表循环播放
+    public static final int RANDOM_PLAY = 1;//随机播放
+    public static final int LOOP_PLAY = 2;//单曲循环
+
+    private int mPlayMode = ORDER_PLAY;//记录播放的方式，默认是列表循环
     
     @Nullable
     @Override
@@ -68,6 +76,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         mSingerName = view.findViewById(R.id.singer_name);
         mMusicName = view.findViewById(R.id.music_name);
         mMusicPicture = view.findViewById(R.id.music_picture);
+        mPlayModeBtn = view.findViewById(R.id.play_mode);
         
         mPlayPresenter = PlayPresenterImpl.getInstance();
         mPlayPresenter.registOnPlayView(this);
@@ -101,6 +110,32 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         mPlayOrPause.setOnClickListener(v -> {
             if (mPlayPresenter != null) {
                 mPlayPresenter.playOrPause();
+            }
+        });
+        
+        mPlayModeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (mPlayMode){
+                    case ORDER_PLAY:
+                        mPlayPresenter.changePlayMode(RANDOM_PLAY);
+                        Toast.makeText(getActivity(),"随机播放",Toast.LENGTH_SHORT).show();
+                        mPlayModeBtn.setBackgroundResource(R.drawable.random_play);
+                        mPlayMode = RANDOM_PLAY;
+                        break;
+                    case RANDOM_PLAY:
+                        mPlayPresenter.changePlayMode(LOOP_PLAY);
+                        Toast.makeText(getActivity(),"单曲循环",Toast.LENGTH_SHORT).show();
+                        mPlayModeBtn.setBackgroundResource(R.drawable.loop_play);
+                        mPlayMode = LOOP_PLAY;
+                        break;
+                    case LOOP_PLAY:
+                        mPlayPresenter.changePlayMode(ORDER_PLAY);
+                        Toast.makeText(getActivity(),"列表循环",Toast.LENGTH_SHORT).show();
+                        mPlayModeBtn.setBackgroundResource(R.drawable.order_play);
+                        mPlayMode = ORDER_PLAY;
+                        break;
+                }
             }
         });
         

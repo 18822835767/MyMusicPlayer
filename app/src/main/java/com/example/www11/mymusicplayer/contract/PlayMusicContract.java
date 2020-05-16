@@ -23,6 +23,7 @@ public interface PlayMusicContract {
         void playNext();
         void playPre();
         void playMusic(List<Music> musics,int position);//用户点播音乐时,传入歌所在的列表,以及该歌的位置
+        void changePlayMode(int mode);//改变音乐的播放状态
     }
 
     /**
