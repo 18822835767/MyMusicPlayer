@@ -51,35 +51,47 @@
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@id/music_picture"/>
     
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/play_control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/seek_bar"
-        android:gravity="center">
+        android:layout_below="@id/seek_bar">
         
         <ImageButton
             android:id="@+id/pre_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/pre_one" 
-            android:layout_marginEnd="20dp"/>
+            android:background="@drawable/pre_one"
+            android:layout_toStartOf="@id/play_or_pause"
+            android:layout_marginTop="8dp"/>
 
         <ImageButton
             android:id="@+id/play_or_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/music_play" />
-
-
+            android:background="@drawable/music_play" 
+            android:layout_centerInParent="true"
+            android:layout_marginRight="18dp"
+            android:layout_marginLeft="18dp"/>
+        
         <ImageButton
             android:id="@+id/next_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/next_one" 
-            android:layout_marginStart="20dp"/>
+            android:background="@drawable/next_one"
+            android:layout_toEndOf="@id/play_or_pause"
+            android:layout_marginTop="8dp"/>
         
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/play_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/order_play"
+            android:layout_toStartOf="@id/pre_one"
+            android:layout_marginEnd="40dp"
+            android:layout_marginTop="5dp"/>
+
+        
+    </RelativeLayout>
 
 </RelativeLayout>
