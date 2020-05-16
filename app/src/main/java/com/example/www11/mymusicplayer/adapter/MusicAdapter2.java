@@ -8,24 +8,23 @@ import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.mymusicplayer.R;
 import com.example.www11.mymusicplayer.entity.Music;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class MusicAdapter2 extends ArrayAdapter<Music> {
 
     private ListView mListView;
+    private boolean scrolling = false;
 
     /**
      * 图片缓存.
@@ -48,15 +47,17 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+//        Log.d("abcde", "1");
         if (mListView == null) {
             mListView = (ListView) parent;
+            mListView.setOnScrollListener(new MyScrListnear());
         }
-        
+
         String url = null;
-        View view = null;
-        ViewHolder viewHolder = null;
+        View view;
+        ViewHolder viewHolder;
         Music music = getItem(position);
-        
+
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.music_item, null);
             viewHolder = new ViewHolder();
@@ -68,15 +69,17 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        
-        if(music != null){
+
+        if (music != null) {
             url = music.getPicUrl();
-            viewHolder.image.setImageResource(R.drawable.empty_photo);
+            if (scrolling) {
+                viewHolder.image.setImageResource(R.drawable.empty_photo);
+            }
             viewHolder.image.setTag(music.getPicUrl());
             viewHolder.musicName.setText(music.getName());
             viewHolder.singerName.setText(music.getSingerName());
         }
-        
+
 //        BitmapDrawable drawable = getBitmapFromMemoryCache(url);
 //        if (drawable != null) {
 //            image.setImageDrawable(drawable);
@@ -150,5 +153,27 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
         TextView musicName;
         TextView singerName;
     }
+
+
+    public class MyScrListnear implements AbsListView.OnScrollListener {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            switch (scrollState) {
+                case AbsListView.OnScrollListener.SCROLL_STATE_IDLE://空闲状态
+                    scrolling = false;
+                    break;
+                case AbsListView.OnScrollListener.SCROLL_STATE_FLING://滚动状态
+                case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://触摸后滚动
+                    scrolling = true;
+                    break;
+            }
+        }
+        
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            //显示或者隐藏某些东西
+        }
+    }
+
 
 }

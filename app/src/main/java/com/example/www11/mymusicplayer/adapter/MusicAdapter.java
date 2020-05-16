@@ -1,6 +1,7 @@
 package com.example.www11.mymusicplayer.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+//        Log.d("abcde", "1");
         if(mListView == null){
             mListView = (ListView) parent;
         }

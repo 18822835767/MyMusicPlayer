@@ -122,27 +122,15 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
      */
     @Override
     public void onPlayStateChange(int state) {
-        //todo 其实是存在这种写法的
-        // switch(a){
-        //  case 1:
-        //      doSomething;
-        //      break;
-        //  case 2:
-        //  case 3:
-        //      doSomething;
-        //      break;
-        // }
         switch (state) {
+            //音乐在播放中，就把UI设置为"暂停"
             case PlayMusicContract.PlayPresenter.PLAY_STATE_PLAY:
-                //音乐在播放中，就把UI设置为"暂停"
                 mPlayOrPause.setBackgroundResource(R.drawable.music_pause);
                 break;
+            //音乐停止，就把UI设置为"播放"
+            //音乐暂停，就把UI设置为"播放"
             case PlayMusicContract.PlayPresenter.PLAY_STATE_PAUSE:
-                //音乐暂停，就把UI设置为"播放"
-                mPlayOrPause.setBackgroundResource(R.drawable.music_play);
-                break;
             case PlayMusicContract.PlayPresenter.PLAY_STATE_STOP:
-                //音乐停止，就把UI设置为"播放"
                 mPlayOrPause.setBackgroundResource(R.drawable.music_play);
                 break;
             default:

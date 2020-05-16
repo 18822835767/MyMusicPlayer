@@ -133,6 +133,8 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
                     if(getActivity() != null){
                         MusicAdapter2 adapter = new MusicAdapter2(getActivity(),
                                 R.layout.music_item, mMusics);
+//                        MusicAdapter adapter = new MusicAdapter(getActivity(),
+//                                R.layout.music_item, mMusics);
                         mListView.setAdapter(adapter);
                     }
                     break;
