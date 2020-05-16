@@ -26,8 +26,6 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
 
     private ListView mListView;//adapter所对应的listview
     private boolean scrolling = false;//listview是否处于滚动状态
-    private int mRequireWidth = 50;
-    private int mRequireHeight = 50;
 
     public MusicAdapter2(@NonNull Context context, int textViewResourceId, @NonNull List<Music> objects) {
         super(context, textViewResourceId, objects);
@@ -66,13 +64,15 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
                 viewHolder.image.setImageResource(R.drawable.empty_photo);
             }
             //为image做个tag
-            viewHolder.image.setTag(music.getPicUrl());
+            viewHolder.image.setTag(mImageUrl);
             viewHolder.musicName.setText(music.getName());
             viewHolder.singerName.setText(music.getSingerName());
         }
         
         //ImageCallback的回调。保证图片不错乱的关键代码.
-        BitmapWorkertask task = new BitmapWorkertask(mRequireWidth, mRequireHeight, drawable -> {
+        int requireWidth = viewHolder.image.getWidth();
+        int requireHeight = viewHolder.image.getHeight();
+        BitmapWorkertask task = new BitmapWorkertask(requireWidth, requireHeight, drawable -> {
             ImageView imageView = null;
             if (music != null) {
                 imageView = mListView.findViewWithTag(music.getPicUrl());
