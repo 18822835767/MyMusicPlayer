@@ -21,6 +21,8 @@ import com.example.www11.mymusicplayer.adapter.MusicAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.www11.mymusicplayer.adapter.MusicAdapter2;
 import com.example.www11.mymusicplayer.contract.MusicContract;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.presenter.MusicPresenterImpl;
@@ -129,7 +131,7 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
             switch (msg.what) {
                 case SUCCESS:
                     if(getActivity() != null){
-                        MusicAdapter adapter = new MusicAdapter(getActivity(),
+                        MusicAdapter2 adapter = new MusicAdapter2(getActivity(),
                                 R.layout.music_item, mMusics);
                         mListView.setAdapter(adapter);
                     }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.mymusicplayer.R;
@@ -23,6 +24,7 @@ import com.example.www11.mymusicplayer.util.DownImage;
 public class MusicAdapter extends ArrayAdapter<Music> {
     private int mResourceId;//子项布局的id
     private DownImage downImage = DownImage.getInstance();//用于加载网络图片
+    private ListView mListView;
 
     public MusicAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<Music> objects) {
         super(context, textViewResourceId, objects);
@@ -32,6 +34,9 @@ public class MusicAdapter extends ArrayAdapter<Music> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        if(mListView == null){
+            mListView = (ListView) parent;
+        }
         Music music = getItem(position);
         View view;
         MusicAdapter.ViewHolder viewHolder;
