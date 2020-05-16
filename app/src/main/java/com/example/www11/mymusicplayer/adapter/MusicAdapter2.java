@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,26 +51,37 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
         if (mListView == null) {
             mListView = (ListView) parent;
         }
+        
+        String url = null;
+        View view = null;
+        ViewHolder viewHolder = null;
         Music music = getItem(position);
-        String url = music.getPicUrl();
-        View view;
+        
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.music_item, null);
+            viewHolder = new ViewHolder();
+            viewHolder.image = view.findViewById(R.id.music_image);
+            viewHolder.musicName = view.findViewById(R.id.music_name);
+            viewHolder.singerName = view.findViewById(R.id.singer_name);
+            view.setTag(viewHolder);
         } else {
             view = convertView;
+            viewHolder = (ViewHolder) view.getTag();
         }
-        ImageView image = view.findViewById(R.id.music_image);
-        image.setImageResource(R.drawable.empty_photo);
-        image.setTag(music.getPicUrl());
-        TextView musicName = view.findViewById(R.id.music_name);
-        TextView singerName = view.findViewById(R.id.singer_name);
-        musicName.setText(music.getName());
-        singerName.setText(music.getSingerName());
+        
+        if(music != null){
+            url = music.getPicUrl();
+            viewHolder.image.setImageResource(R.drawable.empty_photo);
+            viewHolder.image.setTag(music.getPicUrl());
+            viewHolder.musicName.setText(music.getName());
+            viewHolder.singerName.setText(music.getSingerName());
+        }
+        
 //        BitmapDrawable drawable = getBitmapFromMemoryCache(url);
 //        if (drawable != null) {
 //            image.setImageDrawable(drawable);
 //        } else {
-        BitmapWorkertask task = new BitmapWorkertask(image);
+        BitmapWorkertask task = new BitmapWorkertask(viewHolder.image);
         task.execute(url);
 //        }
         return view;
@@ -133,5 +142,13 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
             }
             return bitmap;
         }
+
     }
+
+    static class ViewHolder {
+        ImageView image;
+        TextView musicName;
+        TextView singerName;
+    }
+
 }
