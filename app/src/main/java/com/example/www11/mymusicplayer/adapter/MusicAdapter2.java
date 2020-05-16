@@ -14,11 +14,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.example.mymusicplayer.R;
 import com.example.www11.mymusicplayer.entity.Music;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -28,9 +31,11 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
     private boolean scrolling = false;
 
     /**
-     * 图片缓存.
+     * 图片缓存,用于缓存已经加载好的图片，当图片所占空间达到给定的内存的最大值时，会自动地移除一些用的比较少
+     * 的图片.
      */
     private LruCache<String, BitmapDrawable> mMemoryCache;
+
     public MusicAdapter2(@NonNull Context context, int textViewResourceId, @NonNull List<Music> objects) {
         super(context, textViewResourceId, objects);
         //应用程序的最大可用内存
@@ -50,6 +55,7 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (mListView == null) {
             mListView = (ListView) parent;
+            //为listView设置滚动监听。
             mListView.setOnScrollListener(new MyScrListnear());
         }
 
@@ -72,31 +78,42 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
 
         if (music != null) {
             url = music.getPicUrl();
+            //如果处于滚动状态，就设置图片内容为"空白"
             if (scrolling) {
                 viewHolder.image.setImageResource(R.drawable.empty_photo);
             }
+            //为image做个tag
             viewHolder.image.setTag(music.getPicUrl());
             viewHolder.musicName.setText(music.getName());
             viewHolder.singerName.setText(music.getSingerName());
         }
 
+        //查找缓存中是否有需要的图片.
         BitmapDrawable drawable = getBitmapFromMemoryCache(url);
         if (drawable != null) {
+            //有的情况，直接设置
             viewHolder.image.setImageDrawable(drawable);
         } else {
-        BitmapWorkertask task = new BitmapWorkertask(viewHolder.image);
-        task.execute(url);
+            //没有的话，后台加载
+            BitmapWorkertask task = new BitmapWorkertask(viewHolder.image);
+            task.execute(url);
         }
         return view;
     }
 
-    public void addBitmapToMemoryCache(String key, BitmapDrawable drawable) {
+    /**
+     * 缓存中添加图片.
+     * */
+    private void addBitmapToMemoryCache(String key, BitmapDrawable drawable) {
         if (getBitmapFromMemoryCache(key) == null) {
             mMemoryCache.put(key, drawable);
         }
     }
 
-    public BitmapDrawable getBitmapFromMemoryCache(String key) {
+    /**
+     * 从缓冲中得到图片.
+     * */
+    private BitmapDrawable getBitmapFromMemoryCache(String key) {
         return mMemoryCache.get(key);
     }
 
@@ -109,6 +126,9 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
             mImageView = imageView;
         }
 
+        /**
+         * 加载图片并且添加到缓存中.
+         * */
         @Override
         protected BitmapDrawable doInBackground(String... params) {
             imageUrl = params[0];
@@ -119,6 +139,9 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
             return drawable;
         }
 
+        /**
+         * 为imageView设置图片.
+         * */
         @Override
         protected void onPostExecute(BitmapDrawable drawable) {
             ImageView imageView = mListView.findViewWithTag(imageUrl);
@@ -127,6 +150,9 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
             }
         }
 
+        /**
+         * 加载图片.
+         * */
         private Bitmap downloadBitmap(String imageUrl) {
             Bitmap bitmap = null;
             HttpURLConnection conn = null;
@@ -155,6 +181,9 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
     }
 
 
+    /**
+     * listView滚动状态的监听.
+     * */
     public class MyScrListnear implements AbsListView.OnScrollListener {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -168,10 +197,10 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
                     break;
             }
         }
-        
+
         @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            //显示或者隐藏某些东西
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, 
+                             int totalItemCount) {
         }
     }
 
