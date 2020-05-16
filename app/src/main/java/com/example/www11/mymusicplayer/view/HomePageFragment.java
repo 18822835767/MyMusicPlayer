@@ -65,14 +65,8 @@ public class HomePageFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.local_songs:
-                break;
-            case R.id.my_song_list:
-                mCallback.showSongList();
-                break;
-            default:
-                break;
+        if (v.getId() == R.id.my_song_list) {
+            mCallback.showSongList();
         }
     }
     
