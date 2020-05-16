@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,25 +30,24 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
     /**
      * 图片缓存.
      */
-//    private LruCache<String, BitmapDrawable> mMemoryCache;
+    private LruCache<String, BitmapDrawable> mMemoryCache;
     public MusicAdapter2(@NonNull Context context, int textViewResourceId, @NonNull List<Music> objects) {
         super(context, textViewResourceId, objects);
         //应用程序的最大可用内存
-//        int maxMemory = (int) Runtime.getRuntime().maxMemory();
+        int maxMemory = (int) Runtime.getRuntime().maxMemory();
         //给图片缓存分配的内存空间大小
-//        int cacheSize = maxMemory / 8;
-//        mMemoryCache = new LruCache<String, BitmapDrawable>(cacheSize) {
-//            @Override
-//            protected int sizeOf(String key, BitmapDrawable value) {
-//                return value.getBitmap().getByteCount();
-//            }
-//        };
+        int cacheSize = maxMemory / 8;
+        mMemoryCache = new LruCache<String, BitmapDrawable>(cacheSize) {
+            @Override
+            protected int sizeOf(String key, BitmapDrawable value) {
+                return value.getBitmap().getByteCount();
+            }
+        };
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//        Log.d("abcde", "1");
         if (mListView == null) {
             mListView = (ListView) parent;
             mListView.setOnScrollListener(new MyScrListnear());
@@ -80,25 +80,25 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
             viewHolder.singerName.setText(music.getSingerName());
         }
 
-//        BitmapDrawable drawable = getBitmapFromMemoryCache(url);
-//        if (drawable != null) {
-//            image.setImageDrawable(drawable);
-//        } else {
+        BitmapDrawable drawable = getBitmapFromMemoryCache(url);
+        if (drawable != null) {
+            viewHolder.image.setImageDrawable(drawable);
+        } else {
         BitmapWorkertask task = new BitmapWorkertask(viewHolder.image);
         task.execute(url);
-//        }
+        }
         return view;
     }
 
-//    public void addBitmapToMemoryCache(String key, BitmapDrawable drawable) {
-//        if (getBitmapFromMemoryCache(key) == null) {
-//            mMemoryCache.put(key, drawable);
-//        }
-//    }
+    public void addBitmapToMemoryCache(String key, BitmapDrawable drawable) {
+        if (getBitmapFromMemoryCache(key) == null) {
+            mMemoryCache.put(key, drawable);
+        }
+    }
 
-//    public BitmapDrawable getBitmapFromMemoryCache(String key) {
-//        return mMemoryCache.get(key);
-//    }
+    public BitmapDrawable getBitmapFromMemoryCache(String key) {
+        return mMemoryCache.get(key);
+    }
 
     class BitmapWorkertask extends AsyncTask<String, Void, BitmapDrawable> {
 
@@ -115,7 +115,7 @@ public class MusicAdapter2 extends ArrayAdapter<Music> {
             //在后台开始下载图片
             Bitmap bitmap = downloadBitmap(imageUrl);
             BitmapDrawable drawable = new BitmapDrawable(getContext().getResources(), bitmap);
-//            addBitmapToMemoryCache(imageUrl, drawable);
+            addBitmapToMemoryCache(imageUrl, drawable);
             return drawable;
         }
 
