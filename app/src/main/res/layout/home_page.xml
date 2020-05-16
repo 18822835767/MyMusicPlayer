@@ -34,7 +34,7 @@
 
     </LinearLayout>
     
-    <widget.BannerViewPager
+    <com.example.www11.mymusicplayer.widget.BannerViewPager
         android:id="@+id/banner_view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

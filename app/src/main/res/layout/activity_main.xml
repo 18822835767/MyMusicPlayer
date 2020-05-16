@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/play_music_fragment"
-        android:name="view.PlayMusicFragment"
+        android:name="com.example.www11.mymusicplayer.view.PlayMusicFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
