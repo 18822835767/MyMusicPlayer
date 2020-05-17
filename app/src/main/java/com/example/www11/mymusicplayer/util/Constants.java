@@ -77,12 +77,17 @@ public class Constants {
                 "https://p2.music.126.net/g86i59ugEFw2FgMXHtycUw==/109951164948362656.jpg",
                 "https://p2.music.126.net/stFBHt_dgFHAxvu8XPJpsg==/1699844976542443.jpg",
                 "https://p2.music.126.net/ghmbmEQS-IJfZPjdA3KGxg==/82463372084291.jpg",
-                "https://p1.music.126.net/JOJvZc_7SqQjKf8TktQ_bw==/29686813951246.jpg",
+                "https://p2.music.126.net/EJk4W-uJHhhVTeyGOXyV7Q==/64871186055838.jpg",
                 "https://p2.music.126.net/ZJvsIcd51VAZx3-YuEAcFQ==/18612532836965764.jpg",
                 "https://p2.music.126.net/v0LaYOX44ZiJjC1bzZbKOg==/109951163884032084.jpg",
                 "https://p1.music.126.net/SVVLu19lyd5-2fAkZUzJaA==/95657511628586.jpg",
                 "https://p1.music.126.net/z6RjWF1-xzHCSPsGJdCYzg==/84662395356387.jpg",
                 "https://p1.music.126.net/u-ZZ94osLvam_mFiVYOwBQ==/106652627911530.jpg"
         };
+
+        //网络请求的访问状态
+        public static final int SUCCESS = 0;
+        public static final int FAIL = 1;
+        public static final int ERROR = 2;
     }
 }

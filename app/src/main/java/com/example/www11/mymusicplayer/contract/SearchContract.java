@@ -37,6 +37,9 @@ public interface SearchContract {
      * 由SearchFragment去实现这个类.
      * */
     interface OnSearchView{
-        
+        /**
+         * 展示用户歌单.
+         * */
+        void showMusics(List<Music> music);
     }
 }
