@@ -22,7 +22,7 @@ public class HttpUrlConnection {
             @Override
             public void run() {
                 InputStream inputStream;
-                ByteArrayOutputStream byteArrayOutputStream = null;
+                ByteArrayOutputStream byteArrayOutputStream;
                 HttpURLConnection connection = null;
                 try{
                     listener.onStart();

@@ -13,7 +13,7 @@ public class ThreadPool {
         threadPool = Executors.newCachedThreadPool();
     }
     
-    public static ExecutorService getThreadPool(){
+    static ExecutorService getThreadPool(){
         return threadPool;
     }
     
