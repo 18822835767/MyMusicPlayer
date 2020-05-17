@@ -9,7 +9,7 @@ public interface HomePageContract {
      * HomePageModel接口，被HomePagePresenter调用.
      * */
     interface HomePageModel{
-        void getBanner();
+        void getBanner(HomePageContract.OnHomePageListener onHomePageListener);
     }
 
     /**
@@ -24,14 +24,14 @@ public interface HomePageContract {
         /**
          * 成功得到轮播图的图片.
          * */
-        void onSuccess(List<String> imageUrl);
+        void onSuccess(List<String> bannerUrl);
     }
     
     interface OnHomePageView{
         /**
          * 展示轮播图的图片.
          * */
-        void showBanner(List<String> imageUrl);
+        void showBanner(List<String> bannerUrl);
     }
     
 }
