@@ -75,8 +75,8 @@ public class Constants {
         public static final String [] IMAGE_URLS = {
                 "https://p2.music.126.net/636SSPpKW0avAqkK1QgzgQ==/43980465112096.jpg",
                 "https://p2.music.126.net/g86i59ugEFw2FgMXHtycUw==/109951164948362656.jpg",
-                "https://p2.music.126.net/stFBHt_dgFHAxvu8XPJpsg==/1699844976542443.jpg",
-                "https://p2.music.126.net/ghmbmEQS-IJfZPjdA3KGxg==/82463372084291.jpg",
+                "https://p1.music.126.net/g8Jei79i42iO_TohHR8_4g==/74766790706376.jpg",
+                "https://p1.music.126.net/ER31PgQ7xZTC7EV4IGwAaw==/54975581405893.jpg",
                 "https://p2.music.126.net/EJk4W-uJHhhVTeyGOXyV7Q==/64871186055838.jpg",
                 "https://p2.music.126.net/ZJvsIcd51VAZx3-YuEAcFQ==/18612532836965764.jpg",
                 "https://p2.music.126.net/v0LaYOX44ZiJjC1bzZbKOg==/109951163884032084.jpg",

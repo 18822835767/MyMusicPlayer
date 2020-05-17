@@ -47,8 +47,8 @@ public class SongListAdapter extends ArrayAdapter<SongList>{
         if(convertView == null){
             view = LayoutInflater.from(getContext()).inflate(mResourceId,parent,false);
             viewHolder = new ViewHolder();
-            viewHolder.image = (ImageView) view.findViewById(R.id.song_list_image);
-            viewHolder.textView =  (TextView)view.findViewById(R.id.song_list_name);
+            viewHolder.image = view.findViewById(R.id.song_list_image);
+            viewHolder.textView = view.findViewById(R.id.song_list_name);
             view.setTag(viewHolder);
         }else{
             view = convertView;
@@ -61,7 +61,7 @@ public class SongListAdapter extends ArrayAdapter<SongList>{
                 viewHolder.image.setImageResource(R.drawable.empty_photo);
             }
             //为image做个tag
-            viewHolder.image.setTag(mImageUrl);
+            viewHolder.image.setTag(songList.getId());
             
             viewHolder.textView.setText(songList.getName());
         }
@@ -72,7 +72,7 @@ public class SongListAdapter extends ArrayAdapter<SongList>{
         BitmapWorkertask task = new BitmapWorkertask(requireWidth, requireHeight, drawable -> {
             ImageView imageView = null;
             if (songList != null) {
-                imageView = mListView.findViewWithTag(songList.getCoverImgUrl());
+                imageView = mListView.findViewWithTag(songList.getId());
             }
 
             if (imageView != null && drawable != null) {

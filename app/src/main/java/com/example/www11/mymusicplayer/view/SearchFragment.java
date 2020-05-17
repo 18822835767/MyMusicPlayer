@@ -79,8 +79,8 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
             switch (msg.what){
                 case SUCCESS:
                     if(getActivity() != null){
-                        MusicAdapter adapter = new MusicAdapter(getActivity(),
-                                R.layout.music_item, mMusics);
+                        MusicAdapter adapter = new MusicAdapter(getActivity(),R.layout.music_item,
+                                mMusics);
                         mListView.setAdapter(adapter);
                     }
                     break;

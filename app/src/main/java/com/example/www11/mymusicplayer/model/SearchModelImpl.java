@@ -118,7 +118,7 @@ public class SearchModelImpl implements SearchContract.SearchModel {
             //获取歌手名字
             StringBuilder builder = new StringBuilder();
             for(int j=0;j<artists.length();j++){
-                builder.append(artists.getJSONObject(j).getString("name"));
+                builder.append(artists.getJSONObject(j).getString("name")).append(" ");
             }
             
             long id = songJson.getLong("id");

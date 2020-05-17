@@ -64,7 +64,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
                 viewHolder.image.setImageResource(R.drawable.empty_photo);
             }
             //为image做个tag
-            viewHolder.image.setTag(mImageUrl);
+            viewHolder.image.setTag(music.getId());
             viewHolder.musicName.setText(music.getName());
             viewHolder.singerName.setText(music.getSingerName());
         }
@@ -75,7 +75,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         BitmapWorkertask task = new BitmapWorkertask(requireWidth, requireHeight, drawable -> {
             ImageView imageView = null;
             if (music != null) {
-                imageView = mListView.findViewWithTag(music.getPicUrl());
+                imageView = mListView.findViewWithTag(music.getId());
             }
 
             if (imageView != null && drawable != null) {
