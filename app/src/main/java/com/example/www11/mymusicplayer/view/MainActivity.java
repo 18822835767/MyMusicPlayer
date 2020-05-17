@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.mymusicplayer.R;
+import com.example.www11.mymusicplayer.util.ThreadPool;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -101,8 +102,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         Intent intent = new Intent(MainActivity.this, PlayService.class);
         startService(intent);
     }
-
-
+    
     /**
      * 展示碎片.
      * <p>
@@ -288,6 +288,12 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                 finish();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ThreadPool.shutDownPool();
     }
 
 }
