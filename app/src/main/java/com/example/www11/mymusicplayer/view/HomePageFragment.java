@@ -50,7 +50,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener{
      * */
     private void initData() {
         //为轮播图设置数据
-        BannerViewPager banner = (BannerViewPager) view.findViewById(R.id.banner_view_pager);
+        BannerViewPager banner = view.findViewById(R.id.banner_view_pager);
         List<Integer> imageUrl = new ArrayList<>();
         imageUrl.add(R.drawable.one);
         imageUrl.add(R.drawable.two);

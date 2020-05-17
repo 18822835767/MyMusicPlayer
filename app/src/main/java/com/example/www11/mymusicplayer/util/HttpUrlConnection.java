@@ -16,62 +16,57 @@ import java.net.URL;
  * */
 public class HttpUrlConnection {
     public static void sendHttpUrlConnection(String requestUrl, final HttpCallbackListener listener){
-        //todo 每一次发送请求，都得这样创建一个线程。
-        // 事实上在多线程操作中，直接构造一个线程用完就丢是很低效的，想想有没有办法解决
-        ThreadPool.getThreadPool().execute(new Runnable() {
-            @Override
-            public void run() {
-                InputStream inputStream;
-                ByteArrayOutputStream byteArrayOutputStream;
-                HttpURLConnection connection = null;
-                try{
-                    listener.onStart();
-                    
-                    URL url = new URL(requestUrl);
-                    connection = (HttpURLConnection)url.openConnection();
-                    
-                    connection.setRequestMethod("GET");
-                    connection.setDoOutput(false);
-                    connection.setDoInput(true);
-                    
-                    connection.setReadTimeout(8000);
-                    connection.setConnectTimeout(8000);
-                    
-                    connection.connect();
-                    
-                    //获取响应状态
-                    int responseCode = connection.getResponseCode();
-                    
-                    if(HttpURLConnection.HTTP_OK == responseCode){
-                        inputStream = connection.getInputStream();
-                        byteArrayOutputStream = new ByteArrayOutputStream();
-                        int readLength;
-                        byte[] bytes = new byte[1024];//用于存放每次读取的数据
-                        while((readLength = inputStream.read(bytes)) != -1){
-                            byteArrayOutputStream.write(bytes,0,readLength);
-                        }
-                        String result = byteArrayOutputStream.toString();
+        ThreadPool.getThreadPool().execute(() -> {
+            InputStream inputStream;
+            ByteArrayOutputStream byteArrayOutputStream;
+            HttpURLConnection connection = null;
+            try{
+                listener.onStart();
+                
+                URL url = new URL(requestUrl);
+                connection = (HttpURLConnection)url.openConnection();
+                
+                connection.setRequestMethod("GET");
+                connection.setDoOutput(false);
+                connection.setDoInput(true);
+                
+                connection.setReadTimeout(8000);
+                connection.setConnectTimeout(8000);
+                
+                connection.connect();
+                
+                //获取响应状态
+                int responseCode = connection.getResponseCode();
+                
+                if(HttpURLConnection.HTTP_OK == responseCode){
+                    inputStream = connection.getInputStream();
+                    byteArrayOutputStream = new ByteArrayOutputStream();
+                    int readLength;
+                    byte[] bytes = new byte[1024];//用于存放每次读取的数据
+                    while((readLength = inputStream.read(bytes)) != -1){
+                        byteArrayOutputStream.write(bytes,0,readLength);
+                    }
+                    String result = byteArrayOutputStream.toString();
 
-                        //判断提交给服务器的数据是否正确
-                        if(handleCode(result) == 200){
-                            listener.onSuccess(result);
-                        }else{
-                            listener.onFail();
-                        }
-                        
+                    //判断提交给服务器的数据是否正确
+                    if(handleCode(result) == 200){
+                        listener.onSuccess(result);
                     }else{
                         listener.onFail();
                     }
-                }catch (Exception e){
-                    //todo 直接onError而不告知外界是出了什么错误，这样子不是很可取
-                    listener.onError();
-                }finally {
-                    if(connection != null){
-                        connection.disconnect();
-                    }
                     
-                    listener.onFinish();
+                }else{
+                    listener.onFail();
                 }
+            }catch (Exception e){
+                //todo 直接onError而不告知外界是出了什么错误，这样子不是很可取
+                listener.onError();
+            }finally {
+                if(connection != null){
+                    connection.disconnect();
+                }
+                
+                listener.onFinish();
             }
         });
     }

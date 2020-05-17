@@ -57,8 +57,8 @@ public class BannerViewPager extends FrameLayout {
      */
     private void init(Context context, AttributeSet attrs) {
         View view = LayoutInflater.from(context).inflate(R.layout.banner_view_pager, this);
-        mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        mIndicatorGroup = (LinearLayout) findViewById(R.id.indicator);
+        mViewPager = view.findViewById(R.id.view_pager);
+        mIndicatorGroup = findViewById(R.id.indicator);
         mHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(@NonNull Message msg) {
