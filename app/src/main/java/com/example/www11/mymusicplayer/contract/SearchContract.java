@@ -8,14 +8,14 @@ public interface SearchContract {
      * SearchModel接口，被SearchPresenter调用.
      * */
     interface SearchModel{
-        
+        void searchMusic(OnSearchListener onSearchListener,String musicName);
     }
     
     /**
      * SearchPresenter接口，被SearchFragment调用.
      * */
     interface SearchPresenter{
-        
+        void searchMusic(String musicName);
     }
     
     /**
