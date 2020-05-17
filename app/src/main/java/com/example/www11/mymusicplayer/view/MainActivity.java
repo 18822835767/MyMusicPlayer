@@ -36,7 +36,7 @@ import static com.example.www11.mymusicplayer.util.Constants.MainConstant.SHOW_S
  * 程序的主界面.
  */
 public class MainActivity extends AppCompatActivity implements HomePageFragment.OnHomePageListener,
-        SongListFragment.OnSongListListener, MusicFragment.OnMusicListener {
+        SongListFragment.OnSongListListener, MusicFragment.OnMusicListener, SearchFragment.OnSearchListener {
 
     //三个碎片
     private HomePageFragment mHomePageFragment = null;
