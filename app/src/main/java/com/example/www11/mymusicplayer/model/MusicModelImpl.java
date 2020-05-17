@@ -102,8 +102,10 @@ public class MusicModelImpl implements MusicContract.MusicModel {
         });
     }
 
-    @Override
-    public void handleMusicInfoJson(String dataMessage) throws JSONException {
+    /**
+     * JSON解析获得音乐的信息.
+     * */
+    private void handleMusicInfoJson(String dataMessage) throws JSONException {
         JSONObject jsonObject = new JSONObject(dataMessage);
         JSONObject playList = jsonObject.getJSONObject("playlist");
         JSONArray tracks = playList.getJSONArray("tracks");

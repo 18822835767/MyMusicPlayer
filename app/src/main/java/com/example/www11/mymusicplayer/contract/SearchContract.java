@@ -1,5 +1,11 @@
 package com.example.www11.mymusicplayer.contract;
 
+import com.example.www11.mymusicplayer.entity.Music;
+
+import org.json.JSONException;
+
+import java.util.List;
+
 /**
  * 搜索相关操作所对应的契约类.
  * */
@@ -23,7 +29,7 @@ public interface SearchContract {
      * SearchPresenter要去实现这个接口.
      * */
     interface OnSearchListener{
-        
+        void onSuccess(List<Music> musics);
     }
 
     /**

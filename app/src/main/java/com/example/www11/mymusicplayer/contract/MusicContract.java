@@ -10,7 +10,6 @@ public interface MusicContract {
      * */
     interface MusicModel{
         void getMusicList(OnMusicListener onMusicListener, long songListId);
-        void handleMusicInfoJson(String dataMessage) throws JSONException;
     }
 
     /**
