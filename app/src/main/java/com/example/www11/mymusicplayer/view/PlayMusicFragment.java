@@ -25,6 +25,16 @@ import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.presenter.PlayPresenterImpl;
 import com.example.www11.mymusicplayer.util.BitmapWorkertask;
 
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.LOOP_PLAY;
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.ORDER_PLAY;
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.PLAY_STATE_PAUSE;
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.PLAY_STATE_PLAY;
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.PLAY_STATE_STOP;
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.RANDOM_PLAY;
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.ERROR;
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.SUCCESS;
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.FAIL;
+
 /**
  * 底部"音乐播放栏"的碎片.
  */
@@ -42,15 +52,6 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     private ImageView mMusicPicture;
     private ImageButton mPlayModeBtn;
     
-    //请求所对应的值
-    private final int ERROR = 0;
-    private final int SUCCESS = 1;
-    private final int FAIL = 2;
-
-    public static final int ORDER_PLAY = 0;//列表循环播放
-    public static final int RANDOM_PLAY = 1;//随机播放
-    public static final int LOOP_PLAY = 2;//单曲循环
-
     private int mPlayMode = ORDER_PLAY;//记录播放的方式，默认是列表循环
     
     @Nullable
@@ -158,13 +159,13 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     public void onPlayStateChange(int state) {
         switch (state) {
             //音乐在播放中，就把UI设置为"暂停"
-            case PlayMusicContract.PlayPresenter.PLAY_STATE_PLAY:
+            case PLAY_STATE_PLAY:
                 mPlayOrPause.setBackgroundResource(R.drawable.music_pause);
                 break;
             //音乐停止，就把UI设置为"播放"
             //音乐暂停，就把UI设置为"播放"
-            case PlayMusicContract.PlayPresenter.PLAY_STATE_PAUSE:
-            case PlayMusicContract.PlayPresenter.PLAY_STATE_STOP:
+            case PLAY_STATE_PAUSE:
+            case PLAY_STATE_STOP:
                 mPlayOrPause.setBackgroundResource(R.drawable.music_play);
                 break;
             default:

@@ -13,7 +13,13 @@ import java.util.TimerTask;
 
 import com.example.www11.mymusicplayer.contract.PlayMusicContract;
 import com.example.www11.mymusicplayer.entity.Music;
-import com.example.www11.mymusicplayer.view.PlayMusicFragment;
+
+
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.ORDER_PLAY;
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.PLAY_STATE_PAUSE;
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.PLAY_STATE_PLAY;
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.PLAY_STATE_STOP;
+import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.RANDOM_PLAY;
 
 
 /**
@@ -49,7 +55,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     private boolean mReset = false;//判断用户是否调用了mediaPlayer的reset()
     private int mCurrentPosition = 0;//表示当前的播放位置
     
-    private int mPlayMode = PlayMusicFragment.ORDER_PLAY;//记录播放的方式，默认是列表循环
+    private int mPlayMode = ORDER_PLAY;//记录播放的方式，默认是列表循环
 
     @Override
     public void playOrPause() {
@@ -181,7 +187,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
 
         switch (mPlayMode) {
             //列表循环播放
-            case PlayMusicFragment.ORDER_PLAY:
+            case ORDER_PLAY:
                 if (mCurrentPosition == mMusics.size() - 1) {
                     mCurrentPosition = 0;
                 } else {
@@ -189,7 +195,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
                 }
                 break;
             //随机播放
-            case PlayMusicFragment.RANDOM_PLAY:
+            case RANDOM_PLAY:
                 mCurrentPosition = (int) (Math.random() * mMusics.size());
                 break;
             //单曲循环不用做处理

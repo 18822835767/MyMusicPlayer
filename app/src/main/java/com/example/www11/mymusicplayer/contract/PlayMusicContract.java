@@ -11,11 +11,6 @@ public interface PlayMusicContract {
      * 这是PlayPresenter接口，给PlayMusicFragment调用.
      * */
     interface PlayPresenter{
-        //表示播放状态
-        public static final int PLAY_STATE_PLAY = 1;//播放
-        public static final int PLAY_STATE_PAUSE = 2;//暂停
-        public static final int PLAY_STATE_STOP = 3;//停止
-        
         void playOrPause();//控制音乐的播放或者暂停
         void seekTo(int seek);//控制音乐的播放进度
         void registOnPlayView(OnPlayView onPlayView);
