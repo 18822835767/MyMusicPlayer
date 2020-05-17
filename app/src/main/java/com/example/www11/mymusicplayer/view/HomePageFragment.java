@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.mymusicplayer.R;
 
@@ -24,6 +25,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener{
     private Button mMySongList;//“我的歌单”按钮
     private View view;
     private OnHomePageListener mCallback;//碎片和活动通信的接口引用
+    private ImageButton mSearchBtn;//搜索的按钮
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -55,17 +57,26 @@ public class HomePageFragment extends Fragment implements View.OnClickListener{
         imageUrl.add(R.drawable.thr);
         banner.setData(imageUrl);
 
-        mMySongList = (Button) view.findViewById(R.id.my_song_list);
+        mMySongList = view.findViewById(R.id.my_song_list);
+        mSearchBtn = view.findViewById(R.id.search);
     }
 
     private void initEvent() {
         mMySongList.setOnClickListener(this);
+        mSearchBtn.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.my_song_list) {
-            mCallback.showSongList();
+        switch (v.getId()){
+            case R.id.my_song_list:
+                mCallback.showSongList();
+                break;
+            case R.id.search:
+                mCallback.showSearchPage();
+                break;
+            default:
+                break;
         }
     }
     
@@ -74,6 +85,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener{
      * MainActivity去实现，作为碎片和活动之间通信的回调接口.
      * */
     public interface OnHomePageListener {
-        void showSongList();
+        void showSongList();//展示歌单界面
+        void showSearchPage();//展示搜索界面
     }
 }

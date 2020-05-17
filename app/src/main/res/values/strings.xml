@@ -10,4 +10,6 @@
     <string name="local_music">本地音乐</string>
     <string name="music_name">歌曲名字</string>
     <string name="singer">歌手</string>
+    <string name="search">搜索</string>
+    <string name="search_hint">好听的歌曲</string>
 </resources>

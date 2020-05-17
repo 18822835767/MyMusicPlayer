@@ -213,6 +213,11 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         initFragment(SHOW_SONG_LIST);
     }
 
+    @Override
+    public void showSearchPage() {
+        initFragment(SHOW_SEARCH);
+    }
+
     /**
      * 展示某个歌单中的音乐"碎片".
      */
