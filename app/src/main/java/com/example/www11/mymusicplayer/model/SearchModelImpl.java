@@ -30,6 +30,8 @@ public class SearchModelImpl implements SearchContract.SearchModel {
                 new HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {
+                mMusics.clear();
+                
                 try {
                     handleMusicInfoJSON(dataMessage);
                 } catch (JSONException e) {
