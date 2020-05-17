@@ -13,11 +13,6 @@ import java.net.URL;
  * 发送网络请求.
  * */
 public class HttpUrlConnection {
-    private static String TAG = "HttpUrlConnection";
-    
-    private HttpCallbackListener mListener;
-    
-    
     public static void sendHttpUrlConnection(String requestUrl, final HttpCallbackListener listener){
         //todo 每一次发送请求，都得这样创建一个线程。
         // 事实上在多线程操作中，直接构造一个线程用完就丢是很低效的，想想有没有办法解决

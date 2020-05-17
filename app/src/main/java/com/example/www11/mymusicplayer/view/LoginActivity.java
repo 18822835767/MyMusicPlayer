@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.example.mymusicplayer.R;
 
+import static com.example.www11.mymusicplayer.util.Constants.LoginConstant.USER;
+
 public class LoginActivity extends AppCompatActivity implements LoginContract.OnLoginView {
 
     private EditText mUsername;
@@ -23,7 +25,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
     private LoginContract.LoginPresenter mLoginPresenter;
     private ProgressDialog mProgressDialog;
     
-    public static final String USER = "user";
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {

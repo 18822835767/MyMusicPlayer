@@ -24,6 +24,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.www11.mymusicplayer.util.Constants.LoginConstant.USER;
+import static com.example.www11.mymusicplayer.util.Constants.MainConstant.REQUEST_CODE;
+import static com.example.www11.mymusicplayer.util.Constants.MainConstant.SHOW_HOME_PAGE;
+import static com.example.www11.mymusicplayer.util.Constants.MainConstant.SHOW_MUSIC;
+import static com.example.www11.mymusicplayer.util.Constants.MainConstant.SHOW_SONG_LIST;
+
 /**
  * 程序的主界面.
  */
@@ -47,17 +53,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     private User mUser;
     //记录用户点击的歌单的id
     private long mSongListId = 0;
-
-    //定义三个碎片所对应的值
-    //todo 常量一般用static final
-    // 而且可以考虑解决一下常量过于分散不好管理的问题
-    private final int SHOW_HOME_PAGE = 0;
-    private final int SHOW_SONG_LIST = 1;
-    private final int SHOW_MUSIC = 2;
     
-    //权限请求码
-    private final int REQUEST_CODE = 50;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     private void initData() {
         //得到登陆的用户
         Intent intent = getIntent();
-        mUser = (User) intent.getSerializableExtra(LoginActivity.USER);
+        mUser = (User) intent.getSerializableExtra(USER);
 
         mFragmentLinkedList = new LinkedList<>();
 

@@ -25,6 +25,10 @@ import com.example.www11.mymusicplayer.contract.MusicContract;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.presenter.MusicPresenterImpl;
 
+import static com.example.www11.mymusicplayer.util.Constants.MusicConstant.ERROR;
+import static com.example.www11.mymusicplayer.util.Constants.MusicConstant.FAIL;
+import static com.example.www11.mymusicplayer.util.Constants.MusicConstant.SUCCESS;
+
 /**
  * 展示音乐列表.
  * */
@@ -32,16 +36,10 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
     private ListView mListView;//展示音乐列表.
     private MusicContract.MusicPresenter mMusicPresenter;
     private List<Music> mMusics;//保存列表中的音乐.
-    private static final String TAG = "MusicActivity";
     private View view;
     
     private OnMusicListener mCallback;//碎片和活动通信的接口引用
-
-    //网络请求的访问状态
-    private static final int SUCCESS = 0;
-    private static final int FAIL = 1;
-    private static final int ERROR = 2;
-
+    
     /**
      * 得到回调接口.
      * */

@@ -24,6 +24,10 @@ import com.example.www11.mymusicplayer.entity.SongList;
 import com.example.www11.mymusicplayer.entity.User;
 import com.example.www11.mymusicplayer.presenter.SongListPresenterImpl;
 
+import static com.example.www11.mymusicplayer.util.Constants.SongListConstant.ERROR;
+import static com.example.www11.mymusicplayer.util.Constants.SongListConstant.FAIL;
+import static com.example.www11.mymusicplayer.util.Constants.SongListConstant.SUCCESS;
+
 /**
  * 歌单列表的碎片.
  * */
@@ -34,16 +38,7 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
     private ListView mListView;
     private List<SongList> mSongLists;
     private OnSongListListener mCallback;//碎片和活动通信的接口引用
-
-    private final String TAG = "SongListActivity";
-    public static final String MUSIC = "music";
-    public static final String Fragment = "fragment";
     
-    //网络请求的访问状态
-    private static final int SUCCESS = 0;
-    private static final int FAIL = 1;
-    private static final int ERROR = 2;
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

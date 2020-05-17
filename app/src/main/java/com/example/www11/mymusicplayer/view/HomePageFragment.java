@@ -23,7 +23,6 @@ import com.example.www11.mymusicplayer.widget.BannerViewPager;
 public class HomePageFragment extends Fragment implements View.OnClickListener{
     private Button mMySongList;//“我的歌单”按钮
     private View view;
-    private int mSongListId;//当用户点击歌单时，记录歌单的id
     private OnHomePageListener mCallback;//碎片和活动通信的接口引用
 
     @Override

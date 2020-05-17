@@ -15,7 +15,6 @@ import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 public class SongListModelImpl implements SongListContract.SongListModel{
     private static final String SONG_LIST_URL = "http://182.254.170.97:3000/user/playlist?uid=";
     private List<SongList> mSongLists = new ArrayList<>();
-    private final String TAG = "SongListModelImpl";
     
     /**
      * 当用户点击"我的歌单"时，会加载歌单数据.
