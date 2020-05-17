@@ -61,6 +61,7 @@ public class Constants {
         public static final int SHOW_HOME_PAGE = 0;
         public static final int SHOW_SONG_LIST = 1;
         public static final int SHOW_MUSIC = 2;
+        public static final int SHOW_SEARCH = 3;
 
         //权限请求码
         public static final int REQUEST_CODE = 50;

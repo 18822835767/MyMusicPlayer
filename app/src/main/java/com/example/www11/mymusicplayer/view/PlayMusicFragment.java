@@ -148,7 +148,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     /**
      * 用户点击歌单中的歌曲时，MainActivity调用该方法
      * */
-    public void playMusics(List<Music> musics, int position){
+    void playMusics(List<Music> musics, int position){
         mPlayPresenter.playMusic(musics,position);
     }
 

@@ -158,5 +158,4 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
         //用户点击歌单中的歌曲时，就把歌单中的歌以及歌的位置传出去
         void playMusics(List<Music> musics,int position);
     }
-    
 }

@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.entity.User;
 import com.example.www11.mymusicplayer.service.PlayService;
@@ -28,6 +29,7 @@ import static com.example.www11.mymusicplayer.util.Constants.LoginConstant.USER;
 import static com.example.www11.mymusicplayer.util.Constants.MainConstant.REQUEST_CODE;
 import static com.example.www11.mymusicplayer.util.Constants.MainConstant.SHOW_HOME_PAGE;
 import static com.example.www11.mymusicplayer.util.Constants.MainConstant.SHOW_MUSIC;
+import static com.example.www11.mymusicplayer.util.Constants.MainConstant.SHOW_SEARCH;
 import static com.example.www11.mymusicplayer.util.Constants.MainConstant.SHOW_SONG_LIST;
 
 /**
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     private HomePageFragment mHomePageFragment = null;
     private SongListFragment mSongListFragment = null;
     private MusicFragment mMusicFragment = null;
+    private SearchFragment mSearchFragment = null;
 
     //播放音乐的碎片(底部的播放栏).
     private PlayMusicFragment mPlayMusicFragment;
@@ -53,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     private User mUser;
     //记录用户点击的歌单的id
     private long mSongListId = 0;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                 if (!mFragmentLinkedList.contains(mSongListFragment)) {
                     mFragmentLinkedList.addLast(mSongListFragment);
                 }
-
                 break;
             //展示音乐列表
             case SHOW_MUSIC:
@@ -161,6 +163,22 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                     mFragmentLinkedList.addLast(mMusicFragment);
                 }
 
+                break;
+            //展示搜索界面
+            case SHOW_SEARCH:
+                if (mSearchFragment == null) {
+                    mSearchFragment = new  SearchFragment();
+                    transaction.add(R.id.fragment_layout,  mSearchFragment);
+                    //保存碎片所对应的值
+                    mMap.put(mSearchFragment, SHOW_SEARCH);
+                } else {
+                    transaction.show(mSearchFragment);
+                }
+
+                //如果List不包含，则添加碎片
+                if (!mFragmentLinkedList.contains(mSearchFragment)) {
+                    mFragmentLinkedList.addLast(mSearchFragment);
+                }
                 break;
             default:
                 break;
@@ -181,6 +199,9 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         if (mMusicFragment != null) {
             transaction.hide(mMusicFragment);
             mMusicFragment = null;
+        }
+        if(mSearchFragment != null){
+            transaction.hide(mSearchFragment);
         }
     }
 
@@ -219,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
 
     /**
      * 用户点击歌单中的音乐时，则调用碎片中相应的方法播放音乐.
-     * */
+     */
     @Override
     public void playMusics(List<Music> musics, int position) {
         if (mPlayMusicFragment != null) {
@@ -240,9 +261,9 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
             mFragmentLinkedList.removeLast();
             Fragment fragment = mFragmentLinkedList.getLast();
             int nowFragment = -1;
-            if(mMap != null){
-                Integer integer =  mMap.get(fragment);
-                if(integer != null){
+            if (mMap != null) {
+                Integer integer = mMap.get(fragment);
+                if (integer != null) {
                     nowFragment = integer;
                 }
             }
@@ -252,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
 
     /**
      * 处理权限的结果.
-     * */
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
