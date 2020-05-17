@@ -1,5 +1,7 @@
 package com.example.www11.mymusicplayer.util;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,10 +18,10 @@ public class HttpUrlConnection {
     public static void sendHttpUrlConnection(String requestUrl, final HttpCallbackListener listener){
         //todo 每一次发送请求，都得这样创建一个线程。
         // 事实上在多线程操作中，直接构造一个线程用完就丢是很低效的，想想有没有办法解决
-        new Thread(new Runnable() {
+        ThreadPool.getThreadPool().execute(new Runnable() {
             @Override
             public void run() {
-                InputStream inputStream = null;
+                InputStream inputStream;
                 ByteArrayOutputStream byteArrayOutputStream = null;
                 HttpURLConnection connection = null;
                 try{
@@ -71,7 +73,7 @@ public class HttpUrlConnection {
                     listener.onFinish();
                 }
             }
-        }).start();
+        });
     }
 
     private static int handleCode(String dataMessage) throws JSONException {
