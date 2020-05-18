@@ -25,8 +25,8 @@ import androidx.annotation.Nullable;
 public class MusicAdapter extends ArrayAdapter<Music> {
 
     private ListView mListView;//adapter所对应的listview
-    private boolean scrolling = false;//listview是否处于滚动状态
-
+    private Boolean scrolling = false;//listview是否处于滚动状态
+    
     public MusicAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<Music> objects) {
         super(context, textViewResourceId, objects);
     }
@@ -37,7 +37,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         if (mListView == null) {
             mListView = (ListView) parent;
             //为listView设置滚动监听。
-            mListView.setOnScrollListener(new MyScrListnear());
+//            mListView.setOnScrollListener(new MyScrListnear());
         }
 
         View view;
@@ -88,27 +88,31 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         return view;
     }
     
-    /**
-     * listView滚动状态的监听.
-     */
-    public class MyScrListnear implements AbsListView.OnScrollListener {
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-            switch (scrollState) {
-                case AbsListView.OnScrollListener.SCROLL_STATE_IDLE://空闲状态
-                    scrolling = false;
-                    break;
-                case AbsListView.OnScrollListener.SCROLL_STATE_FLING://滚动状态
-                case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://触摸后滚动
-                    scrolling = true;
-                    break;
-            }
-        }
+//    /**
+//     * listView滚动状态的监听.
+//     */
+//    public class MyScrListnear implements AbsListView.OnScrollListener {
+//        @Override
+//        public void onScrollStateChanged(AbsListView view, int scrollState) {
+//            switch (scrollState) {
+//                case AbsListView.OnScrollListener.SCROLL_STATE_IDLE://空闲状态
+//                    scrolling = false;
+//                    break;
+//                case AbsListView.OnScrollListener.SCROLL_STATE_FLING://滚动状态
+//                case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://触摸后滚动
+//                    scrolling = true;
+//                    break;
+//            }
+//        }
+//
+//        @Override
+//        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+//                             int totalItemCount) {
+//        }
+//    }
 
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-                             int totalItemCount) {
-        }
+    public void setScrolling(Boolean scrolling) {
+        this.scrolling = scrolling;
     }
 
     static class ViewHolder {
