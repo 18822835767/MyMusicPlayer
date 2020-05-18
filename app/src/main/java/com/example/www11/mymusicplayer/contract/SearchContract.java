@@ -38,8 +38,13 @@ public interface SearchContract {
      * */
     interface OnSearchView{
         /**
-         * 展示用户歌单.
+         * 展示用户搜索得到的歌曲.
          * */
-        void showMusics(List<Music> music);
+        void showSearchMusics(List<Music> musics);
+        
+        /**
+         * 上拉刷新的时候调用，展示更多的歌曲.
+         * */
+        void loadMoreMusics(List<Music> musics);
     }
 }

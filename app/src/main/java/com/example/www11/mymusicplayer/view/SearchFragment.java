@@ -39,11 +39,13 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     private EditText mSearchContent;
     private Button mSearchBtn;
     private ListView mListView;
-    
+
     private static List<Music> mMusics;//存放搜索后得到的音乐列表
     private OnSearchListener mCallback;//碎片和活动通信的回调接口
     private Handler mHandler;
-
+    private int pageSize = 20; //分页加载的数量
+    private int currentPage = 1;//搜索界面当前是在第几面
+    
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -52,52 +54,63 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, 
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.search,container,false);
-        
+        view = inflater.inflate(R.layout.search, container, false);
+
         initData();
         initEvent();
-        
+
         return view;
     }
-    
-    private void initData(){
+
+    private void initData() {
         mSearchPresenter = new SearchPresenterImpl(this);
-        
+
         mSearchContent = view.findViewById(R.id.search_content);
         mSearchBtn = view.findViewById(R.id.search_btn);
         mListView = view.findViewById(R.id.music_list);
-        
-        mHandler = new MyHandler(getActivity(),mListView);
+
+        mHandler = new MyHandler(getActivity(), mListView);
     }
-    
-    private void initEvent(){
+
+    private void initEvent() {
         //搜索按钮的点击事件
         mSearchBtn.setOnClickListener(v -> {
             String content = mSearchContent.getText().toString().trim();
             mSearchPresenter.searchMusic(content);
         });
-        
-        mListView.setOnItemClickListener((parent, view, position, id) -> 
-                mCallback.playMusics(mMusics,position));
-        
-        
+
+        mListView.setOnItemClickListener((parent, view, position, id) ->
+                mCallback.playMusics(mMusics, position));
+
+
     }
 
+    /**
+     * 用户搜索音乐时回调该方法.
+     * */
     @Override
-    public void showMusics(List<Music> music) {
-        mMusics = music;
+    public void showSearchMusics(List<Music> musics) {
+        mMusics = musics;
         Message message = Message.obtain();
         message.what = Constants.MusicConstant.SUCCESS;
         mHandler.sendMessage(message);
+    }
+
+    /**
+     * 用户上拉刷新时，展示更多的歌曲.
+     * */
+    @Override
+    public void loadMoreMusics(List<Music> musics) {
+        
     }
 
     private static class MyHandler extends Handler {
         WeakReference<Activity> mActivity;
         WeakReference<ListView> mListView;
 
-        MyHandler(Activity activity,ListView listView) {
+        MyHandler(Activity activity, ListView listView) {
             mActivity = new WeakReference<>(activity);
             mListView = new WeakReference<>(listView);
         }
@@ -108,9 +121,9 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
             if (activity != null) {
                 switch (msg.what) {
                     case SUCCESS:
-                            MusicAdapter adapter = new MusicAdapter(activity,R.layout.music_item,
-                                    mMusics);
-                            mListView.get().setAdapter(adapter);
+                        MusicAdapter adapter = new MusicAdapter(activity, R.layout.music_item,
+                                mMusics);
+                        mListView.get().setAdapter(adapter);
                         break;
                     case FAIL:
                         break;
@@ -125,9 +138,9 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
 
     /**
      * MainActivity去实现，作为碎片和活动之间通信的回调接口.
-     * */
-    public interface OnSearchListener{
+     */
+    public interface OnSearchListener {
         //用户点击搜索的歌曲时，就把搜索列表中的歌以及歌的位置传出去
-        void playMusics(List<Music> musics,int position);
+        void playMusics(List<Music> musics, int position);
     }
 }

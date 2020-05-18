@@ -23,6 +23,6 @@ public class SearchPresenterImpl implements SearchContract.OnSearchListener,
 
     @Override
     public void onSuccess(List<Music> musics) {
-        mOnSearchView.showMusics(musics);
+        mOnSearchView.showSearchMusics(musics);
     }
 }
