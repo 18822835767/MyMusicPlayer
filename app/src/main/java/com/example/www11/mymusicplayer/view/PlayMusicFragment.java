@@ -1,5 +1,6 @@
 package com.example.www11.mymusicplayer.view;
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,11 +16,13 @@ import android.widget.Toast;
 
 import com.example.mymusicplayer.R;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import com.example.www11.mymusicplayer.contract.PlayMusicContract;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.presenter.PlayPresenterImpl;
@@ -51,9 +54,10 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     private TextView mMusicName;
     private ImageView mMusicPicture;
     private ImageButton mPlayModeBtn;
-    
+    private Handler mHandler;
+
     private int mPlayMode = ORDER_PLAY;//记录播放的方式，默认是列表循环
-    
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -68,7 +72,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
 
     /**
      * 初始化数据.
-     * */
+     */
     private void initData() {
         mSeekBar = view.findViewById(R.id.seek_bar);
         mPlayOrPause = view.findViewById(R.id.play_or_pause);
@@ -78,9 +82,11 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         mMusicName = view.findViewById(R.id.music_name);
         mMusicPicture = view.findViewById(R.id.music_picture);
         mPlayModeBtn = view.findViewById(R.id.play_mode);
-        
+
         mPlayPresenter = PlayPresenterImpl.getInstance();
         mPlayPresenter.registOnPlayView(this);
+
+        mHandler = new MyHandler(getActivity());
     }
 
     private void initEvent() {
@@ -113,43 +119,43 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
                 mPlayPresenter.playOrPause();
             }
         });
-        
+
         mPlayModeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (mPlayMode){
+                switch (mPlayMode) {
                     case ORDER_PLAY:
                         mPlayPresenter.changePlayMode(RANDOM_PLAY);
-                        Toast.makeText(getActivity(),"随机播放",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "随机播放", Toast.LENGTH_SHORT).show();
                         mPlayModeBtn.setBackgroundResource(R.drawable.random_play);
                         mPlayMode = RANDOM_PLAY;
                         break;
                     case RANDOM_PLAY:
                         mPlayPresenter.changePlayMode(LOOP_PLAY);
-                        Toast.makeText(getActivity(),"单曲循环",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "单曲循环", Toast.LENGTH_SHORT).show();
                         mPlayModeBtn.setBackgroundResource(R.drawable.loop_play);
                         mPlayMode = LOOP_PLAY;
                         break;
                     case LOOP_PLAY:
                         mPlayPresenter.changePlayMode(ORDER_PLAY);
-                        Toast.makeText(getActivity(),"列表循环",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "列表循环", Toast.LENGTH_SHORT).show();
                         mPlayModeBtn.setBackgroundResource(R.drawable.order_play);
                         mPlayMode = ORDER_PLAY;
                         break;
                 }
             }
         });
-        
+
         mPlayNext.setOnClickListener(v -> mPlayPresenter.playNext());
         mPlayPre.setOnClickListener(v -> mPlayPresenter.playPre());
 
     }
-    
+
     /**
      * 用户点击歌单中的歌曲时，MainActivity调用该方法
-     * */
-    void playMusics(List<Music> musics, int position){
-        mPlayPresenter.playMusic(musics,position);
+     */
+    void playMusics(List<Music> musics, int position) {
+        mPlayPresenter.playMusic(musics, position);
     }
 
     /**
@@ -185,7 +191,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
 
     /**
      * 底部播放栏，展示歌曲的信息：专辑图片，歌手名字，歌名.
-     * */
+     */
     @Override
     public void showMusicInfo(Music music) {
         mMusicName.setText(music.getName());
@@ -194,7 +200,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
                 mMusicPicture.getHeight(), new BitmapWorkertask.ImageCallback() {
             @Override
             public void getDrawable(Drawable drawable) {
-                if(drawable != null){
+                if (drawable != null) {
                     mMusicPicture.setImageDrawable(drawable);
                 }
             }
@@ -204,12 +210,12 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
 
     /**
      * 播放音乐出现错误时.
-     * */
+     */
     @Override
     public void showError() {
         Message message = Message.obtain();
         message.what = ERROR;
-        handler.sendMessage(message);
+        mHandler.sendMessage(message);
     }
 
     @Override
@@ -217,33 +223,39 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         Message message = Message.obtain();
         message.what = FAIL;
         message.obj = msg;
-        handler.sendMessage(message);
+        mHandler.sendMessage(message);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
     }
+    
+    private static class MyHandler extends Handler {
+        WeakReference<Activity> mWeakReference;
 
-    //todo 这里使用callback是否是想解决什么问题
-    // 想一下为什么会出现这个问题
-    private Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(@NonNull Message msg) {
-            switch (msg.what) {
-                case FAIL:
-                    String message = (String) msg.obj;
-                    Toast.makeText(getActivity(), message,
-                            Toast.LENGTH_SHORT).show();
-                    break;
-                case ERROR:
-                    Toast.makeText(getActivity(), "播放出现错误,自动为您播放下一首",
-                            Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    break;
-            }
-            return false;
+        MyHandler(Activity activity) {
+            mWeakReference = new WeakReference<>(activity);
         }
-    });
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            final Activity activity = mWeakReference.get();
+            if (activity != null) {
+                switch (msg.what) {
+                    case FAIL:
+                        String message = (String) msg.obj;
+                        Toast.makeText(activity, message,
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case ERROR:
+                        Toast.makeText(activity, "播放出现错误,自动为您播放下一首",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
 }

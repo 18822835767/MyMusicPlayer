@@ -1,5 +1,7 @@
 package com.example.www11.mymusicplayer.view;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.mymusicplayer.R;
 import com.example.www11.mymusicplayer.adapter.MusicAdapter;
@@ -19,6 +22,7 @@ import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.presenter.SearchPresenterImpl;
 import com.example.www11.mymusicplayer.util.Constants;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -36,8 +40,9 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     private Button mSearchBtn;
     private ListView mListView;
     
-    private List<Music> mMusics;//存放搜索后得到的音乐列表
+    private static List<Music> mMusics;//存放搜索后得到的音乐列表
     private OnSearchListener mCallback;//碎片和活动通信的回调接口
+    private Handler mHandler;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -63,6 +68,8 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
         mSearchContent = view.findViewById(R.id.search_content);
         mSearchBtn = view.findViewById(R.id.search_btn);
         mListView = view.findViewById(R.id.music_list);
+        
+        mHandler = new MyHandler(getActivity(),mListView);
     }
     
     private void initEvent(){
@@ -83,28 +90,38 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
         mMusics = music;
         Message message = Message.obtain();
         message.what = Constants.MusicConstant.SUCCESS;
-        handler.sendMessage(message);
+        mHandler.sendMessage(message);
     }
-    
-    private Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(@NonNull Message msg) {
-            switch (msg.what){
-                case SUCCESS:
-                    if(getActivity() != null){
-                        MusicAdapter adapter = new MusicAdapter(getActivity(),R.layout.music_item,
-                                mMusics);
-                        mListView.setAdapter(adapter);
-                    }
-                    break;
-                case FAIL:
-                    break;
-                case ERROR:
-                    break;
-            }
-            return false;
+
+    private static class MyHandler extends Handler {
+        WeakReference<Activity> mActivity;
+        WeakReference<ListView> mListView;
+
+        MyHandler(Activity activity,ListView listView) {
+            mActivity = new WeakReference<>(activity);
+            mListView = new WeakReference<>(listView);
         }
-    });
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            final Activity activity = mActivity.get();
+            if (activity != null) {
+                switch (msg.what) {
+                    case SUCCESS:
+                            MusicAdapter adapter = new MusicAdapter(activity,R.layout.music_item,
+                                    mMusics);
+                            mListView.get().setAdapter(adapter);
+                        break;
+                    case FAIL:
+                        break;
+                    case ERROR:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
 
     /**
      * MainActivity去实现，作为碎片和活动之间通信的回调接口.
