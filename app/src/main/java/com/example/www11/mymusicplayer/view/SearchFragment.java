@@ -1,7 +1,6 @@
 package com.example.www11.mymusicplayer.view;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,36 +8,32 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import com.example.mymusicplayer.R;
 import com.example.www11.mymusicplayer.adapter.MusicAdapter;
 import com.example.www11.mymusicplayer.contract.SearchContract;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.presenter.SearchPresenterImpl;
-import com.example.www11.mymusicplayer.util.Constants;
-
 import java.lang.ref.WeakReference;
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.ERROR;
 import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.FAIL;
 import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.SUCCESS;
 
-public class SearchFragment extends Fragment implements SearchContract.OnSearchView {
+public class SearchFragment extends Fragment implements SearchContract.OnSearchView, 
+        AbsListView.OnScrollListener {
     private View view;
     private SearchContract.SearchPresenter mSearchPresenter;
     private EditText mSearchContent;
     private Button mSearchBtn;
     private ListView mListView;
+    private View mFooterView;//上拉刷新时的底部view
 
     private static List<Music> mMusics;//存放搜索后得到的音乐列表
     private OnSearchListener mCallback;//碎片和活动通信的回调接口
@@ -46,6 +41,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     private int pageSize = 20; //分页加载的数量
     private int currentPage = 1;//搜索界面当前是在第几面
     private String mMusicName;//记录当前搜索的音乐的名字
+    private boolean loadFinishFlag = true;//上拉刷新时，是否已加载歌曲结束的标志
     
     @Override
     public void onAttach(@NonNull Context context) {
@@ -58,7 +54,8 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.search, container, false);
-
+        mFooterView = inflater.inflate(R.layout.footer,container,false);
+        
         initData();
         initEvent();
 
@@ -73,6 +70,8 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
         mListView = view.findViewById(R.id.music_list);
 
         mHandler = new MyHandler(getActivity(), mListView);
+        
+//        mListView.setOnScrollListener(this);//为listView设置滚动监听
     }
 
     private void initEvent() {
@@ -94,7 +93,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     public void showSearchMusics(List<Music> musics) {
         mMusics = musics;
         Message message = Message.obtain();
-        message.what = Constants.MusicConstant.SUCCESS;
+        message.what =SUCCESS;
         mHandler.sendMessage(message);
     }
 
@@ -103,7 +102,28 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
      * */
     @Override
     public void loadMoreMusics(List<Music> musics) {
-        
+        mMusics.addAll(musics);
+        Message message = Message.obtain();
+        message.what =SUCCESS;
+        mHandler.sendMessage(message);
+    }
+    
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {}
+
+    /**
+     * 正在滚动的时候调用该方法.
+     * */
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        //得到当前可见的最后一个item的下标,该item完全需要完全显现
+        int lastVisibleItem = mListView.getLastVisiblePosition();
+        if(lastVisibleItem + 1 == totalItemCount){//滚动到了最后一个
+            if(loadFinishFlag){//开始调用方法,加载。此处的标志，是为了防止多次加载。
+                loadFinishFlag = false;
+                mListView.addFooterView(mFooterView);
+            }
+        }
     }
 
     private static class MyHandler extends Handler {
