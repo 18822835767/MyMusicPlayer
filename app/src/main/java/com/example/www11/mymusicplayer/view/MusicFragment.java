@@ -9,6 +9,8 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.Adapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -34,14 +36,16 @@ import static com.example.www11.mymusicplayer.util.Constants.MusicConstant.SUCCE
 /**
  * 展示音乐列表.
  */
-public class MusicFragment extends Fragment implements MusicContract.OnMusicView {
+public class MusicFragment extends Fragment implements MusicContract.OnMusicView, 
+        AbsListView.OnScrollListener {
     private ListView mListView;//展示音乐列表.
     private MusicContract.MusicPresenter mMusicPresenter;
-    private static List<Music> mMusics;//保存列表中的音乐.
+    private static List<Music> mMusics = new ArrayList<>();//保存列表中的音乐.
     private View view;
 
     private OnMusicListener mCallback;//碎片和活动通信的接口引用
-    private Handler mHandler;
+    private MusicAdapter mAdapter;//适配器的引用变量
+    private MyHandler mHandler;//Handler
 
     /**
      * 得到回调接口.
@@ -74,8 +78,17 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
 
         mMusicPresenter = new MusicPresenterImpl(this);
 
+        //因为listview设置监听之前，需要先设置适配器，所以这里先设置适配器
+        if(getActivity() != null){
+            mAdapter = new MusicAdapter(getActivity(),R.layout.music_item,mMusics);
+        }
         mHandler = new MyHandler(getActivity(),mListView);
+        mListView.setAdapter(mAdapter);
+
+        //设置监听
+        mListView.setOnScrollListener(this);
         
+        //初始化音乐列表
         setMusicItem();
     }
 
@@ -96,7 +109,15 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
      */
     @Override
     public void showMusics(List<Music> musics) {
-        mMusics = musics;
+        mMusics.clear();
+        mMusics.addAll(musics);
+        //创建一个新的适配器
+        if(getActivity() != null){
+            mAdapter = new MusicAdapter(getActivity(),R.layout.music_item,mMusics);
+        }
+        //Handler类中设置新的适配器
+        mHandler.setAdapter(mAdapter);
+        
         Message message = Message.obtain();
         message.what = SUCCESS;
         mHandler.sendMessage(message);
@@ -122,24 +143,42 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
         mHandler.sendMessage(message);
     }
 
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        switch (scrollState) {
+            case AbsListView.OnScrollListener.SCROLL_STATE_IDLE://空闲状态
+                mAdapter.setScrolling(false);
+                break;
+            case AbsListView.OnScrollListener.SCROLL_STATE_FLING://滚动状态
+            case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://触摸后滚动
+                mAdapter.setScrolling(true);
+                break;
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+    }
+
     private static class MyHandler extends Handler {
-        WeakReference<Activity> mActivity;
-        WeakReference<ListView> mListView;
+        WeakReference<Activity> mWeekActivity;
+        WeakReference<ListView> mWeekListView;
+        WeakReference<Adapter> mWeekAdapter;
         
         MyHandler(Activity activity,ListView listView) {
-            mActivity = new WeakReference<>(activity);
-            mListView = new WeakReference<>(listView);
+            mWeekActivity = new WeakReference<>(activity);
+            mWeekListView = new WeakReference<>(listView);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            final Activity activity = mActivity.get();
+            final Activity activity = mWeekActivity.get();
             if (activity != null) {
                 switch (msg.what) {
                     case SUCCESS:
-                        MusicAdapter adapter = new MusicAdapter(activity,
-                                R.layout.music_item, mMusics);
-                        mListView.get().setAdapter(adapter);
+                        //设置新的适配器，刷新数据
+                        mWeekListView.get().setAdapter((MusicAdapter)mWeekAdapter.get());
                         break;
                     case FAIL:
                         Toast.makeText(activity, "请求失败",
@@ -157,6 +196,10 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
                         break;
                 }
             }
+        }
+
+        void setAdapter(MusicAdapter adapter){
+            mWeekAdapter = new WeakReference<>(adapter);
         }
     }
 

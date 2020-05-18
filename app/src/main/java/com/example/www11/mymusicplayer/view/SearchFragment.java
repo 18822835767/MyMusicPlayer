@@ -75,14 +75,16 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
         mSearchContent = view.findViewById(R.id.search_content);
         mSearchBtn = view.findViewById(R.id.search_btn);
         mListView = view.findViewById(R.id.music_list);
-        
+
+        //因为listview设置监听之前，需要先设置适配器，所以这里先设置适配器
         if(getActivity() != null){
             mAdapter = new MusicAdapter(getActivity(),R.layout.music_item,mMusics);
         }
         mHandler = new MyHandler(getActivity(), mListView);
         mHandler.setAdapter(mAdapter);
-        
-        mListView.setOnScrollListener(this);//为listView设置滚动监听
+
+        //设置监听
+        mListView.setOnScrollListener(this);
     }
 
     private void initEvent() {
@@ -104,10 +106,13 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     public void showSearchMusics(List<Music> musics) {
         mMusics.clear();
         mMusics.addAll(musics);
+        //创建一个新的适配器
         if(getActivity() != null){
             mAdapter = new MusicAdapter(getActivity(),R.layout.music_item,mMusics);
         }
+        //Handler类中设置新的适配器
         mHandler.setAdapter(mAdapter);
+
         Message message = Message.obtain();
         message.what =SUCCESS;
         mHandler.sendMessage(message);
@@ -168,6 +173,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
             if (activity != null) {
                 switch (msg.what) {
                     case SUCCESS:
+                        //设置新的适配器，刷新数据
                         mWeekListView.get().setAdapter((MusicAdapter)mWeekAdapter.get());
                         break;
                     case FAIL:
@@ -180,7 +186,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
             }
         }
         
-        public void setAdapter(MusicAdapter adapter){
+        void setAdapter(MusicAdapter adapter){
             mWeekAdapter = new WeakReference<>(adapter);
         }
         
