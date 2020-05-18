@@ -45,6 +45,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     private Handler mHandler;
     private int pageSize = 20; //分页加载的数量
     private int currentPage = 1;//搜索界面当前是在第几面
+    private String mMusicName;//记录当前搜索的音乐的名字
     
     @Override
     public void onAttach(@NonNull Context context) {
@@ -77,14 +78,13 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     private void initEvent() {
         //搜索按钮的点击事件
         mSearchBtn.setOnClickListener(v -> {
-            String content = mSearchContent.getText().toString().trim();
-            mSearchPresenter.searchMusic(content);
+            currentPage = 1;//每次搜索音乐时，重置当前所在的页数
+            mMusicName = mSearchContent.getText().toString().trim();
+            mSearchPresenter.searchMusic(mMusicName,pageSize,(currentPage-1)*pageSize);
         });
 
         mListView.setOnItemClickListener((parent, view, position, id) ->
                 mCallback.playMusics(mMusics, position));
-
-
     }
 
     /**

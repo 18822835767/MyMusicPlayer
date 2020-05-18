@@ -17,8 +17,8 @@ public class SearchPresenterImpl implements SearchContract.OnSearchListener,
     }
     
     @Override
-    public void searchMusic(String musicName) {
-        mSearchModel.searchMusic(this,musicName);
+    public void searchMusic(String musicName,int limit,int offset) {
+        mSearchModel.searchMusic(this,musicName,limit,offset);
     }
 
     @Override

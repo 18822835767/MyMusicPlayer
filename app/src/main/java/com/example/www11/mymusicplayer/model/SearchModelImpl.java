@@ -25,8 +25,10 @@ public class SearchModelImpl implements SearchContract.SearchModel {
     private List<Music> mMusics = new ArrayList<>();//存放搜索到的音乐的list
     
     @Override
-    public void searchMusic(SearchContract.OnSearchListener onSearchListener, String musicName) {
-        HttpUrlConnection.sendHttpUrlConnection(MUSIC_INFO + musicName, 
+    public void searchMusic(SearchContract.OnSearchListener onSearchListener, String musicName,
+            int limit,int offset) {
+        HttpUrlConnection.sendHttpUrlConnection(MUSIC_INFO + musicName+"&limit= "+
+                        limit+"&offset= "+offset, 
                 new HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {
