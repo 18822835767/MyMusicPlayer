@@ -86,8 +86,11 @@ public class Constants {
         };
 
         //网络请求的访问状态
-        public static final int SUCCESS = 0;
-        public static final int FAIL = 1;
-        public static final int ERROR = 2;
+        public static final int SEARCH_SUCCESS = 0;
+        public static final int SEARCH_FAIL = 1;
+        public static final int SEARCH_ERROR = 2;
+        
+        //加载更多歌曲对应的常量
+        public static final int LOAD_SUCCESS = 10;
     }
 }

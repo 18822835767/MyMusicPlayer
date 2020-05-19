@@ -5,16 +5,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import com.example.mymusicplayer.R;
 import com.example.www11.mymusicplayer.adapter.MusicAdapter;
@@ -27,9 +24,11 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.ERROR;
-import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.FAIL;
-import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.SUCCESS;
+
+import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.LOAD_SUCCESS;
+import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.SEARCH_ERROR;
+import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.SEARCH_FAIL;
+import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.SEARCH_SUCCESS;
 
 public class SearchFragment extends Fragment implements SearchContract.OnSearchView, 
         AbsListView.OnScrollListener {
@@ -42,8 +41,8 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
 
     private static List<Music> mMusics = new ArrayList<>();//存放搜索后得到的音乐列表
     private OnSearchListener mCallback;//碎片和活动通信的回调接口
-    private int pageSize = 20; //分页加载的数量
-    private int currentPage = 1;//搜索界面当前是在第几面
+    private int mPageSize = 20; //分页加载的数量
+    private int mCurrentPage = 1;//搜索界面当前是在第几面
     private String mMusicName;//记录当前搜索的音乐的名字
     private boolean loadFinishFlag = true;//上拉刷新时，是否已加载歌曲结束的标志
     private MusicAdapter mAdapter;
@@ -90,9 +89,9 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     private void initEvent() {
         //搜索按钮的点击事件
         mSearchBtn.setOnClickListener(v -> {
-            currentPage = 1;//每次搜索音乐时，重置当前所在的页数
+            mCurrentPage = 1;//每次搜索音乐时，重置当前所在的页数
             mMusicName = mSearchContent.getText().toString().trim();
-            mSearchPresenter.searchMusic(mMusicName,pageSize,(currentPage-1)*pageSize);
+            mSearchPresenter.searchOrLoadMusic(mMusicName, mPageSize,(mCurrentPage -1)* mPageSize);
         });
 
         mListView.setOnItemClickListener((parent, view, position, id) ->
@@ -114,7 +113,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
         mHandler.setAdapter(mAdapter);
 
         Message message = Message.obtain();
-        message.what =SUCCESS;
+        message.what = SEARCH_SUCCESS;
         mHandler.sendMessage(message);
     }
 
@@ -125,8 +124,12 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     public void loadMoreMusics(List<Music> musics) {
         mMusics.addAll(musics);
         Message message = Message.obtain();
-        message.what =SUCCESS;
+        message.what = LOAD_SUCCESS;
         mHandler.sendMessage(message);
+        
+        mListView.removeFooterView(mFooterView);
+        loadFinishFlag = true;
+        mCurrentPage++;
     }
 
     @Override
@@ -153,6 +156,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
             if(loadFinishFlag){//开始调用方法,加载。此处的标志，是为了防止多次加载。
                 loadFinishFlag = false;
                 mListView.addFooterView(mFooterView);
+                mSearchPresenter.searchOrLoadMusic(mMusicName, mPageSize,(mPageSize -1)* mPageSize);
             }
         }
     }
@@ -172,13 +176,16 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
             final Activity activity = mWeekActivity.get();
             if (activity != null) {
                 switch (msg.what) {
-                    case SUCCESS:
+                    case SEARCH_SUCCESS:
                         //设置新的适配器，刷新数据
                         mWeekListView.get().setAdapter((MusicAdapter)mWeekAdapter.get());
                         break;
-                    case FAIL:
+                    case SEARCH_FAIL:
                         break;
-                    case ERROR:
+                    case SEARCH_ERROR:
+                        break;
+                    case LOAD_SUCCESS:
+                        ((MusicAdapter)mWeekAdapter.get()).notifyDataSetChanged();
                         break;
                     default:
                         break;

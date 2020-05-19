@@ -14,14 +14,16 @@ public interface SearchContract {
      * SearchModel接口，被SearchPresenter调用.
      * */
     interface SearchModel{
-        void searchMusic(OnSearchListener onSearchListener,String musicName,int limit,int offset);
+        //搜索歌曲或者加载更多歌曲
+        void searchOrLoadMusic(OnSearchListener onSearchListener, String musicName, int limit, 
+                               int offset);
     }
     
     /**
      * SearchPresenter接口，被SearchFragment调用.
      * */
     interface SearchPresenter{
-        void searchMusic(String musicName,int limit,int offset);
+        void searchOrLoadMusic(String musicName, int limit, int offset);//搜索歌曲
     }
     
     /**
@@ -30,6 +32,7 @@ public interface SearchContract {
      * */
     interface OnSearchListener{
         void onSuccess(List<Music> musics);
+        void loadMoreMusics(List<Music> musics);
     }
 
     /**

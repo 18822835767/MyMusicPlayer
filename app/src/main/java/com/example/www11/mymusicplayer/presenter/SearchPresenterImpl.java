@@ -17,12 +17,17 @@ public class SearchPresenterImpl implements SearchContract.OnSearchListener,
     }
     
     @Override
-    public void searchMusic(String musicName,int limit,int offset) {
-        mSearchModel.searchMusic(this,musicName,limit,offset);
+    public void searchOrLoadMusic(String musicName, int limit, int offset) {
+        mSearchModel.searchOrLoadMusic(this,musicName,limit,offset);
     }
-
+    
     @Override
     public void onSuccess(List<Music> musics) {
         mOnSearchView.showSearchMusics(musics);
+    }
+
+    @Override
+    public void loadMoreMusics(List<Music> musics) {
+        mOnSearchView.loadMoreMusics(musics);
     }
 }
