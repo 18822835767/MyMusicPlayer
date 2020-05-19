@@ -31,7 +31,7 @@ public interface SearchContract {
      * SearchPresenter要去实现这个接口.
      * */
     interface OnSearchListener{
-        void onSuccess(List<Music> musics);
+        void onSuccess(int songCount,List<Music> musics);
         void loadMoreMusics(List<Music> musics);
     }
 
@@ -43,7 +43,7 @@ public interface SearchContract {
         /**
          * 展示用户搜索得到的歌曲.
          * */
-        void showSearchMusics(List<Music> musics);
+        void showSearchMusics(int songCount,List<Music> musics);
         
         /**
          * 上拉刷新的时候调用，展示更多的歌曲.

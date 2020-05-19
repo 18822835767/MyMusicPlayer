@@ -48,6 +48,8 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     private boolean loadFinishFlag = true;//上拉刷新时，是否已加载歌曲结束的标志
     private MusicAdapter mAdapter;
     private MyHandler mHandler;
+    private int mSongCount = 0;//记录搜索的歌曲的总量
+    private int mRemaining = 0;//记录搜索的歌曲还有多少未被加载
     
     @Override
     public void onAttach(@NonNull Context context) {
@@ -101,9 +103,11 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
      * 用户搜索音乐时回调该方法.
      * */
     @Override
-    public void showSearchMusics(List<Music> musics) {
+    public void showSearchMusics(int songCount,List<Music> musics) {
         mMusics.clear();
         mMusics.addAll(musics);
+        mSongCount = songCount;
+        mRemaining = mSongCount - mPageSize;
         //创建一个新的适配器
         if(getActivity() != null){
             mAdapter = new MusicAdapter(getActivity(),R.layout.music_item,mMusics);

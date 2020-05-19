@@ -22,8 +22,8 @@ public class SearchPresenterImpl implements SearchContract.OnSearchListener,
     }
     
     @Override
-    public void onSuccess(List<Music> musics) {
-        mOnSearchView.showSearchMusics(musics);
+    public void onSuccess(int songCount,List<Music> musics) {
+        mOnSearchView.showSearchMusics(songCount,musics);
     }
 
     @Override

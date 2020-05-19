@@ -46,7 +46,15 @@ public class SearchModelImpl implements SearchContract.SearchModel {
                 
                 if(offset == 0){
                     //偏移量为0，说明是搜索歌曲
-                    onSearchListener.onSuccess(mMusics);
+                    int songCount = 0;
+                    
+                    try {
+                        songCount = handleSongCount(dataMessage);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    
+                    onSearchListener.onSuccess(songCount,mMusics);
                 }else{
                     //偏移量不为0，说明是加载更多歌曲
                     onSearchListener.loadMoreMusics(mMusics);
