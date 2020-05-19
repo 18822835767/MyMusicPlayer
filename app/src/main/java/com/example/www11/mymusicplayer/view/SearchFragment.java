@@ -13,6 +13,8 @@ import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.example.mymusicplayer.R;
 import com.example.www11.mymusicplayer.adapter.MusicAdapter;
 import com.example.www11.mymusicplayer.contract.SearchContract;
@@ -37,7 +39,6 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     private EditText mSearchContent;
     private Button mSearchBtn;
     private ListView mListView;
-    private View mFooterView;//上拉刷新时的底部view
 
     private static List<Music> mMusics = new ArrayList<>();//存放搜索后得到的音乐列表
     private OnSearchListener mCallback;//碎片和活动通信的回调接口
@@ -59,8 +60,6 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.search, container, false);
-        mFooterView = getLayoutInflater().inflate(R.layout.footer,null);
-//        mFooterView = inflater.inflate(R.layout.footer,container,false);还不明白为什么这个不行
         
         initData();
         initEvent();
@@ -127,7 +126,6 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
         message.what = LOAD_SUCCESS;
         mHandler.sendMessage(message);
         
-        mListView.removeFooterView(mFooterView);
         loadFinishFlag = true;
         mCurrentPage++;
     }
@@ -155,7 +153,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
         if(lastVisibleItem + 1 == totalItemCount && mMusics.size() != 0){//滚动到了最后一个
             if(loadFinishFlag){//开始调用方法,加载。此处的标志，是为了防止多次加载。
                 loadFinishFlag = false;
-                mListView.addFooterView(mFooterView);
+                Toast.makeText(getActivity(),"加载新歌曲...",Toast.LENGTH_SHORT).show();
                 mSearchPresenter.searchOrLoadMusic(mMusicName, mPageSize,(mPageSize -1)* mPageSize);
             }
         }
