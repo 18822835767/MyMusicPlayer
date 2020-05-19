@@ -126,8 +126,8 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
         message.what = LOAD_SUCCESS;
         mHandler.sendMessage(message);
         
-        loadFinishFlag = true;
-        mCurrentPage++;
+        loadFinishFlag = true;//标志加载已结束
+        mCurrentPage++;//页数+1
     }
 
     @Override

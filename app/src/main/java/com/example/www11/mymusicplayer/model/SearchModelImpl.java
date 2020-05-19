@@ -159,4 +159,15 @@ public class SearchModelImpl implements SearchContract.SearchModel {
         //url不为null则正常获取，为null则返回字符串"null"
         return musicInfo.optString("url");
     }
+    
+    /**
+     * 返回搜索的歌曲的歌曲总量.
+     * */
+    private int handleSongCount(String dataMessage) throws JSONException {
+        JSONObject jsonObject = new JSONObject(dataMessage);
+        JSONObject result = jsonObject.getJSONObject("result");
+        
+        return result.getInt("songCount");
+    }
+    
 }
