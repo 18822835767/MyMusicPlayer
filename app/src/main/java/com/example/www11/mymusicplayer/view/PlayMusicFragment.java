@@ -196,16 +196,12 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     public void showMusicInfo(Music music) {
         mMusicName.setText(music.getName());
         mSingerName.setText(music.getSingerName());
-        DownloadImage task = new DownloadImage(mMusicPicture.getWidth(),
-                mMusicPicture.getHeight(), new DownloadImage.ImageCallback() {
-            @Override
-            public void getDrawable(Drawable drawable) {
-                if (drawable != null) {
-                    mMusicPicture.setImageDrawable(drawable);
-                }
+        DownloadImage down = new DownloadImage(drawable -> {
+            if (drawable != null) {
+                mMusicPicture.setImageDrawable(drawable);
             }
         });
-        task.execute(music.getPicUrl());
+        down.execute(music.getPicUrl());
     }
 
     /**

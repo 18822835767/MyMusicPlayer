@@ -5,11 +5,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.widget.ImageView;
-
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * 主要是为了加载ListView中的图片，保证不乱序.
+ * */
 public class BitmapWorkerTask extends AsyncTask<String, Void, BitmapDrawable> {
     public String imageUrl;//task关联的图片的url
     private WeakReference<ImageView> imageViewReference;//task关联imageView的弱引用

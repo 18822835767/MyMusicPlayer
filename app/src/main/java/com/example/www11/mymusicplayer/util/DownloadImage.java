@@ -5,21 +5,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * 可以用于下载单个图片.
+ * */
 public class DownloadImage extends AsyncTask<String, Void, BitmapDrawable> {
     private ImageCallback mImageCallback;//回调接口
-    private int mRequireWidth;//需要下载的图片的宽度
-    private int mRequireHeight;//需要下载的图片的高度
 
-    public DownloadImage(int requireWidth, int requireHeight, ImageCallback imageCallback) {
+    public DownloadImage(ImageCallback imageCallback) {
         mImageCallback = imageCallback;
-        mRequireWidth = requireWidth;
-        mRequireHeight = requireHeight;
     }
 
     /**
@@ -53,7 +49,7 @@ public class DownloadImage extends AsyncTask<String, Void, BitmapDrawable> {
             conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5 * 1000);
             conn.setReadTimeout(10 * 1000);
-            bitmap = decodeBitmapFromStream(conn.getInputStream(), mRequireWidth, mRequireHeight);
+            bitmap = BitmapFactory.decodeStream(conn.getInputStream());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -63,55 +59,7 @@ public class DownloadImage extends AsyncTask<String, Void, BitmapDrawable> {
         }
         return bitmap;
     }
-
-    /**
-     * 根据图片的实际大小以及所需要的大小计算图片的比率.
-     */
-    private int calculateInSampleSize(BitmapFactory.Options options, int requireWidth,
-                                      int requireHeight) {
-        int width = options.outWidth;//图片本来的宽度
-        int height = options.outHeight;//图片本来的高度
-        int inSampleSize = 1;
-        if (height > requireHeight || width > requireWidth) {
-            int heightRatio = Math.round((float) height / (float) requireHeight);
-            int widthRatio = Math.round((float) width / (float) requireWidth);
-            //返回小的比率，确保下载到的图片大小 > 需要的图片大小
-            inSampleSize = Math.min(heightRatio, widthRatio);
-        }
-        return inSampleSize;
-    }
-
-    /**
-     * 返回经压缩后的图片.
-     */
-    private Bitmap decodeBitmapFromStream(InputStream is, int requireWidth,
-                                          int requireHeight) throws IOException {
-        byte[] bytes = getInputStreamBytes(is);
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(is, null, options);
-        options.inSampleSize = calculateInSampleSize(options, requireWidth, requireHeight);
-        options.inJustDecodeBounds = false;
-
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
-    }
-
-    /**
-     * 通过InpustStream得到byte[]数组
-     */
-    private byte[] getInputStreamBytes(InputStream is) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = is.read(buffer)) != -1) {
-            baos.write(buffer, 0, length);
-        }
-        baos.flush();
-        return baos.toByteArray();
-    }
-
-
+    
     @FunctionalInterface
     public interface ImageCallback {
         void getDrawable(Drawable drawable);
