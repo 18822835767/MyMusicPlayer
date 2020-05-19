@@ -106,8 +106,10 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     public void showSearchMusics(int songCount,List<Music> musics) {
         mMusics.clear();
         mMusics.addAll(musics);
-        mSongCount = songCount;
-        mRemaining = mSongCount - mPageSize;
+        
+        mSongCount = songCount;//记录搜索的歌曲总数量
+        mRemaining = mSongCount - mPageSize;//记录剩余歌曲的总数
+        
         //创建一个新的适配器
         if(getActivity() != null){
             mAdapter = new MusicAdapter(getActivity(),R.layout.music_item,mMusics);
@@ -146,9 +148,21 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
         int lastVisibleItem = mListView.getLastVisiblePosition();
         if(lastVisibleItem + 1 == totalItemCount && mMusics.size() != 0){//滚动到了最后一个
             if(loadFinishFlag){//开始调用方法,加载。此处的标志，是为了防止多次加载。
-                loadFinishFlag = false;
-                Toast.makeText(getActivity(),"加载新歌曲...",Toast.LENGTH_SHORT).show();
-                mSearchPresenter.searchOrLoadMusic(mMusicName, mPageSize,(mPageSize -1)* mPageSize);
+                if(mRemaining >= mPageSize){
+                    //未加载的歌曲数目充足的情况下
+                    loadFinishFlag = false;
+                    Toast.makeText(getActivity(),"加载新歌曲...",Toast.LENGTH_SHORT).show();
+                    mSearchPresenter.searchOrLoadMusic(mMusicName, mPageSize,
+                            (mPageSize -1)* mPageSize);
+                    mRemaining = mRemaining - mPageSize;//剩余的未加载的歌曲数目
+                }else if(mRemaining > 0 && mRemaining < 20){
+                    //未加载的歌曲数目不足的情况下
+                    loadFinishFlag = false;
+                    Toast.makeText(getActivity(),"加载新歌曲...",Toast.LENGTH_SHORT).show();
+                    mSearchPresenter.searchOrLoadMusic(mMusicName, mPageSize,
+                            mRemaining);
+                    mRemaining = 0;//剩余的未加载的歌曲数目
+                }
             }
         }
     }
