@@ -27,7 +27,7 @@ import androidx.fragment.app.Fragment;
 import com.example.www11.mymusicplayer.contract.PlayMusicContract;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.presenter.PlayPresenterImpl;
-import com.example.www11.mymusicplayer.util.BitmapWorkertask;
+import com.example.www11.mymusicplayer.util.DownloadImage;
 
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.LOOP_PLAY;
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.ORDER_PLAY;
@@ -36,7 +36,6 @@ import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.P
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.PLAY_STATE_STOP;
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.RANDOM_PLAY;
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.ERROR;
-import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.SUCCESS;
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.FAIL;
 
 /**
@@ -197,8 +196,8 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     public void showMusicInfo(Music music) {
         mMusicName.setText(music.getName());
         mSingerName.setText(music.getSingerName());
-        BitmapWorkertask task = new BitmapWorkertask(mMusicPicture.getWidth(),
-                mMusicPicture.getHeight(), new BitmapWorkertask.ImageCallback() {
+        DownloadImage task = new DownloadImage(mMusicPicture.getWidth(),
+                mMusicPicture.getHeight(), new DownloadImage.ImageCallback() {
             @Override
             public void getDrawable(Drawable drawable) {
                 if (drawable != null) {

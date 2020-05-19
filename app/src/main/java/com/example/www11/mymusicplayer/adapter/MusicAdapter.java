@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,22 +13,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.mymusicplayer.R;
 import com.example.www11.mymusicplayer.entity.Music;
-import com.example.www11.mymusicplayer.util.ApplicationContext;
-import com.example.www11.mymusicplayer.util.BitmapWorkertask;
-
+import com.example.www11.mymusicplayer.util.BitmapWorkerTask;
 import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
- * 采用imageView和task(BitmapWorkTask2)双关联的方式来避免图片的乱序与闪图.
+ * 采用imageView和task(BitmapWorkTask)双关联的方式来避免图片的乱序与闪图.
  * imageView和task关联的方式式采用弱引用进行的，防止回收不了.
  * */
 public class MusicAdapter extends ArrayAdapter<Music> {
@@ -81,7 +74,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
          * */
         if (cancelPotentialWork(url, viewHolder.image)) {
             //新建请求图片的task，该task含有imageview的弱引用
-            BitmapWorkerTask2 task = new BitmapWorkerTask2(viewHolder.image);
+            BitmapWorkerTask task = new BitmapWorkerTask(viewHolder.image);
             //先给AsyncDrawable关联task的引用，imageview可以通过AsyncDrawable关联到task
             AsyncDrawable asyncDrawable = new AsyncDrawable(getContext().getResources(),
                     mLoadingBitmap, task);//先放入一张空白的图片
@@ -102,13 +95,13 @@ public class MusicAdapter extends ArrayAdapter<Music> {
      * </p>
      */
     private boolean cancelPotentialWork(String url, ImageView imageView) {
-        BitmapWorkerTask2 bitmapWorkerTask2 = getBitmapWorkerTask2(imageView);
-        if (bitmapWorkerTask2 != null) {
-            String imageUrl = bitmapWorkerTask2.imageUrl;
+        BitmapWorkerTask task = getBitmapWorkerTask(imageView);
+        if (task != null) {
+            String imageUrl = task.imageUrl;
             //将正在请求的url和需要使用的图片的url进行对比.
             if (imageUrl == null || !imageUrl.equals(url)) {
                 //url不一致的情况下，将任务取消
-                bitmapWorkerTask2.cancel(true);
+                task.cancel(true);
             } else {
                 //url一致的情况下，任务正常进行
                 return false;
@@ -126,12 +119,12 @@ public class MusicAdapter extends ArrayAdapter<Music> {
      * 相关的task,返回null.
      * </p>
      */
-    private BitmapWorkerTask2 getBitmapWorkerTask2(ImageView imageView) {
+    private BitmapWorkerTask getBitmapWorkerTask(ImageView imageView) {
         if (imageView != null) {
             Drawable drawable = imageView.getDrawable();//得到imageView当前的drawable
             if (drawable instanceof AsyncDrawable) {//此时正在执行图片请求的任务，有相关联的任务并返回
                 AsyncDrawable asyncDrawable = (AsyncDrawable) drawable;
-                return asyncDrawable.getBitmapWorkerTask2();
+                return asyncDrawable.getBitmapWorkerTask();
             }
         }
         //没有相关联的任务，imageView没有在执行请求任务，返回null.
@@ -146,68 +139,18 @@ public class MusicAdapter extends ArrayAdapter<Music> {
      *     请求图片的过程中,imageView可以通过该AsyncDrawable得到实时的关联的task.
      * </p>
      */
-    class AsyncDrawable extends BitmapDrawable {
+    static class AsyncDrawable extends BitmapDrawable {
         //task的弱引用
-        private WeakReference<BitmapWorkerTask2> bitmapWorkerTask2WeakReference;
+        private WeakReference<BitmapWorkerTask> bitmapWorkerTaskWeakReference;
 
-        AsyncDrawable(Resources res, Bitmap bitmap, BitmapWorkerTask2 bitmapWorkerTask2) {
+        AsyncDrawable(Resources res, Bitmap bitmap, BitmapWorkerTask bitmapWorkerTask) {
             super(res, bitmap);
-            bitmapWorkerTask2WeakReference = new WeakReference<>(bitmapWorkerTask2);
+            bitmapWorkerTaskWeakReference = new WeakReference<>(bitmapWorkerTask);
         }
 
         //得到task的引用
-        BitmapWorkerTask2 getBitmapWorkerTask2() {
-            return bitmapWorkerTask2WeakReference.get();
-        }
-    }
-
-
-    class BitmapWorkerTask2 extends AsyncTask<String, Void, BitmapDrawable> {
-        String imageUrl;//task关联的图片的url
-        private WeakReference<ImageView> imageViewReference;//task关联imageView的弱引用
-
-        BitmapWorkerTask2(ImageView imageView) {
-            imageViewReference = new WeakReference<>(imageView);//构造函数中传入imageView
-        }
-
-        @Override
-        protected BitmapDrawable doInBackground(String... strings) {
-            String mImageUrl = strings[0];//图片的url
-            //在后台开始下载图片
-            Bitmap bitmap = downloadBitmap(mImageUrl);
-            //返回得到的下载后的图片
-            return new BitmapDrawable(ApplicationContext.getContext().getResources(),
-                    bitmap);
-        }
-
-        /**
-         * 根据得到的图片drawableBitmap为ImageView设定drawable.
-         */
-        @Override
-        protected void onPostExecute(BitmapDrawable drawable) {
-            imageViewReference.get().setImageDrawable(drawable);
-        }
-
-        /**
-         * 执行图片的下载任务.
-         */
-        private Bitmap downloadBitmap(String imageUrl) {
-            Bitmap bitmap = null;
-            HttpURLConnection conn = null;
-            try {
-                URL url = new URL(imageUrl);
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setConnectTimeout(5 * 1000);
-                conn.setReadTimeout(10 * 1000);
-                bitmap = BitmapFactory.decodeStream(conn.getInputStream());
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (conn != null) {
-                    conn.disconnect();
-                }
-            }
-            return bitmap;
+        BitmapWorkerTask getBitmapWorkerTask() {
+            return bitmapWorkerTaskWeakReference.get();
         }
     }
     
@@ -216,5 +159,4 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         TextView musicName;
         TextView singerName;
     }
-
 }

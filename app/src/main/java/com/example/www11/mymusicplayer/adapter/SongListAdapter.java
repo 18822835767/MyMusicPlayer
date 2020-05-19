@@ -14,7 +14,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.www11.mymusicplayer.entity.SongList;
-import com.example.www11.mymusicplayer.util.BitmapWorkertask;
+import com.example.www11.mymusicplayer.util.DownloadImage;
 
 
 /**
@@ -69,7 +69,7 @@ public class SongListAdapter extends ArrayAdapter<SongList>{
         //ImageCallback的回调。保证图片不错乱的关键代码.
         int requireWidth = viewHolder.image.getWidth();
         int requireHeight = viewHolder.image.getHeight();
-        BitmapWorkertask task = new BitmapWorkertask(requireWidth, requireHeight, drawable -> {
+        DownloadImage task = new DownloadImage(requireWidth, requireHeight, drawable -> {
             ImageView imageView = null;
             if (songList != null) {
                 imageView = mListView.findViewWithTag(songList.getId());

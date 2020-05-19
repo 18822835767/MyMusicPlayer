@@ -14,12 +14,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class BitmapWorkertask extends AsyncTask<String, Void, BitmapDrawable> {
+public class DownloadImage extends AsyncTask<String, Void, BitmapDrawable> {
     private ImageCallback mImageCallback;//回调接口
     private int mRequireWidth;//需要下载的图片的宽度
     private int mRequireHeight;//需要下载的图片的高度
 
-    public BitmapWorkertask(int requireWidth, int requireHeight, ImageCallback imageCallback) {
+    public DownloadImage(int requireWidth, int requireHeight, ImageCallback imageCallback) {
         mImageCallback = imageCallback;
         mRequireWidth = requireWidth;
         mRequireHeight = requireHeight;
