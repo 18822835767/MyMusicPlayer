@@ -8,6 +8,7 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -45,7 +46,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
 
     private View view;
     private SeekBar mSeekBar;//进度条
-    private ImageButton mPlayOrPause;//播放或者暂停按钮
+    private Button mPlayOrPause;//播放或者暂停按钮
     private PlayMusicContract.PlayPresenter mPlayPresenter;
     private boolean mUserTouchProgress = false;//用户是否触碰了进度条
     private ImageButton mPlayNext;
@@ -166,13 +167,13 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         switch (state) {
             //音乐在播放中，就把UI设置为"暂停"
             case PLAY_STATE_PLAY:
-                mPlayOrPause.setBackgroundResource(R.drawable.music_pause);
+                mPlayOrPause.setText("暂停");
                 break;
             //音乐停止，就把UI设置为"播放"
             //音乐暂停，就把UI设置为"播放"
             case PLAY_STATE_PAUSE:
             case PLAY_STATE_STOP:
-                mPlayOrPause.setBackgroundResource(R.drawable.music_play);
+                mPlayOrPause.setText("播放");
                 break;
             default:
                 break;

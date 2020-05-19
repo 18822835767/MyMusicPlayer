@@ -63,16 +63,17 @@
             android:layout_height="wrap_content"
             android:background="@drawable/pre_one"
             android:layout_toStartOf="@id/play_or_pause"
-            android:layout_marginTop="8dp"/>
-
-        <ImageButton
+            android:layout_marginTop="5dp"/>
+        
+        <Button
             android:id="@+id/play_or_pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/music_play" 
+            android:layout_width="60dp"
+            android:layout_height="35dp"
             android:layout_centerInParent="true"
-            android:layout_marginRight="18dp"
-            android:layout_marginLeft="18dp"/>
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/music_play"
+            android:background="#E0FFFF"/>
         
         <ImageButton
             android:id="@+id/next_one"
@@ -80,7 +81,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/next_one"
             android:layout_toEndOf="@id/play_or_pause"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="6dp"/>
         
         <ImageButton
             android:id="@+id/play_mode"
@@ -89,7 +90,7 @@
             android:background="@drawable/order_play"
             android:layout_toStartOf="@id/pre_one"
             android:layout_marginEnd="40dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="15dp"/>
 
         
     </RelativeLayout>

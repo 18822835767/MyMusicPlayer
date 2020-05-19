@@ -35,7 +35,6 @@ import androidx.annotation.Nullable;
 public class MusicAdapter extends ArrayAdapter<Music> {
 
     private ListView mListView;//adapter所对应的listview
-    private Boolean scrolling = false;//listview是否处于滚动状态
     private Bitmap mLoadingBitmap;
 
     public MusicAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<Music> objects) {
@@ -211,14 +210,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
             return bitmap;
         }
     }
-
-    /**
-     * 设定listView滚动的时候的状态.
-     */
-    public void setScrolling(Boolean scrolling) {
-        this.scrolling = scrolling;
-    }
-
+    
     static class ViewHolder {
         ImageView image;
         TextView musicName;

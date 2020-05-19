@@ -131,17 +131,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        switch (scrollState) {
-            case AbsListView.OnScrollListener.SCROLL_STATE_IDLE://空闲状态
-                mAdapter.setScrolling(false);
-                break;
-            case AbsListView.OnScrollListener.SCROLL_STATE_FLING://滚动状态
-            case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://触摸后滚动
-                mAdapter.setScrolling(true);
-                break;
-        }
-    }
+    public void onScrollStateChanged(AbsListView view, int scrollState) {}
 
     /**
      * 正在滚动的时候调用该方法.
