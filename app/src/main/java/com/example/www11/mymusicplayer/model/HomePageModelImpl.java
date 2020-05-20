@@ -1,6 +1,11 @@
 package com.example.www11.mymusicplayer.model;
 
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
 import com.example.www11.mymusicplayer.contract.HomePageContract;
+import com.example.www11.mymusicplayer.util.ApplicationContext;
+import com.example.www11.mymusicplayer.util.DownloadImage;
 import com.example.www11.mymusicplayer.util.HttpCallbackListener;
 import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
@@ -15,6 +20,7 @@ import static com.example.www11.mymusicplayer.util.Constants.URLConstant.BANNER_
 
 public class HomePageModelImpl implements HomePageContract.HomePageModel {
     private List<String> mBannerUrl = new ArrayList<>();
+    private List<ImageView> mImageList = new ArrayList<>();//存放轮播图得到的图片
    
     @Override
     public void getBanner(HomePageContract.OnHomePageListener onHomePageListener) {
@@ -26,6 +32,15 @@ public class HomePageModelImpl implements HomePageContract.HomePageModel {
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
+                
+               for(int i=0;i<mBannerUrl.size();i++){
+                   DownloadImage down = new DownloadImage(drawable -> {
+                       ImageView imageView = new ImageView(ApplicationContext.getContext());
+                       imageView.setImageDrawable(drawable);
+                       mImageList.add(imageView);
+                   });
+                   down.execute(mBannerUrl.get(i));
+               }
                 
                 onHomePageListener.onSuccess(mBannerUrl);
             }
