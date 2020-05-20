@@ -11,8 +11,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.www11.mymusicplayer.util.Constants.URLConstant.BANNER_URL;
+
 public class HomePageModelImpl implements HomePageContract.HomePageModel {
-    private static final String BANNER_URL = "http://182.254.170.97:3000/banner?type=1";
     private List<String> mBannerUrl = new ArrayList<>();
    
     @Override
@@ -35,7 +36,7 @@ public class HomePageModelImpl implements HomePageContract.HomePageModel {
             }
 
             @Override
-            public void onError() {
+            public void onError(String errorMsg) {
 
             }
 

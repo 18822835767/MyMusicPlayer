@@ -110,9 +110,10 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
     }
 
     @Override
-    public void showError() {
+    public void showError(String errorMsg) {
         Message message = Message.obtain();
         message.what = ERROR;
+        message.obj = errorMsg;
         mHandler.sendMessage(message);
     }
 
@@ -142,7 +143,7 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
                     case ERROR:
                         AlertDialog.Builder errorDialog = new AlertDialog.Builder(activity);
                         errorDialog.setTitle("错误");
-                        errorDialog.setMessage("请求错误");
+                        errorDialog.setMessage("请求错误"+"\n"+msg.obj);
                         errorDialog.setPositiveButton("OK", (dialog, which) -> {
                         });
                         errorDialog.show();

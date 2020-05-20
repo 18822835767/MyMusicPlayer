@@ -40,7 +40,7 @@ public interface SongListContract {
         /**
          * 错误(断网...).
          * */
-        void onError();
+        void onError(String errorMsg);
     }
     
     /**
@@ -61,6 +61,6 @@ public interface SongListContract {
         /**
          * 错误(断网等情况...).
          * */
-        void showError();
+        void showError(String errorMsg);
     }
 }

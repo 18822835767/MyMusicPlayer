@@ -13,27 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.IMAGE_URLS;
+import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_INFO_BY_NAME_URL;
+import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_PLAY_URL;
 
 public class SearchModelImpl implements SearchContract.SearchModel {
     private int index = 0;//记录歌曲图片url的下标
     private int length = IMAGE_URLS.length;//歌曲图片url的数组的长度
-    //通过歌曲的名字获得歌曲的信息
-    private static final String MUSIC_INFO = "http://182.254.170.97:3000/search?keywords= ";
-    //根据歌曲id获取音乐播放的URL
-    private static final String MUSIC_PLAY_URL = "http://182.254.170.97:3000/song/url?id=";
-    
     private List<Music> mMusics = new ArrayList<>();//存放搜索到的音乐的list
     
     @Override
     public void searchOrLoadMusic(SearchContract.OnSearchListener onSearchListener, String musicName,
                                   int limit, int offset) {
-        HttpUrlConnection.sendHttpUrlConnection(MUSIC_INFO + musicName+"&limit= "+
-                        limit+"&offset= "+offset, 
-                new HttpCallbackListener() {
+        HttpUrlConnection.sendHttpUrlConnection( String.format(MUSIC_INFO_BY_NAME_URL,musicName,limit,
+                offset), new HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {
                 mMusics.clear();
-                
+               
                 try {
                     handleMusicInfoJSON(dataMessage);
                 } catch (JSONException e) {
@@ -68,7 +64,7 @@ public class SearchModelImpl implements SearchContract.SearchModel {
             }
 
             @Override
-            public void onError() {
+            public void onError(String errorMsg) {
 
             }
 
@@ -88,7 +84,7 @@ public class SearchModelImpl implements SearchContract.SearchModel {
      * 获得音乐播放的url.
      * */
     private void setMusicUrl(Music music){
-        HttpUrlConnection.sendHttpUrlConnection(MUSIC_PLAY_URL + music.getId(),
+        HttpUrlConnection.sendHttpUrlConnection(String.format(MUSIC_PLAY_URL,music.getId()),
                 new HttpCallbackListener() {
                     @Override
                     public void onSuccess(String dataMessage) {
@@ -106,7 +102,7 @@ public class SearchModelImpl implements SearchContract.SearchModel {
                     }
 
                     @Override
-                    public void onError() {
+                    public void onError(String errorMsg) {
 
                     }
 

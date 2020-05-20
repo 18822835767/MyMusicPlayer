@@ -12,11 +12,10 @@ import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.util.HttpCallbackListener;
 import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
+import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_INFO_BY_ID_URL;
+import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_PLAY_URL;
+
 public class MusicModelImpl implements MusicContract.MusicModel {
-    //根据歌单id获取歌单中的歌曲
-    private static final String MUSIC_INFO = "http://182.254.170.97:3000/playlist/detail?id=";
-    //根据歌曲id获取音乐播放的URL
-    private static final String MUSIC_URL = "http://182.254.170.97:3000/song/url?id=";
     //存放音乐的list
     private List<Music> mMusics = new ArrayList<>();
     
@@ -25,7 +24,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
      * */
     @Override
     public void getMusicList(MusicContract.OnMusicListener onMusicListener, long songListId) {
-        HttpUrlConnection.sendHttpUrlConnection(MUSIC_INFO + songListId,
+        HttpUrlConnection.sendHttpUrlConnection(String.format(MUSIC_INFO_BY_ID_URL,songListId),
                 new HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {
@@ -48,7 +47,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
             }
 
             @Override
-            public void onError() {
+            public void onError(String errorMsg) {
                 onMusicListener.onError();
             }
 
@@ -68,7 +67,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
     * 获得音乐播放的url.
     * */
     private void setMusicUrl(Music music){
-        HttpUrlConnection.sendHttpUrlConnection(MUSIC_URL + music.getId(), 
+        HttpUrlConnection.sendHttpUrlConnection(String.format(MUSIC_PLAY_URL,music.getId()), 
                 new HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {
@@ -86,7 +85,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
             }
 
             @Override
-            public void onError() {
+            public void onError(String errorMsg) {
 
             }
 

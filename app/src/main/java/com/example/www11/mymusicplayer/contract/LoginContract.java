@@ -39,7 +39,7 @@ public interface LoginContract {
         /**'
          * 登陆错误(断网...).
          * */
-        void onLoginError();
+        void onLoginError(String errorMsg);
 
         /**
          * Presenter做开始请求时的业务处理.
@@ -70,7 +70,7 @@ public interface LoginContract {
         /**
          * 登陆错误后LoginActivity做相应的提示.
          * */
-        void showError();
+        void showError(String errorMsg);
 
         /**
          * LoginView做开始请求业务的UI处理.

@@ -32,8 +32,8 @@ public class SongListPresenterImpl implements SongListContract.SongListPresenter
     }
 
     @Override
-    public void onError() {
-        mOnSongListView.showError();
+    public void onError(String errorMsg) {
+        mOnSongListView.showError(errorMsg);
     }
     
 }

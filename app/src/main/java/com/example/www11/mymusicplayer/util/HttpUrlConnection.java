@@ -59,8 +59,8 @@ public class HttpUrlConnection {
                     listener.onFail();
                 }
             }catch (Exception e){
-                //todo 直接onError而不告知外界是出了什么错误，这样子不是很可取
-                listener.onError();
+                listener.onError(e.getMessage());
+                e.printStackTrace();
             }finally {
                 if(connection != null){
                     connection.disconnect();

@@ -12,8 +12,9 @@ import com.example.www11.mymusicplayer.entity.SongList;
 import com.example.www11.mymusicplayer.util.HttpCallbackListener;
 import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
+import static com.example.www11.mymusicplayer.util.Constants.URLConstant.SONG_LIST_URL;
+
 public class SongListModelImpl implements SongListContract.SongListModel{
-    private static final String SONG_LIST_URL = "http://182.254.170.97:3000/user/playlist?uid=";
     private List<SongList> mSongLists = new ArrayList<>();
     
     /**
@@ -21,7 +22,7 @@ public class SongListModelImpl implements SongListContract.SongListModel{
      * */
     @Override
     public void getUserSongList(SongListContract.OnSongListListener onSongListListener, long userId) {
-        HttpUrlConnection.sendHttpUrlConnection(SONG_LIST_URL+userId,new HttpCallbackListener(){
+        HttpUrlConnection.sendHttpUrlConnection(String.format(SONG_LIST_URL,userId),new HttpCallbackListener(){
             @Override
             public void onSuccess(String dataMessage) {
                 try {
@@ -39,8 +40,8 @@ public class SongListModelImpl implements SongListContract.SongListModel{
             }
 
             @Override
-            public void onError() {
-                onSongListListener.onError();
+            public void onError(String errorMsg) {
+                onSongListListener.onError(errorMsg);
             }
 
             @Override

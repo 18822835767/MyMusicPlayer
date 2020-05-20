@@ -37,8 +37,8 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter, LoginCo
     }
 
     @Override
-    public void onLoginError() {
-        mOnLoginView.showError();
+    public void onLoginError(String errorMsg) {
+        mOnLoginView.showError(errorMsg);
     }
 
     @Override

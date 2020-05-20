@@ -17,7 +17,7 @@ public interface HttpCallbackListener {
     /**
      * 请求错误.
      * */
-    void onError();
+    void onError(String errorMsg);
     
     /**
      * 开始请求业务.
