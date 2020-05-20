@@ -13,6 +13,7 @@ import com.example.www11.mymusicplayer.entity.User;
 import com.example.www11.mymusicplayer.service.PlayService;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -291,6 +292,15 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         }
     }
 
+    /**
+     * 通过这个方式来启动活动.
+     * */
+    public static void actionStart(Context context,User user){
+        Intent intent = new Intent(context,MainActivity.class);
+        intent.putExtra(USER,user);
+        context.startActivity(intent);
+    }
+    
     @Override
     protected void onDestroy() {
         super.onDestroy();

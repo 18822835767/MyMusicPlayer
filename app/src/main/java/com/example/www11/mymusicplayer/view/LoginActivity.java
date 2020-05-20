@@ -55,12 +55,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
         //记录登陆的用户
         runOnUiThread(() -> {
             Toast.makeText(LoginActivity.this,"登陆成功",Toast.LENGTH_SHORT).show();
-
-            //todo Activity的启动方式想想有没有更优雅的写法，降低activity之间的耦合
-            //跳转到音乐首页
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.putExtra(USER,user);
-            startActivity(intent);
+            
+            MainActivity.actionStart(LoginActivity.this,user);
             
             //销毁当前活动
             finish();
