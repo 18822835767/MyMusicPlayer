@@ -26,6 +26,11 @@ public class Constants {
         public static final String SONG_LIST_URL = SERVER_HOST+"user/playlist?uid=%s";
     }
     
+    public static class Banner{
+        public static final int START = 10;
+        public static final int STOP = 20;
+    }
+    
     /**
      * 底部播放栏对应的常量.
      * */

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.example.mymusicplayer.R;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import static com.example.www11.mymusicplayer.util.Constants.Banner.START;
+import static com.example.www11.mymusicplayer.util.Constants.Banner.STOP;
 
 /**
  * 实现轮播图，自定义控件.
@@ -39,8 +43,6 @@ public class BannerViewPager extends FrameLayout {
     private int mBannerTime = 1500;//轮播图的间隔时间，即1.5s.
     private int mCurrentItem = 0;//表示 轮播图的当前选中项(从0开始).
     private long mSlideTime = 0;//保存 手 滑动时的时间。下面进行判断，防止手滑动后又立即轮播
-    private final int START = 10;
-    private final int STOP = 20;
     private Context mContext;
     private Handler mHandler;
 
@@ -59,28 +61,7 @@ public class BannerViewPager extends FrameLayout {
         View view = LayoutInflater.from(context).inflate(R.layout.banner_view_pager, this);
         mViewPager = view.findViewById(R.id.view_pager);
         mIndicatorGroup = findViewById(R.id.indicator);
-        mHandler = new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(@NonNull Message msg) {
-                switch (msg.what) {
-                    //下一张图片
-                    case START:
-                        mViewPager.setCurrentItem(mCurrentItem + 1);
-                        mHandler.removeCallbacks(runnable);
-                        mHandler.postDelayed(runnable, mBannerTime);//在bannerTime后会调用runnable的run()
-                        break;
-                    //不切换下一张图片
-                    case STOP:
-                        mSlideTime = 0;
-                        mHandler.removeCallbacks(runnable);
-                        mHandler.postDelayed(runnable, mBannerTime);
-                        break;
-                    default:
-                        break;
-                }
-                return false;
-            }
-        });
+        mHandler = new MyHandler(this);
     }
 
     /**
@@ -236,6 +217,38 @@ public class BannerViewPager extends FrameLayout {
         }
     }
 
+    private static class MyHandler extends Handler{
+        WeakReference<BannerViewPager> mBannerWeakRef;
+        
+        MyHandler(BannerViewPager bannerViewPager){
+            mBannerWeakRef = new WeakReference<>(bannerViewPager);
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            BannerViewPager banner = mBannerWeakRef.get();
+            if(banner != null){
+                switch (msg.what) {
+                    //下一张图片
+                    case START:
+                        banner.mViewPager.setCurrentItem(banner.mCurrentItem + 1);
+                        banner.mHandler.removeCallbacks(banner.runnable);
+                        //在bannerTime后会调用runnable的run()
+                        banner.mHandler.postDelayed(banner.runnable, banner.mBannerTime);
+                        break;
+                    //不切换下一张图片
+                    case STOP:
+                        banner.mSlideTime = 0;
+                        banner.mHandler.removeCallbacks(banner.runnable);
+                        banner.mHandler.postDelayed(banner.runnable, banner.mBannerTime);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    
     /**
      * ViewPager适配器.
      * */
