@@ -128,10 +128,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                     transaction.show(mHomePageFragment);
                 }
 
-                //如果List不包含，则添加碎片
-                if (!mFragmentLinkedList.contains(mHomePageFragment)) {
-                    mFragmentLinkedList.addLast(mHomePageFragment);
-                }
+                addFragment(mHomePageFragment);
                 break;
             //展示歌单
             case SHOW_SONG_LIST:
@@ -144,10 +141,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                     transaction.show(mSongListFragment);
                 }
 
-                //如果List不包含，则添加碎片
-                if (!mFragmentLinkedList.contains(mSongListFragment)) {
-                    mFragmentLinkedList.addLast(mSongListFragment);
-                }
+                addFragment(mSongListFragment);
                 break;
             //展示音乐列表
             case SHOW_MUSIC:
@@ -160,11 +154,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                     transaction.show(mMusicFragment);
                 }
 
-                //如果List不包含，则添加碎片
-                if (!mFragmentLinkedList.contains(mMusicFragment)) {
-                    mFragmentLinkedList.addLast(mMusicFragment);
-                }
-
+                addFragment(mMusicFragment);
                 break;
             //展示搜索界面
             case SHOW_SEARCH:
@@ -177,10 +167,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                     transaction.show(mSearchFragment);
                 }
 
-                //如果List不包含，则添加碎片
-                if (!mFragmentLinkedList.contains(mSearchFragment)) {
-                    mFragmentLinkedList.addLast(mSearchFragment);
-                }
+                addFragment(mSearchFragment);
                 break;
             default:
                 break;
@@ -188,6 +175,17 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         transaction.commit();
     }
 
+    /**
+     * 往mFragmentLinkedList中添加碎片.
+     * */
+    private void addFragment(Fragment fragment){
+        //如果List不包含，则添加碎片
+        if (!mFragmentLinkedList.contains(fragment)) {
+            mFragmentLinkedList.addLast(fragment);
+        }
+    }
+    
+    
     /**
      * 隐藏Fragment.
      */
