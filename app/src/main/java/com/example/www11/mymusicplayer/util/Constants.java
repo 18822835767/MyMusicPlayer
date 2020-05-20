@@ -51,6 +51,11 @@ public class Constants {
      * */
     public static class LoginConstant{
         public static final String USER = "user";
+        public static final int SUCCESS = 0;
+        public static final int FAIL = 1;
+        public static final int ERROR = 2;
+        public static final int SHOW_LOADING = 3;
+        public static final int HIDE_LOADING = 4;
     }
     
     /**
