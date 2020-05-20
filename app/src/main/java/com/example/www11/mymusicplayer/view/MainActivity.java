@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
      * 碎片引用为null，则创建碎片.不为null,则直接通过transaction.show()
      * </p>
      */
-    //todo switch里面的逻辑重复性极高，这里的可优化空间还很大
     private void initFragment(int index) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
