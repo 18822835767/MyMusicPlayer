@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Adapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -40,7 +39,7 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
         AbsListView.OnScrollListener {
     private ListView mListView;//展示音乐列表.
     private MusicContract.MusicPresenter mMusicPresenter;
-    private static List<Music> mMusics = new ArrayList<>();//保存列表中的音乐.
+    private List<Music> mMusics = new ArrayList<>();//保存列表中的音乐.
     private View view;
 
     private OnMusicListener mCallback;//碎片和活动通信的接口引用
@@ -82,7 +81,7 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
         if(getActivity() != null){
             mAdapter = new MusicAdapter(getActivity(),R.layout.music_item,mMusics);
         }
-        mHandler = new MyHandler(getActivity(),mListView);
+        mHandler = new MyHandler(this);
         mListView.setAdapter(mAdapter);
 
         //设置监听
@@ -115,8 +114,6 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
         if(getActivity() != null){
             mAdapter = new MusicAdapter(getActivity(),R.layout.music_item,mMusics);
         }
-        //Handler类中设置新的适配器
-        mHandler.setAdapter(mAdapter);
         
         Message message = Message.obtain();
         message.what = SUCCESS;
@@ -152,30 +149,28 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
     }
 
     private static class MyHandler extends Handler {
-        WeakReference<Activity> mWeekActivity;
-        WeakReference<ListView> mWeekListView;
-        WeakReference<Adapter> mWeekAdapter;
+        WeakReference<MusicFragment> mWeakFragment;
         
-        MyHandler(Activity activity,ListView listView) {
-            mWeekActivity = new WeakReference<>(activity);
-            mWeekListView = new WeakReference<>(listView);
+        MyHandler(MusicFragment musicFragment) {
+            mWeakFragment = new WeakReference<>(musicFragment);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            final Activity activity = mWeekActivity.get();
-            if (activity != null) {
+            MusicFragment musicFragment = mWeakFragment.get();
+            if (musicFragment != null) {
                 switch (msg.what) {
                     case SUCCESS:
                         //设置新的适配器，刷新数据
-                        mWeekListView.get().setAdapter((MusicAdapter)mWeekAdapter.get());
+                        musicFragment.mListView.setAdapter(musicFragment.mAdapter);
                         break;
                     case FAIL:
-                        Toast.makeText(activity, "请求失败",
+                        Toast.makeText(musicFragment.getActivity(), "请求失败",
                                 Toast.LENGTH_SHORT).show();
                         break;
                     case ERROR:
-                        AlertDialog.Builder errorDialog = new AlertDialog.Builder(activity);
+                        AlertDialog.Builder errorDialog = new AlertDialog.Builder(
+                                musicFragment.getActivity());
                         errorDialog.setTitle("错误");
                         errorDialog.setMessage("请求错误");
                         errorDialog.setPositiveButton("OK", (dialog, which) -> {
@@ -186,10 +181,6 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
                         break;
                 }
             }
-        }
-
-        void setAdapter(MusicAdapter adapter){
-            mWeekAdapter = new WeakReference<>(adapter);
         }
     }
 

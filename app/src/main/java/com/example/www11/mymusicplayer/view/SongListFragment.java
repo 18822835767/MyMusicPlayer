@@ -72,7 +72,7 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
         //初始化presenter
         mSongListPresenter = new SongListPresenterImpl(this);
 
-        mHandler = new MyHandler(getActivity(),mListView);
+        mHandler = new MyHandler(this);
         
         setListItem();
     }
@@ -118,30 +118,30 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
     }
 
     private static class MyHandler extends Handler {
-        WeakReference<Activity> mActivity;
-        WeakReference<ListView> mListView;
+        WeakReference<SongListFragment> mWeakRef;
 
-        MyHandler(Activity activity, ListView listView) {
-            mActivity = new WeakReference<>(activity);
-            mListView = new WeakReference<>(listView);
+        MyHandler(SongListFragment fragment) {
+            mWeakRef = new WeakReference<>(fragment);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            final Activity activity = mActivity.get();
-            if (activity != null) {
+            SongListFragment fragment = mWeakRef.get();
+            if (fragment != null) {
                 switch (msg.what) {
                     case SUCCESS:
-                        SongListAdapter adapter = new SongListAdapter(activity,
-                                R.layout.song_list_item, mSongLists);
-                        mListView.get().setAdapter(adapter);
+                        if(fragment.getActivity() != null){
+                            SongListAdapter adapter = new SongListAdapter(fragment.getActivity(),
+                                    R.layout.song_list_item, mSongLists);
+                            fragment.mListView.setAdapter(adapter);
+                        }
                         break;
                     case FAIL:
-                        Toast.makeText(activity, "请求失败",
+                        Toast.makeText(fragment.getActivity(),"请求失败",
                                 Toast.LENGTH_SHORT).show();
                         break;
                     case ERROR:
-                        AlertDialog.Builder errorDialog = new AlertDialog.Builder(activity);
+                        AlertDialog.Builder errorDialog = new AlertDialog.Builder(fragment.getActivity());
                         errorDialog.setTitle("错误");
                         errorDialog.setMessage("请求错误"+"\n"+msg.obj);
                         errorDialog.setPositiveButton("OK", (dialog, which) -> {

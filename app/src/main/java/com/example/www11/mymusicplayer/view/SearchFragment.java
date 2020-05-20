@@ -48,7 +48,6 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     private boolean loadFinishFlag = true;//上拉刷新时，是否已加载歌曲结束的标志
     private MusicAdapter mAdapter;
     private MyHandler mHandler;
-    private int mSongCount = 0;//记录搜索的歌曲的总量
     private int mRemaining = 0;//记录搜索的歌曲还有多少未被加载
     
     @Override
@@ -80,8 +79,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
         if(getActivity() != null){
             mAdapter = new MusicAdapter(getActivity(),R.layout.music_item,mMusics);
         }
-        mHandler = new MyHandler(getActivity(), mListView);
-        mHandler.setAdapter(mAdapter);
+        mHandler = new MyHandler(this);
 
         //设置监听
         mListView.setOnScrollListener(this);
@@ -106,16 +104,17 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     public void showSearchMusics(int songCount,List<Music> musics) {
         mMusics.clear();
         mMusics.addAll(musics);
+
+        //记录剩余歌曲的总数
+        mRemaining = songCount - mPageSize;
         
-        mSongCount = songCount;//记录搜索的歌曲总数量
-        mRemaining = mSongCount - mPageSize;//记录剩余歌曲的总数
+        //更新当前页面数
+        mCurrentPage = 1;
         
         //创建一个新的适配器
         if(getActivity() != null){
             mAdapter = new MusicAdapter(getActivity(),R.layout.music_item,mMusics);
         }
-        //Handler类中设置新的适配器
-        mHandler.setAdapter(mAdapter);
 
         Message message = Message.obtain();
         message.what = SEARCH_SUCCESS;
@@ -168,39 +167,32 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
     }
 
     private static class MyHandler extends Handler {
-        WeakReference<Activity> mWeekActivity;
-        WeakReference<ListView> mWeekListView;
-        WeakReference<Adapter> mWeekAdapter;
+        WeakReference<SearchFragment> mWeakRef;
 
-        MyHandler(Activity activity, ListView listView) {
-            mWeekActivity = new WeakReference<>(activity);
-            mWeekListView = new WeakReference<>(listView);
+        MyHandler(SearchFragment fragment) {
+            mWeakRef = new WeakReference<>(fragment);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            final Activity activity = mWeekActivity.get();
-            if (activity != null) {
+            SearchFragment fragment = mWeakRef.get();
+            if (fragment != null) {
                 switch (msg.what) {
                     case SEARCH_SUCCESS:
                         //设置新的适配器，刷新数据
-                        mWeekListView.get().setAdapter((MusicAdapter)mWeekAdapter.get());
+                        fragment.mListView.setAdapter(fragment.mAdapter);
                         break;
                     case SEARCH_FAIL:
                         break;
                     case SEARCH_ERROR:
                         break;
                     case LOAD_SUCCESS:
-                        ((MusicAdapter)mWeekAdapter.get()).notifyDataSetChanged();
+                        fragment.mAdapter.notifyDataSetChanged();
                         break;
                     default:
                         break;
                 }
             }
-        }
-        
-        void setAdapter(MusicAdapter adapter){
-            mWeekAdapter = new WeakReference<>(adapter);
         }
         
     }

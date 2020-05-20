@@ -86,7 +86,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         mPlayPresenter = PlayPresenterImpl.getInstance();
         mPlayPresenter.registOnPlayView(this);
 
-        mHandler = new MyHandler(getActivity());
+        mHandler = new MyHandler(this);
     }
 
     private void initEvent() {
@@ -228,24 +228,24 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     }
     
     private static class MyHandler extends Handler {
-        WeakReference<Activity> mWeakReference;
+        WeakReference<PlayMusicFragment> mWeakReference;
 
-        MyHandler(Activity activity) {
-            mWeakReference = new WeakReference<>(activity);
+        MyHandler(PlayMusicFragment playMusicFragment) {
+            mWeakReference = new WeakReference<>(playMusicFragment);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            final Activity activity = mWeakReference.get();
-            if (activity != null) {
+            PlayMusicFragment fragment = mWeakReference.get();
+            if (fragment != null) {
                 switch (msg.what) {
                     case FAIL:
                         String message = (String) msg.obj;
-                        Toast.makeText(activity, message,
+                        Toast.makeText(fragment.getActivity(), message,
                                 Toast.LENGTH_SHORT).show();
                         break;
                     case ERROR:
-                        Toast.makeText(activity, "播放出现错误,自动为您播放下一首",
+                        Toast.makeText(fragment.getActivity(), "播放出现错误,自动为您播放下一首",
                                 Toast.LENGTH_SHORT).show();
                         break;
                     default:

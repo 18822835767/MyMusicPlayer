@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            final Activity activity = mWeakActivityRef.get();
+            Activity activity = mWeakActivityRef.get();
             if(activity != null){
                 switch (msg.what){
                     case SUCCESS:
