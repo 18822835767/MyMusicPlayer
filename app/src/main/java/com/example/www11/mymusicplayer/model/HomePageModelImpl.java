@@ -42,7 +42,7 @@ public class HomePageModelImpl implements HomePageContract.HomePageModel {
                    down.execute(mBannerUrl.get(i));
                }
                 
-                onHomePageListener.onSuccess(mBannerUrl);
+                onHomePageListener.onSuccess(mImageList);
             }
 
             @Override

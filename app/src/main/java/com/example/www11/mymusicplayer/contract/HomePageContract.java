@@ -1,5 +1,7 @@
 package com.example.www11.mymusicplayer.contract;
 
+import android.widget.ImageView;
+
 import com.example.www11.mymusicplayer.entity.Music;
 
 import java.util.List;
@@ -24,14 +26,14 @@ public interface HomePageContract {
         /**
          * 成功得到轮播图的图片.
          * */
-        void onSuccess(List<String> bannerUrl);
+        void onSuccess(List<ImageView> imageList);
     }
     
     interface OnHomePageView{
         /**
          * 展示轮播图的图片.
          * */
-        void showBanner(List<String> bannerUrl);
+        void showBanner(List<ImageView> imageList);
     }
     
 }

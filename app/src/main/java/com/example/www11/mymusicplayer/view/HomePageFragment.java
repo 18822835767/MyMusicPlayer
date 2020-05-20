@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.example.mymusicplayer.R;
 
@@ -16,12 +17,15 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.www11.mymusicplayer.contract.HomePageContract;
 import com.example.www11.mymusicplayer.widget.BannerViewPager;
 
 /**
  * 音乐首页所对应的view.
  */
-public class HomePageFragment extends Fragment implements View.OnClickListener{
+public class HomePageFragment extends Fragment implements View.OnClickListener, 
+        HomePageContract.OnHomePageView {
     private Button mMySongList;//“我的歌单”按钮
     private View view;
     private OnHomePageListener mCallback;//碎片和活动通信的接口引用
@@ -79,7 +83,12 @@ public class HomePageFragment extends Fragment implements View.OnClickListener{
                 break;
         }
     }
-    
+
+    @Override
+    public void showBanner(List<ImageView> imageList) {
+        
+    }
+
     /**
      * 当用户点击"我的歌单"或者“本地歌单”的按钮时候调用.
      * MainActivity去实现，作为碎片和活动之间通信的回调接口.
