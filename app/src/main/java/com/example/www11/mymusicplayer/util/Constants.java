@@ -12,6 +12,8 @@ public class Constants {
     public static class URLConstant{
         //服务器ip地址
         private static final String SERVER_HOST = "http://182.254.170.97:3000/";
+        //todo 这里这样子设计，会导致使用方和常量类耦合，想想怎么解决
+        // 实际上phone为key，=后面为value，想想可以以其他什么方式更优雅地处理参数
         //登陆对应的url
         public static final String LOGIN_URL = SERVER_HOST+"login/cellphone?phone=%1$s&password=%2$s";
         //获取轮播图的url

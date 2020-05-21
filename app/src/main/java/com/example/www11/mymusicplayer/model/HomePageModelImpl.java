@@ -32,7 +32,7 @@ public class HomePageModelImpl implements HomePageContract.HomePageModel {
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
-                
+                //todo 一般不在非View层使用到View层的东西，如ImageView等控件
                for(int i=0;i<mBannerUrl.size();i++){
                    DownloadImage down = new DownloadImage(drawable -> {
                        ImageView imageView = new ImageView(ApplicationContext.getContext());

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.example.www11.mymusicplayer.entity.Music;
 
+//todo emmm实际上这里属于音乐控制的部分，并不用以mvp的形式进行设计
 public interface PlayMusicContract {
     /**
      * 这是PlayPresenter接口，给PlayMusicFragment调用.

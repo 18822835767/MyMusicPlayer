@@ -43,8 +43,11 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
         return instance;
     }
 
-
-    private PlayMusicContract.OnPlayView mOnPlayView;//view接口的引用
+    //todo 一般对于属性或方法的功能注释采取这种形式，而不是行末注释
+    /**
+     * view接口的引用
+     */
+    private PlayMusicContract.OnPlayView mOnPlayView;
     private int currentState = PLAY_STATE_STOP;//表示目前的播放状态，初始是停止播放的状态
     private MediaPlayer mMediaPlayer = new MediaPlayer();
     private Timer mTimer;//定时器，每个一段时间通过回调更新UI

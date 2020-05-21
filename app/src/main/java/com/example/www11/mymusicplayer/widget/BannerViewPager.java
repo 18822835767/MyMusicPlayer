@@ -26,6 +26,7 @@ import static com.example.www11.mymusicplayer.util.Constants.Banner.START;
 import static com.example.www11.mymusicplayer.util.Constants.Banner.STOP;
 
 /**
+ * todo 尝试下从banner接口获取的轮播图数据
  * 实现轮播图，自定义控件.
  * <p>
  * 通过无线循环实现。
@@ -217,6 +218,7 @@ public class BannerViewPager extends FrameLayout {
         }
     }
 
+    //todo 不要采取MyXXX这种命名方式
     private static class MyHandler extends Handler{
         WeakReference<BannerViewPager> mBannerWeakRef;
         

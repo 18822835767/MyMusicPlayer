@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface HomePageContract {
     /**
+     * todo 一般命名为Model就行了，调用时HomePageContract.Model，包括下面的View，Presenter
      * HomePageModel接口，被HomePagePresenter调用.
      * */
     interface HomePageModel{
