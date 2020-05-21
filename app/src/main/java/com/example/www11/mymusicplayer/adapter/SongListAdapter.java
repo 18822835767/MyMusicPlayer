@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.www11.mymusicplayer.entity.SongList;
 import com.example.www11.mymusicplayer.util.BitmapWorkerTask;
+import com.example.www11.mymusicplayer.util.ViewHolderTool;
 
 
 /**
@@ -45,23 +46,21 @@ public class SongListAdapter extends ArrayAdapter<SongList> {
 
         SongList songList = getItem(position);
         View view;
-        ViewHolder viewHolder;
         String url = null;
 
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(mResourceId, parent, false);
-            viewHolder = new ViewHolder();
-            viewHolder.image = view.findViewById(R.id.song_list_image);
-            viewHolder.textView = view.findViewById(R.id.song_list_name);
-            view.setTag(viewHolder);
         } else {
             view = convertView;
-            viewHolder = (ViewHolder) view.getTag();
         }
+        
+        TextView textView = ViewHolderTool.get(view,R.id.song_list_name);
+        ImageView image = ViewHolderTool.get(view,R.id.song_list_image);
+        
         if (songList != null) {
             url = songList.getCoverImgUrl();
-            viewHolder.image.setImageResource(R.drawable.empty_photo);
-            viewHolder.textView.setText(songList.getName());
+            image.setImageResource(R.drawable.empty_photo);
+            textView.setText(songList.getName());
         }
 
         /*
@@ -70,25 +69,20 @@ public class SongListAdapter extends ArrayAdapter<SongList> {
          * 若后台的任务请求的图片刚好和imageview需要的一致，则if下面的不执行.
          * 若该imageview后台无请求任务，cancelPo...返回true,则执行if里的语句.
          * */
-        if (cancelPotentialWork(url, viewHolder.image)) {
+        if (cancelPotentialWork(url, image)) {
             //新建请求图片的task，该task含有imageview的弱引用
-            BitmapWorkerTask task = new BitmapWorkerTask(viewHolder.image);
+            BitmapWorkerTask task = new BitmapWorkerTask(image);
             //先给AsyncDrawable关联task的引用，imageview可以通过AsyncDrawable关联到task
-            MusicAdapter.AsyncDrawable asyncDrawable = new MusicAdapter.AsyncDrawable(getContext().getResources(),
+           AsyncDrawable asyncDrawable = new AsyncDrawable(getContext().getResources(),
                     mLoadingBitmap, task);//先放入一张空白的图片
             //imageview设定该空白的图片
-            viewHolder.image.setImageDrawable(asyncDrawable);
+            image.setImageDrawable(asyncDrawable);
             //task根据url去请求图片
             task.execute(url);
         }
         return view;
     }
-
-    static class ViewHolder {
-        ImageView image;
-        TextView textView;
-    }
-
+    
     /**
      * 取消其他图片的后台下载任务.
      * <p>
