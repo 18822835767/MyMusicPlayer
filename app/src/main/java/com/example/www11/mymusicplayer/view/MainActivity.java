@@ -3,6 +3,7 @@ package com.example.www11.mymusicplayer.view;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,9 +14,13 @@ import com.example.www11.mymusicplayer.entity.User;
 import com.example.www11.mymusicplayer.service.PlayService;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -102,9 +107,15 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
      */
     private void initService() {
         Intent intent = new Intent(MainActivity.this, PlayService.class);
-        startService(intent);
-    }
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            startForegroundService(intent);
+        }else{
+            startService(intent);
+        }
     
+    }
+
     /**
      * 展示碎片.
      * <p>
@@ -158,8 +169,8 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
             //展示搜索界面
             case SHOW_SEARCH:
                 if (mSearchFragment == null) {
-                    mSearchFragment = new  SearchFragment();
-                    transaction.add(R.id.fragment_layout,  mSearchFragment);
+                    mSearchFragment = new SearchFragment();
+                    transaction.add(R.id.fragment_layout, mSearchFragment);
                     //保存碎片所对应的值
                     mMap.put(mSearchFragment, SHOW_SEARCH);
                 } else {
@@ -176,15 +187,15 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
 
     /**
      * 往mFragmentLinkedList中添加碎片.
-     * */
-    private void addFragment(Fragment fragment){
+     */
+    private void addFragment(Fragment fragment) {
         //如果List不包含，则添加碎片
         if (!mFragmentLinkedList.contains(fragment)) {
             mFragmentLinkedList.addLast(fragment);
         }
     }
-    
-    
+
+
     /**
      * 隐藏Fragment.
      */
@@ -199,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
             transaction.hide(mMusicFragment);
             mMusicFragment = null;
         }
-        if(mSearchFragment != null){
+        if (mSearchFragment != null) {
             transaction.hide(mSearchFragment);
         }
     }
@@ -291,13 +302,14 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
 
     /**
      * 通过这个方式来启动活动.
-     * */
-    public static void actionStart(Context context,User user){
-        Intent intent = new Intent(context,MainActivity.class);
-        intent.putExtra(USER,user);
+     */
+    public static void actionStart(Context context, User user) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(USER, user);
         context.startActivity(intent);
     }
-    
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

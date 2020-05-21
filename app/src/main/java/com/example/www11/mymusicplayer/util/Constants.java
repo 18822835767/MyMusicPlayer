@@ -26,6 +26,9 @@ public class Constants {
         public static final String SONG_LIST_URL = SERVER_HOST+"user/playlist?uid=%s";
     }
     
+    /**
+     * 轮播图控件对应的常量.
+     * */
     public static class Banner{
         public static final int START = 10;
         public static final int STOP = 20;
@@ -92,9 +95,16 @@ public class Constants {
         public static final int SHOW_SONG_LIST = 1;
         public static final int SHOW_MUSIC = 2;
         public static final int SHOW_SEARCH = 3;
-
+        
         //权限请求码
         public static final int REQUEST_CODE = 50;
+    }
+    
+    public static class ServiceConstant{
+        //前台服务的Channel的Id
+        public static final String CHANNEL_ID = "10";
+        //前台服务的Channel的名字
+        public static final String CHANNEL_NAME = "音乐状态栏";
     }
     
     /**
