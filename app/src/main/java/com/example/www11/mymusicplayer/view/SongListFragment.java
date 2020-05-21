@@ -127,26 +127,34 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
         @Override
         public void handleMessage(@NonNull Message msg) {
             SongListFragment fragment = mWeakRef.get();
+            Activity activity = null;
+            if(fragment != null){
+                activity = fragment.getActivity();
+            }
             if (fragment != null) {
                 switch (msg.what) {
                     case SUCCESS:
-                        if(fragment.getActivity() != null){
-                            SongListAdapter adapter = new SongListAdapter(fragment.getActivity(),
+                        if(activity != null){
+                            SongListAdapter adapter = new SongListAdapter(activity,
                                     R.layout.song_list_item, mSongLists);
                             fragment.mListView.setAdapter(adapter);
                         }
                         break;
                     case FAIL:
-                        Toast.makeText(fragment.getActivity(),"请求失败",
-                                Toast.LENGTH_SHORT).show();
+                        if(activity != null){
+                            Toast.makeText(activity,"请求失败",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case ERROR:
-                        AlertDialog.Builder errorDialog = new AlertDialog.Builder(fragment.getActivity());
-                        errorDialog.setTitle("错误");
-                        errorDialog.setMessage("请求错误"+"\n"+msg.obj);
-                        errorDialog.setPositiveButton("OK", (dialog, which) -> {
-                        });
-                        errorDialog.show();
+                        if(activity != null){
+                            AlertDialog.Builder errorDialog = new AlertDialog.Builder(activity);
+                            errorDialog.setTitle("错误");
+                            errorDialog.setMessage("请求错误"+"\n"+msg.obj);
+                            errorDialog.setPositiveButton("OK", (dialog, which) -> {
+                            });
+                            errorDialog.show();
+                        }
                         break;
                     default:
                         break;

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -158,6 +159,10 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
         @Override
         public void handleMessage(@NonNull Message msg) {
             MusicFragment musicFragment = mWeakFragment.get();
+            Activity activity = null;
+            if(mWeakFragment != null ){
+                activity = musicFragment.getActivity();
+            }
             if (musicFragment != null) {
                 switch (msg.what) {
                     case SUCCESS:
@@ -165,17 +170,21 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
                         musicFragment.mListView.setAdapter(musicFragment.mAdapter);
                         break;
                     case FAIL:
-                        Toast.makeText(musicFragment.getActivity(), "请求失败",
-                                Toast.LENGTH_SHORT).show();
+                        if(activity != null){
+                            Toast.makeText(musicFragment.getActivity(), "请求失败",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case ERROR:
-                        AlertDialog.Builder errorDialog = new AlertDialog.Builder(
-                                musicFragment.getActivity());
-                        errorDialog.setTitle("错误");
-                        errorDialog.setMessage("请求错误");
-                        errorDialog.setPositiveButton("OK", (dialog, which) -> {
-                        });
-                        errorDialog.show();
+                        if(activity != null){
+                            AlertDialog.Builder errorDialog = new AlertDialog.Builder(
+                                    musicFragment.getActivity());
+                            errorDialog.setTitle("错误");
+                            errorDialog.setMessage("请求错误");
+                            errorDialog.setPositiveButton("OK", (dialog, which) -> {
+                            });
+                            errorDialog.show();
+                        }
                         break;
                     default:
                         break;

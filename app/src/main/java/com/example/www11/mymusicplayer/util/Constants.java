@@ -17,7 +17,7 @@ public class Constants {
         //获取轮播图的url
         public static final String BANNER_URL = SERVER_HOST+"banner?type=1";
         //根据歌单id获取歌单中的歌曲
-        public static final String MUSIC_INFO_BY_ID_URL = "http://182.254.170.97:3000/playlist/detail?id=%s";
+        public static final String MUSIC_INFO_BY_ID_URL = SERVER_HOST+"playlist/detail?id=%s";
         //根据歌曲id获取音乐播放的URL
         public static final String MUSIC_PLAY_URL = SERVER_HOST+"song/url?id=%s";
         //通过歌曲的名字获得歌曲的信息

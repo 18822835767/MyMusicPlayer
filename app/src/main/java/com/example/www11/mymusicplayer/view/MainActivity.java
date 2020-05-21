@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
      */
     @Override
     public void showMusics(long songListId) {
-        this.mSongListId = songListId;
+        mSongListId = songListId;
         initFragment(SHOW_MUSIC);
     }
 
