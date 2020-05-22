@@ -25,7 +25,7 @@
     </LinearLayout>
     
     <ListView
-        android:id="@+id/music_list"
+        android:id="@+id/play_queue"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     

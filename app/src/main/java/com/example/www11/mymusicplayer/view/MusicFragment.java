@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +71,7 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
      * 初始化数据.
      */
     private void initData() {
-        mListView = view.findViewById(R.id.music_list);
+        mListView = view.findViewById(R.id.play_queue);
 
         mMusics = new ArrayList<>();
 

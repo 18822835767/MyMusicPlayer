@@ -1,6 +1,5 @@
 package com.example.www11.mymusicplayer.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -73,7 +71,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnSearchV
 
         mSearchContent = view.findViewById(R.id.search_content);
         mSearchBtn = view.findViewById(R.id.search_btn);
-        mListView = view.findViewById(R.id.music_list);
+        mListView = view.findViewById(R.id.play_queue);
 
         //因为listview设置监听之前，需要先设置适配器，所以这里先设置适配器
         if(getActivity() != null){

@@ -1,16 +1,20 @@
 package com.example.www11.mymusicplayer.view;
 
 import android.app.Activity;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +59,9 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     private ImageView mMusicPicture;
     private ImageButton mPlayModeBtn;
     private Handler mHandler;
+//    private ImageButton mPlayQueue;//音乐播放队列的按钮点击
+//    private PopupWindow mPopWindow;//弹出的播放列表管理
+    
 
     private int mPlayMode = ORDER_PLAY;//记录播放的方式，默认是列表循环
 
@@ -87,6 +94,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         mPlayPresenter.registOnPlayView(this);
 
         mHandler = new MyHandler(this);
+//        mPlayQueue = view.findViewById(R.id.play_queue);
     }
 
     private void initEvent() {
@@ -119,6 +127,8 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
                 mPlayPresenter.playOrPause();
             }
         });
+        
+//        mPlayQueue.setOnClickListener(v -> showPopupWindow());
 
         mPlayModeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,6 +236,22 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     public void onDestroy() {
         super.onDestroy();
     }
+    
+//    /**
+//     * 用户点击播放列表管理时弹出一个popupwindow.
+//     * */
+//    private void showPopupWindow(){
+//        //弹出列表的内容
+//        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.play_queue,null);
+//        mPopWindow = new PopupWindow(contentView,ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.MATCH_PARENT);
+//        
+//        mPopWindow.setBackgroundDrawable(new ColorDrawable());
+//        mPopWindow.setOutsideTouchable(true);
+//        mPopWindow.setOutsideTouchable(true);
+//        
+//        mPopWindow.showAtLocation(view, Gravity.BOTTOM,0,0);
+//    }
     
     private static class MyHandler extends Handler {
         WeakReference<PlayMusicFragment> mWeakReference;

@@ -42,7 +42,7 @@
     </LinearLayout>
     
     <ImageButton
-        android:id="@+id/music_list"
+        android:id="@+id/play_queue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/music_list"
