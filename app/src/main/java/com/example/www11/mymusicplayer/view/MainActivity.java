@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.activity_main);
 
         initService();
@@ -318,7 +319,6 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ThreadPool.shutDownPool();
     }
 
 }
