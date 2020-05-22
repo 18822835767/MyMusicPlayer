@@ -45,7 +45,6 @@ import static com.example.www11.mymusicplayer.util.Constants.MainConstant.SHOW_S
  *  1、对于歌单列表以及歌曲列表的图片，明明图片很小却总是完全加载，浪费流量，考虑下怎么优化
  *  2、对于歌单列表以及歌曲列表的图片，可以考虑做下三级缓存
  *  3、每次打开应用都得重新登录，考虑下怎么处理
- *  4、关闭应用的时候音乐服务仍在运行（理应这样子），这时候重开应用会crash，考虑下怎么解决。
  * 程序的主界面.
  */
 public class MainActivity extends AppCompatActivity implements HomePageFragment.OnHomePageListener,

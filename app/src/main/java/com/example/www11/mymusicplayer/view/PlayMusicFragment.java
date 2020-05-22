@@ -1,20 +1,15 @@
 package com.example.www11.mymusicplayer.view;
 
 import android.app.Activity;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +26,7 @@ import androidx.fragment.app.Fragment;
 import com.example.www11.mymusicplayer.contract.PlayMusicContract;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.presenter.PlayPresenterImpl;
-import com.example.www11.mymusicplayer.util.DownloadImage;
+import com.example.www11.mymusicplayer.util.AsyncImageTask;
 
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.LOOP_PLAY;
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.ORDER_PLAY;
@@ -206,7 +201,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     public void showMusicInfo(Music music) {
         mMusicName.setText(music.getName());
         mSingerName.setText(music.getSingerName());
-        DownloadImage down = new DownloadImage(drawable -> {
+        AsyncImageTask down = new AsyncImageTask(drawable -> {
             if (drawable != null) {
                 mMusicPicture.setImageDrawable(drawable);
             }

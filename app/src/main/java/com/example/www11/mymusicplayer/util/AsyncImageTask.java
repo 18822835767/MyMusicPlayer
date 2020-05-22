@@ -9,13 +9,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * todo 奇怪的命名(゜-゜) 参考下BitmapWorkerTask
  * 可以用于下载单个图片.
  * */
-public class DownloadImage extends AsyncTask<String, Void, BitmapDrawable> {
+public class AsyncImageTask extends AsyncTask<String, Void, BitmapDrawable> {
     private ImageCallback mImageCallback;//回调接口
 
-    public DownloadImage(ImageCallback imageCallback) {
+    public AsyncImageTask(ImageCallback imageCallback) {
         mImageCallback = imageCallback;
     }
 

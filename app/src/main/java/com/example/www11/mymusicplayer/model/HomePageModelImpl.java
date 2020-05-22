@@ -1,11 +1,10 @@
 package com.example.www11.mymusicplayer.model;
 
-import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.example.www11.mymusicplayer.contract.HomePageContract;
 import com.example.www11.mymusicplayer.util.ApplicationContext;
-import com.example.www11.mymusicplayer.util.DownloadImage;
+import com.example.www11.mymusicplayer.util.AsyncImageTask;
 import com.example.www11.mymusicplayer.util.HttpCallbackListener;
 import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
@@ -34,7 +33,7 @@ public class HomePageModelImpl implements HomePageContract.HomePageModel {
                 }
                 //todo 一般不在非View层使用到View层的东西，如ImageView等控件
                for(int i=0;i<mBannerUrl.size();i++){
-                   DownloadImage down = new DownloadImage(drawable -> {
+                   AsyncImageTask down = new AsyncImageTask(drawable -> {
                        ImageView imageView = new ImageView(ApplicationContext.getContext());
                        imageView.setImageDrawable(drawable);
                        mImageList.add(imageView);
