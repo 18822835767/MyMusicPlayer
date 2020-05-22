@@ -43,8 +43,12 @@ public class SongListFragment extends Fragment implements SongListContract.OnSon
     private SongListContract.SongListPresenter mSongListPresenter;
     private ListView mListView;
     private static List<SongList> mSongLists;
-    private OnSongListListener mCallback;//碎片和活动通信的接口引用
     private Handler mHandler;
+
+    /**
+     * 碎片和活动通信的接口引用
+     * */
+    private OnSongListListener mCallback;
 
     @Override
     public void onAttach(@NonNull Context context) {

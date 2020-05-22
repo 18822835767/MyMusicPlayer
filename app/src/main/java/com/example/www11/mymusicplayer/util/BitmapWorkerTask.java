@@ -13,8 +13,15 @@ import java.net.URL;
  * 主要是为了加载ListView中的图片，保证不乱序.
  * */
 public class BitmapWorkerTask extends AsyncTask<String, Void, BitmapDrawable> {
-    public String imageUrl;//task关联的图片的url
-    private WeakReference<ImageView> imageViewReference;//task关联imageView的弱引用
+    /**
+     * task关联的图片的url.
+     * */
+    public String imageUrl;
+    
+    /**
+     * task关联imageView的弱引用.
+     * */
+    private WeakReference<ImageView> imageViewReference;
 
     public BitmapWorkerTask(ImageView imageView) {
         imageViewReference = new WeakReference<>(imageView);//构造函数中传入imageView

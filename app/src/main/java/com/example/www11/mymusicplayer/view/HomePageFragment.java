@@ -26,10 +26,22 @@ import com.example.www11.mymusicplayer.widget.BannerViewPager;
  */
 public class HomePageFragment extends Fragment implements View.OnClickListener, 
         HomePageContract.OnHomePageView {
-    private Button mMySongList;//“我的歌单”按钮
+    /**
+     * “我的歌单”按钮
+     * */
+    private Button mMySongList;
+    
     private View view;
-    private OnHomePageListener mCallback;//碎片和活动通信的接口引用
-    private ImageButton mSearchBtn;//搜索的按钮
+    
+    /**
+     * 碎片和活动通信的接口引用
+     * */
+    private OnHomePageListener mCallback;
+    
+    /**
+     * 搜索的按钮
+     * */
+    private ImageButton mSearchBtn;
 
     @Override
     public void onAttach(@NonNull Context context) {

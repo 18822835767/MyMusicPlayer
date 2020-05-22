@@ -12,7 +12,10 @@ import java.net.URL;
  * 可以用于下载单个图片.
  * */
 public class AsyncImageTask extends AsyncTask<String, Void, BitmapDrawable> {
-    private ImageCallback mImageCallback;//回调接口
+    /**
+     * 回调接口
+     * */
+    private ImageCallback mImageCallback;
 
     public AsyncImageTask(ImageCallback imageCallback) {
         mImageCallback = imageCallback;

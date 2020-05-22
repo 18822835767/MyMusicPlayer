@@ -27,9 +27,20 @@ import com.example.www11.mymusicplayer.util.ViewHolderTool;
  * 点击“我的歌单”时的ListView的适配器.
  */
 public class SongListAdapter extends ArrayAdapter<SongList> {
-    private int mResourceId;//子项布局的id
-    private ListView mListView;//歌单所在的listview
-    private Bitmap mLoadingBitmap;//空白图片
+    /**
+     * 子项布局的id
+     * */
+    private int mResourceId;
+    
+    /**
+     * 歌单所在的listview
+     * */
+    private ListView mListView;
+    
+    /**
+     * 空白图片
+     * */
+    private Bitmap mLoadingBitmap;
 
     public SongListAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<SongList> objects) {
         super(context, textViewResourceId, objects);

@@ -14,7 +14,10 @@ import static com.example.www11.mymusicplayer.util.Constants.URLConstant.LOGIN_U
  * LoginModel的实现类.
  */
 public class LoginModelImpl implements LoginContract.LoginModel {
-    private User mUser;//登陆的用户
+    /**
+     * 登陆的用户
+     * */
+    private User mUser;
 
     @Override
     public void login(final LoginContract.OnLoginListener listener, String username, String password) {

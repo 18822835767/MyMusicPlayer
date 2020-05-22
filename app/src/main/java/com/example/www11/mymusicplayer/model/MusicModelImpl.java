@@ -16,7 +16,9 @@ import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_I
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_PLAY_URL;
 
 public class MusicModelImpl implements MusicContract.MusicModel {
-    //存放音乐的list
+    /**
+     * 存放音乐的list
+     * */
     private List<Music> mMusics = new ArrayList<>();
     
     /**

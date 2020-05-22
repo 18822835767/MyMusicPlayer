@@ -4,9 +4,20 @@ package com.example.www11.mymusicplayer.entity;
  * 歌单对应的实体类.
  * */
 public class SongList {
-    private long id;//歌单id
-    private String name;//歌单名字
-    private String coverImgUrl;//歌单的封面图片
+    /**
+     * 歌单id
+     * */
+    private long id;
+    
+    /**
+     * 歌单名字
+     * */
+    private String name;
+    
+    /**
+     * 歌单的封面图片
+     * */
+    private String coverImgUrl;
 
     public SongList() {
     }

@@ -36,14 +36,47 @@ import static com.example.www11.mymusicplayer.util.Constants.Banner.STOP;
  */
 public class BannerViewPager extends FrameLayout {
     private ViewPager mViewPager;
-    private LinearLayout mIndicatorGroup;//展示 小圆点的线性布局
-    private List<Integer> mImageUrls;//存放图片的Url，是“实际图片”的数量
-    private List<View> mViews;//存放要展示的图片，"实际图片"的数量。
-    private ImageView[] mTips;//存放 小圆点的数组
-    private int mCount;//用户看到的图片数量
-    private int mBannerTime = 1500;//轮播图的间隔时间，即1.5s.
-    private int mCurrentItem = 0;//表示 轮播图的当前选中项(从0开始).
-    private long mSlideTime = 0;//保存 手 滑动时的时间。下面进行判断，防止手滑动后又立即轮播
+
+    /**
+     * 展示 小圆点的线性布局
+     */
+    private LinearLayout mIndicatorGroup;
+
+    /**
+     * 存放图片的Url，是“实际图片”的数量
+     */
+    private List<Integer> mImageUrls;
+
+    /**
+     * 存放要展示的图片，"实际图片"的数量。
+     */
+    private List<View> mViews;
+
+    /**
+     * 存放 小圆点的数组
+     */
+    private ImageView[] mTips;
+
+    /**
+     * 用户看到的图片数量
+     */
+    private int mCount;
+
+    /**
+     * 轮播图的间隔时间，即1.5s.
+     */
+    private int mBannerTime = 1500;
+
+    /**
+     * 表示 轮播图的当前选中项(从0开始).
+     */
+    private int mCurrentItem = 0;
+
+    /**
+     * 保存 手 滑动时的时间。下面进行判断，防止手滑动后又立即轮播
+     */
+    private long mSlideTime = 0;
+    
     private Context mContext;
     private Handler mHandler;
 
@@ -219,17 +252,17 @@ public class BannerViewPager extends FrameLayout {
     }
 
     //todo 不要采取MyXXX这种命名方式
-    private static class MyHandler extends Handler{
+    private static class MyHandler extends Handler {
         WeakReference<BannerViewPager> mBannerWeakRef;
-        
-        MyHandler(BannerViewPager bannerViewPager){
+
+        MyHandler(BannerViewPager bannerViewPager) {
             mBannerWeakRef = new WeakReference<>(bannerViewPager);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
             BannerViewPager banner = mBannerWeakRef.get();
-            if(banner != null){
+            if (banner != null) {
                 switch (msg.what) {
                     //下一张图片
                     case START:
@@ -250,10 +283,10 @@ public class BannerViewPager extends FrameLayout {
             }
         }
     }
-    
+
     /**
      * ViewPager适配器.
-     * */
+     */
     class BannerAdapter extends PagerAdapter {
         @Override
         public int getCount() {

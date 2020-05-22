@@ -17,9 +17,20 @@ import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_I
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_PLAY_URL;
 
 public class SearchModelImpl implements SearchContract.SearchModel {
-    private int index = 0;//记录歌曲图片url的下标
-    private int length = IMAGE_URLS.length;//歌曲图片url的数组的长度
-    private List<Music> mMusics = new ArrayList<>();//存放搜索到的音乐的list
+    /**
+     * 记录歌曲图片url的下标
+     * */
+    private int index = 0;
+    
+    /**
+     * 歌曲图片url的数组的长度
+     * */
+    private int length = IMAGE_URLS.length;
+    
+    /**
+     * 存放搜索到的音乐的list
+     * */
+    private List<Music> mMusics = new ArrayList<>();
     
     @Override
     public void searchOrLoadMusic(SearchContract.OnSearchListener onSearchListener, String musicName,

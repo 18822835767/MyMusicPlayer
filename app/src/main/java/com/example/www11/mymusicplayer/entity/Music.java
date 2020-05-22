@@ -1,11 +1,30 @@
 package com.example.www11.mymusicplayer.entity;
 
 public class Music {
-    private String name;//歌曲名字
-    private long id;//歌曲id
-    private String picUrl;//专辑url
-    private String singerName;//歌手名字
-    private String musicURL = "";//歌曲url
+    /**
+     * 歌曲名字
+     * */
+    private String name;
+    
+    /**
+     * 歌曲id
+     * */
+    private long id;
+    
+    /**
+     * 专辑url
+     * */
+    private String picUrl;
+    
+    /**
+     * 歌手名字
+     * */
+    private String singerName;
+    
+    /**
+     * 歌曲url
+     * */
+    private String musicURL = "";
 
     public Music() {
     }

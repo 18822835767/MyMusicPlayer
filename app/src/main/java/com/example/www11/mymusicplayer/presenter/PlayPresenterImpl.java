@@ -42,23 +42,52 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
         }
         return instance;
     }
-
-    //todo 一般对于属性或方法的功能注释采取这种形式，而不是行末注释
+    
     /**
      * view接口的引用
      */
     private PlayMusicContract.OnPlayView mOnPlayView;
-    private int currentState = PLAY_STATE_STOP;//表示目前的播放状态，初始是停止播放的状态
-    private MediaPlayer mMediaPlayer = new MediaPlayer();
-    private Timer mTimer;//定时器，每个一段时间通过回调更新UI
-    private SeekTimeTask mSeekTimeTask;//定时任务
-    private List<Music> mMusics = new ArrayList<>();//存放要播放音乐的列表
-
-    private boolean mFirstPlay = true;//是否是第一次点击播放
-    private boolean mReset = false;//判断用户是否调用了mediaPlayer的reset()
-    private int mCurrentPosition = 0;//表示当前的播放位置
     
-    private int mPlayMode = ORDER_PLAY;//记录播放的方式，默认是列表循环
+    /**
+     * 表示目前的播放状态，初始是停止播放的状态
+     * */
+    private int currentState = PLAY_STATE_STOP;
+    
+    private MediaPlayer mMediaPlayer = new MediaPlayer();
+    /**
+     * 定时器，每个一段时间通过回调更新UI
+     * */
+    private Timer mTimer;
+    
+    /**
+     * 定时任务
+     * */
+    private SeekTimeTask mSeekTimeTask;
+    
+    /**
+     * 存放要播放音乐的列表
+     * */
+    private List<Music> mMusics = new ArrayList<>();
+
+    /**
+     * 是否是第一次点击播放
+     * */
+    private boolean mFirstPlay = true;
+    
+    /**
+     * 判断用户是否调用了mediaPlayer的reset()
+     * */
+    private boolean mReset = false;
+    
+    /**
+     * 表示当前的播放位置
+     * */
+    private int mCurrentPosition = 0;
+    
+    /**
+     * 记录播放的方式，默认是列表循环
+     * */
+    private int mPlayMode = ORDER_PLAY;
 
     @Override
     public void playOrPause() {

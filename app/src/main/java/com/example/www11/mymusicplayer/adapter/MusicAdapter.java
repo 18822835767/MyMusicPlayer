@@ -30,8 +30,15 @@ import androidx.annotation.Nullable;
  * */
 public class MusicAdapter extends ArrayAdapter<Music> {
 
-    private ListView mListView;//adapter所对应的listview
-    private Bitmap mLoadingBitmap;//空白图片
+    /**
+     * adapter所对应的listview
+     * */
+    private ListView mListView;
+    
+    /**
+     * 空白图片
+     * */
+    private Bitmap mLoadingBitmap;
 
     public MusicAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<Music> objects) {
         super(context, textViewResourceId, objects);

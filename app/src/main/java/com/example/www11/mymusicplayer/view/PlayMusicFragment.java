@@ -43,10 +43,24 @@ import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.F
 public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnPlayView {
 
     private View view;
-    private SeekBar mSeekBar;//进度条
-    private Button mPlayOrPause;//播放或者暂停按钮
+   
+    /**
+     * 进度条
+     */
+    private SeekBar mSeekBar;
+    
+    /**
+     * 播放或者暂停按钮
+     */
+    private Button mPlayOrPause;
+    
     private PlayMusicContract.PlayPresenter mPlayPresenter;
-    private boolean mUserTouchProgress = false;//用户是否触碰了进度条
+    
+    /**
+     * 用户是否触碰了进度条
+     */
+    private boolean mUserTouchProgress = false;
+    
     private ImageButton mPlayNext;
     private ImageButton mPlayPre;
     private TextView mSingerName;
@@ -54,11 +68,15 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     private ImageView mMusicPicture;
     private ImageButton mPlayModeBtn;
     private Handler mHandler;
+
+    /**
+     * 记录播放的方式，默认是列表循环
+     */
+    private int mPlayMode = ORDER_PLAY;
+
 //    private ImageButton mPlayQueue;//音乐播放队列的按钮点击
 //    private PopupWindow mPopWindow;//弹出的播放列表管理
-    
 
-    private int mPlayMode = ORDER_PLAY;//记录播放的方式，默认是列表循环
 
     @Nullable
     @Override
@@ -122,7 +140,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
                 mPlayPresenter.playOrPause();
             }
         });
-        
+
 //        mPlayQueue.setOnClickListener(v -> showPopupWindow());
 
         mPlayModeBtn.setOnClickListener(new View.OnClickListener() {
@@ -231,7 +249,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
     public void onDestroy() {
         super.onDestroy();
     }
-    
+
 //    /**
 //     * 用户点击播放列表管理时弹出一个popupwindow.
 //     * */
@@ -247,7 +265,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
 //        
 //        mPopWindow.showAtLocation(view, Gravity.BOTTOM,0,0);
 //    }
-    
+
     private static class MyHandler extends Handler {
         WeakReference<PlayMusicFragment> mWeakReference;
 
@@ -259,20 +277,20 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
         public void handleMessage(@NonNull Message msg) {
             PlayMusicFragment fragment = mWeakReference.get();
             Activity activity = null;
-            if(fragment != null){
+            if (fragment != null) {
                 activity = fragment.getActivity();
             }
             if (fragment != null) {
                 switch (msg.what) {
                     case FAIL:
                         String message = (String) msg.obj;
-                        if(activity != null){
+                        if (activity != null) {
                             Toast.makeText(fragment.getActivity(), message,
                                     Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case ERROR:
-                        if(activity != null){
+                        if (activity != null) {
                             Toast.makeText(fragment.getActivity(), "播放出现错误,自动为您播放下一首",
                                     Toast.LENGTH_SHORT).show();
                         }

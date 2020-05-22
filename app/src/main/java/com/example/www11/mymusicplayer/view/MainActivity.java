@@ -50,23 +50,37 @@ import static com.example.www11.mymusicplayer.util.Constants.MainConstant.SHOW_S
 public class MainActivity extends AppCompatActivity implements HomePageFragment.OnHomePageListener,
         SongListFragment.OnSongListListener, MusicFragment.OnMusicListener, SearchFragment.OnSearchListener {
 
-    //三个碎片
+    /**
+     * 三个碎片
+     * */
     private HomePageFragment mHomePageFragment = null;
     private SongListFragment mSongListFragment = null;
     private MusicFragment mMusicFragment = null;
     private SearchFragment mSearchFragment = null;
 
-    //播放音乐的碎片(底部的播放栏).
+    /**
+     * 播放音乐的碎片(底部的播放栏).
+     * */
     private PlayMusicFragment mPlayMusicFragment;
 
-    //在用户的"眼里"，总共页面的"碎片"
+    /**
+     * 在用户的"眼里"，总共页面的"碎片"
+     * */
     private LinkedList<Fragment> mFragmentLinkedList;
-    //用于记录各个碎片所对应的值
+    
+    /**
+     * 用于记录各个碎片所对应的值
+     * */
     private Map<Fragment, Integer> mMap = new HashMap<>();
 
-    //记录登陆的用户
+    /**
+     * 记录登陆的用户
+     * */
     private User mUser;
-    //记录用户点击的歌单的id
+    
+    /**
+     * 记录用户点击的歌单的id
+     * */
     private long mSongListId = 0;
 
     @Override

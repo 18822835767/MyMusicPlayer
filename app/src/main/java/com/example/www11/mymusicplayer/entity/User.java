@@ -6,8 +6,15 @@ import java.io.Serializable;
  * 用户的实体类.
  * */
 public class User implements Serializable {
-    private long id;//用户id
-    private String nickName;//用户别名
+    /**
+     * 用户id
+     * */
+    private long id;
+    
+    /**
+     * 用户别名
+     * */
+    private String nickName;
 
     public User() {
     }

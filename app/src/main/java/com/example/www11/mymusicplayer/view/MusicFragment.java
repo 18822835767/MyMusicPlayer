@@ -35,16 +35,33 @@ import static com.example.www11.mymusicplayer.util.Constants.MusicConstant.SUCCE
 /**
  * 展示音乐列表.
  */
-public class MusicFragment extends Fragment implements MusicContract.OnMusicView, 
+public class MusicFragment extends Fragment implements MusicContract.OnMusicView,
         AbsListView.OnScrollListener {
-    private ListView mListView;//展示音乐列表.
+    /**
+     * 展示音乐列表.
+     */
+    private ListView mListView;
+
     private MusicContract.MusicPresenter mMusicPresenter;
-    private List<Music> mMusics = new ArrayList<>();//保存列表中的音乐.
+
+    /**
+     * 保存列表中的音乐.
+     */
+    private List<Music> mMusics = new ArrayList<>();
+
     private View view;
 
-    private OnMusicListener mCallback;//碎片和活动通信的接口引用
-    private MusicAdapter mAdapter;//适配器的引用变量
-    private MyHandler mHandler;//Handler
+    /**
+     * 碎片和活动通信的接口引用
+     */
+    private OnMusicListener mCallback;
+
+    /**
+     * 适配器的引用变量
+     */
+    private MusicAdapter mAdapter;
+
+    private MyHandler mHandler;
 
     /**
      * 得到回调接口.
@@ -78,15 +95,15 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
         mMusicPresenter = new MusicPresenterImpl(this);
 
         //因为listview设置监听之前，需要先设置适配器，所以这里先设置适配器
-        if(getActivity() != null){
-            mAdapter = new MusicAdapter(getActivity(),R.layout.music_item,mMusics);
+        if (getActivity() != null) {
+            mAdapter = new MusicAdapter(getActivity(), R.layout.music_item, mMusics);
         }
         mHandler = new MyHandler(this);
         mListView.setAdapter(mAdapter);
 
         //设置监听
         mListView.setOnScrollListener(this);
-        
+
         //初始化音乐列表
         setMusicItem();
     }
@@ -111,10 +128,10 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
         mMusics.clear();
         mMusics.addAll(musics);
         //创建一个新的适配器
-        if(getActivity() != null){
-            mAdapter = new MusicAdapter(getActivity(),R.layout.music_item,mMusics);
+        if (getActivity() != null) {
+            mAdapter = new MusicAdapter(getActivity(), R.layout.music_item, mMusics);
         }
-        
+
         Message message = Message.obtain();
         message.what = SUCCESS;
         mHandler.sendMessage(message);
@@ -141,7 +158,8 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {}
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+    }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -150,7 +168,7 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
 
     private static class MyHandler extends Handler {
         WeakReference<MusicFragment> mWeakFragment;
-        
+
         MyHandler(MusicFragment musicFragment) {
             mWeakFragment = new WeakReference<>(musicFragment);
         }
@@ -159,7 +177,7 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
         public void handleMessage(@NonNull Message msg) {
             MusicFragment musicFragment = mWeakFragment.get();
             Activity activity = null;
-            if(mWeakFragment != null ){
+            if (mWeakFragment != null) {
                 activity = musicFragment.getActivity();
             }
             if (musicFragment != null) {
@@ -169,13 +187,13 @@ public class MusicFragment extends Fragment implements MusicContract.OnMusicView
                         musicFragment.mListView.setAdapter(musicFragment.mAdapter);
                         break;
                     case FAIL:
-                        if(activity != null){
+                        if (activity != null) {
                             Toast.makeText(musicFragment.getActivity(), "请求失败",
                                     Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case ERROR:
-                        if(activity != null){
+                        if (activity != null) {
                             AlertDialog.Builder errorDialog = new AlertDialog.Builder(
                                     musicFragment.getActivity());
                             errorDialog.setTitle("错误");

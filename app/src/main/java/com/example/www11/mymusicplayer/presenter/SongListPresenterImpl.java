@@ -8,8 +8,15 @@ import com.example.www11.mymusicplayer.model.SongListModelImpl;
 
 public class SongListPresenterImpl implements SongListContract.SongListPresenter,
         SongListContract.OnSongListListener {
-    private SongListContract.SongListModel mSongListModel;//model实现类的引用
-    private SongListContract.OnSongListView mOnSongListView;//view接口的引用
+    /**
+     * model实现类的引用
+     * */
+    private SongListContract.SongListModel mSongListModel;
+    
+    /**
+     * view接口的引用
+     * */
+    private SongListContract.OnSongListView mOnSongListView;
     
     public SongListPresenterImpl(SongListContract.OnSongListView onSongListView){
         this.mOnSongListView = onSongListView;
