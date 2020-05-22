@@ -37,11 +37,14 @@ public class HomePageModelImpl implements HomePageContract.HomePageModel {
                        ImageView imageView = new ImageView(ApplicationContext.getContext());
                        imageView.setImageDrawable(drawable);
                        mImageList.add(imageView);
+                       
+                       if(mImageList.size() == mBannerUrl.size()){
+                           onHomePageListener.onSuccess(mImageList);
+                       }
                    });
                    down.execute(mBannerUrl.get(i));
                }
                 
-                onHomePageListener.onSuccess(mImageList);
             }
 
             @Override

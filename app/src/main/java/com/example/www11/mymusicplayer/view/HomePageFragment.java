@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.www11.mymusicplayer.contract.HomePageContract;
+import com.example.www11.mymusicplayer.presenter.HomePagePresenterImpl;
 import com.example.www11.mymusicplayer.widget.BannerViewPager;
 
 /**
@@ -42,7 +43,11 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
      * 搜索的按钮
      * */
     private ImageButton mSearchBtn;
+    
+    private HomePageContract.HomePagePresenter mHomePagePresenter;
 
+    private BannerViewPager banner;
+    
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -66,12 +71,16 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
      * */
     private void initData() {
         //为轮播图设置数据
-        BannerViewPager banner = view.findViewById(R.id.banner_view_pager);
-        List<Integer> imageUrl = new ArrayList<>();
-        imageUrl.add(R.drawable.one);
-        imageUrl.add(R.drawable.two);
-        imageUrl.add(R.drawable.thr);
-        banner.setData(imageUrl);
+//        BannerViewPager banner = view.findViewById(R.id.banner_view_pager);
+//        List<Integer> imageUrl = new ArrayList<>();
+//        imageUrl.add(R.drawable.one);
+//        imageUrl.add(R.drawable.two);
+//        imageUrl.add(R.drawable.thr);
+//        banner.setData(imageUrl);
+        banner = view.findViewById(R.id.banner_view_pager);
+        mHomePagePresenter = new HomePagePresenterImpl(this);
+        mHomePagePresenter.getBanner();
+        
 
         mMySongList = view.findViewById(R.id.my_song_list);
         mSearchBtn = view.findViewById(R.id.search);
@@ -98,7 +107,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void showBanner(List<ImageView> imageList) {
-        
+        banner.setData(imageList);
     }
 
     /**

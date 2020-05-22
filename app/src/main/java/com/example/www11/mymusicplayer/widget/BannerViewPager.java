@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +78,7 @@ public class BannerViewPager extends FrameLayout {
      */
     private long mSlideTime = 0;
     
+    private BannerAdapter adapter;
     private Context mContext;
     private Handler mHandler;
 
@@ -117,16 +119,22 @@ public class BannerViewPager extends FrameLayout {
     /**
      * 初始化imageUrls的资源。
      */
-    public void setData(List<Integer> imageUrls) {
-        this.mImageUrls.clear();
-        this.mCount = imageUrls.size();//存放用户“看到”的图片数量.
-        //“轮播图”里存放的数量 = 用户看到的+2
-        this.mImageUrls.add(imageUrls.get(mCount - 1));
-        this.mImageUrls.addAll(imageUrls);
-        this.mImageUrls.add(imageUrls.get(0));
+    public void setData(List<ImageView> images) {
+//        this.mImageUrls.clear();
+//        this.mCount = imageUrls.size();//存放用户“看到”的图片数量.
+//        //“轮播图”里存放的数量 = 用户看到的+2
+//        this.mImageUrls.add(imageUrls.get(mCount - 1));
+//        this.mImageUrls.addAll(imageUrls);
+//        this.mImageUrls.add(imageUrls.get(0));
+        mViews.clear();
+        mCount = images.size();
+        mViews.add(images.get(mCount-1));
+        mViews.addAll(images);
+        mViews.add(images.get(0));
+        
 
         initIndicator();
-        getShowImage();
+//        getShowImage();
         setUI();
     }
 
@@ -156,18 +164,18 @@ public class BannerViewPager extends FrameLayout {
         }
     }
 
-    /**
-     * 加载图片，存放到views容器里
-     */
-    private void getShowImage() {
-        for (int i = 0; i < mImageUrls.size(); i++) {
-            ImageView imageView = new ImageView(mContext);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setImageResource(mImageUrls.get(i));
-
-            mViews.add(imageView);
-        }
-    }
+//    /**
+//     * 加载图片，存放到views容器里
+//     */
+//    private void getShowImage() {
+//        for (int i = 0; i < mImageUrls.size(); i++) {
+//            ImageView imageView = new ImageView(mContext);
+//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            imageView.setImageResource(mImageUrls.get(i));
+//
+//            mViews.add(imageView);
+//        }
+//    }
 
     /**
      * 设置UI.
@@ -176,7 +184,7 @@ public class BannerViewPager extends FrameLayout {
      * </p>
      */
     private void setUI() {
-        BannerAdapter adapter = new BannerAdapter();
+        adapter = new BannerAdapter();
         mViewPager.setAdapter(adapter);
         mViewPager.addOnPageChangeListener(onPageChangeListener);
         mViewPager.setCurrentItem(1);
@@ -301,6 +309,11 @@ public class BannerViewPager extends FrameLayout {
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
+            View v = mViews.get(position);
+            ViewGroup parent = (ViewGroup) v.getParent();
+            if(parent != null){
+                parent.removeAllViews();
+            }
             container.addView(mViews.get(position));
             return mViews.get(position);
         }
