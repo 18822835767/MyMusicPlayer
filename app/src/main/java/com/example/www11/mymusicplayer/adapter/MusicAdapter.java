@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.mymusicplayer.R;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.util.BitmapWorkerTask;
+import com.example.www11.mymusicplayer.util.ImageMemoryCache;
 import com.example.www11.mymusicplayer.util.ViewHolderTool;
 
 import java.lang.ref.WeakReference;
@@ -79,7 +80,11 @@ public class MusicAdapter extends ArrayAdapter<Music> {
          * 若后台的任务请求的图片刚好和imageview需要的一致，则if下面的不执行.
          * 若该imageview后台无请求任务，cancelPo...返回true,则执行if里的语句.
          * */
-        if (cancelPotentialWork(url, image)) {
+        BitmapDrawable drawable = ImageMemoryCache.getBitmapFromMemoryCache(url);
+        if(drawable != null){
+            cancelPotentialWork(url,image);
+            image.setImageDrawable(drawable);
+        }else if(cancelPotentialWork(url, image)){
             //新建请求图片的task，该task含有imageview的弱引用
             BitmapWorkerTask task = new BitmapWorkerTask(image);
             //先给AsyncDrawable关联task的引用，imageview可以通过AsyncDrawable关联到task
