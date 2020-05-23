@@ -12,7 +12,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.IMAGE_HEIGHT;
 import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.IMAGE_URLS;
+import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.IMAGE_WIDTH;
+import static com.example.www11.mymusicplayer.util.Constants.URLConstant.IMAGE_URL_PARAMS;
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_INFO_BY_NAME_URL;
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_PLAY_URL;
 
@@ -150,7 +153,8 @@ public class SearchModelImpl implements SearchContract.SearchModel {
             long id = songJson.getLong("id");
             String songName = songJson.getString("name");
             String singerName = builder.toString();
-            String picUrl = IMAGE_URLS[index];
+            String picUrl = IMAGE_URLS[index] + String.format(IMAGE_URL_PARAMS,IMAGE_WIDTH,
+                    IMAGE_HEIGHT);
             
             Music music = new Music(songName,id,picUrl,singerName);
             mMusics.add(music);

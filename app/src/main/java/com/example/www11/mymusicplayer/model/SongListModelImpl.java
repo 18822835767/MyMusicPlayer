@@ -12,6 +12,9 @@ import com.example.www11.mymusicplayer.entity.SongList;
 import com.example.www11.mymusicplayer.util.HttpCallbackListener;
 import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
+import static com.example.www11.mymusicplayer.util.Constants.SongListConstant.IMAGE_HEIGHT;
+import static com.example.www11.mymusicplayer.util.Constants.SongListConstant.IMAGE_WIDTH;
+import static com.example.www11.mymusicplayer.util.Constants.URLConstant.IMAGE_URL_PARAMS;
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.SONG_LIST_URL;
 
 public class SongListModelImpl implements SongListContract.SongListModel{
@@ -67,7 +70,8 @@ public class SongListModelImpl implements SongListContract.SongListModel{
 
             long id = songListJson.getLong("id");
             String name = songListJson.getString("name");
-            String coverImgUrl = songListJson.getString("coverImgUrl");
+            String coverImgUrl = songListJson.getString("coverImgUrl")+
+                    String.format(IMAGE_URL_PARAMS,IMAGE_WIDTH, IMAGE_HEIGHT);
             
             SongList songList = new SongList(id,name,coverImgUrl);
             mSongLists.add(songList);

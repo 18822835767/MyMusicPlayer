@@ -26,6 +26,8 @@ public class Constants {
         public static final String MUSIC_INFO_BY_NAME_URL = SERVER_HOST+"search?keywords= %1$s&lim" +
                 "it= %2$s&offset= %3$s";
         public static final String SONG_LIST_URL = SERVER_HOST+"user/playlist?uid=%s";
+        //网易云接口的设计，可以在图片url后面加上需要的宽度和高度，即可以加载缩略图,参数是：宽度和高度
+        public static final String IMAGE_URL_PARAMS = "?param=%1$sy%2$s";
     }
     
     /**
@@ -64,6 +66,10 @@ public class Constants {
         public static final int SUCCESS = 0;
         public static final int FAIL = 1;
         public static final int ERROR = 2;
+
+        //歌曲列表图片大小对应的常量
+        public static final int IMAGE_WIDTH = 50;
+        public static final int IMAGE_HEIGHT = 50;
     }
     
     /**
@@ -74,6 +80,10 @@ public class Constants {
         public static final int SUCCESS = 0;
         public static final int FAIL = 1;
         public static final int ERROR = 2;
+        
+        //歌曲列表图片大小对应的常量
+        public static final int IMAGE_WIDTH = 50;
+        public static final int IMAGE_HEIGHT = 50;
     }
     
     /**
@@ -107,6 +117,7 @@ public class Constants {
         public static final String CHANNEL_ID = "10";
         //前台服务的Channel的名字
         public static final String CHANNEL_NAME = "音乐状态栏";
+        
     }
     
     /**
@@ -134,5 +145,9 @@ public class Constants {
         
         //加载更多歌曲对应的常量
         public static final int LOAD_SUCCESS = 10;
+
+        //歌曲列表图片大小对应的常量
+        public static final int IMAGE_WIDTH = 50;
+        public static final int IMAGE_HEIGHT = 50;
     }
 }

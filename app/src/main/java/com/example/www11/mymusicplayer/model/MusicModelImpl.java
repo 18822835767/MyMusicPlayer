@@ -1,5 +1,7 @@
 package com.example.www11.mymusicplayer.model;
 
+import android.content.Context;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +14,9 @@ import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.util.HttpCallbackListener;
 import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
+import static com.example.www11.mymusicplayer.util.Constants.MusicConstant.IMAGE_HEIGHT;
+import static com.example.www11.mymusicplayer.util.Constants.MusicConstant.IMAGE_WIDTH;
+import static com.example.www11.mymusicplayer.util.Constants.URLConstant.IMAGE_URL_PARAMS;
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_INFO_BY_ID_URL;
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_PLAY_URL;
 
@@ -125,7 +130,8 @@ public class MusicModelImpl implements MusicContract.MusicModel {
             //歌名 歌id 专辑URL  歌手名字
             String name = musicJson.getString("name");
             long id = musicJson.getLong("id");
-            String pirUrl = al.getString("picUrl");
+            String pirUrl = al.getString("picUrl") + String.format(IMAGE_URL_PARAMS,IMAGE_WIDTH,
+                    IMAGE_HEIGHT);
             String singerName = builder.toString();
             
             Music music = new Music(name, id, pirUrl,singerName);
