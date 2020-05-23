@@ -65,7 +65,6 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         TextView musicName = ViewHolderTool.get(view,R.id.music_name);
         TextView singerName = ViewHolderTool.get(view,R.id.singer_name);
         ImageView image = ViewHolderTool.get(view,R.id.music_image);
-        
 
         //设定歌曲名字和歌手名字
         if (music != null) {

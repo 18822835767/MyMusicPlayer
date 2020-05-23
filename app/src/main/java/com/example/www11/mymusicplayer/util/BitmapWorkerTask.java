@@ -44,7 +44,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, BitmapDrawable> {
     protected void onPostExecute(BitmapDrawable drawable) {
         imageViewReference.get().setImageDrawable(drawable);
     }
-
+    
     /**
      * 执行图片的下载任务.
      */
