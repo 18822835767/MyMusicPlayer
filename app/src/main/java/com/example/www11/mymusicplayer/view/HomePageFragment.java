@@ -1,6 +1,7 @@
 package com.example.www11.mymusicplayer.view;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,8 +106,8 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void showBanner(List<ImageView> imageList) {
-        banner.setData(imageList);
+    public void showBanner(List<Drawable> drawableList) {
+        banner.setData(drawableList);
     }
 
     /**

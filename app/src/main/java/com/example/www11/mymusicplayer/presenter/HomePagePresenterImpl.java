@@ -1,5 +1,6 @@
 package com.example.www11.mymusicplayer.presenter;
 
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.example.www11.mymusicplayer.contract.HomePageContract;
@@ -23,7 +24,7 @@ public class HomePagePresenterImpl implements HomePageContract.Presenter,
     }
 
     @Override
-    public void onSuccess(List<ImageView> imageList) {
-        mOnHomePageView.showBanner(imageList);
+    public void onSuccess(List<Drawable> drawableList) {
+        mOnHomePageView.showBanner(drawableList);
     }
 }

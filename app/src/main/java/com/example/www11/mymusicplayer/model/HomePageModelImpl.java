@@ -1,5 +1,6 @@
 package com.example.www11.mymusicplayer.model;
 
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.example.www11.mymusicplayer.contract.HomePageContract;
@@ -19,7 +20,7 @@ import static com.example.www11.mymusicplayer.util.Constants.URLConstant.BANNER_
 
 public class HomePageModelImpl implements HomePageContract.Model {
     private List<String> mBannerUrl = new ArrayList<>();
-    private List<ImageView> mImageList = new ArrayList<>();//存放轮播图得到的图片
+    private List<Drawable> mDrawableList = new ArrayList<>();//存放轮播图得到的图片
    
     @Override
     public void getBanner(HomePageContract.OnListener onHomePageListener) {
@@ -31,15 +32,13 @@ public class HomePageModelImpl implements HomePageContract.Model {
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
-                //todo 一般不在非View层使用到View层的东西，如ImageView等控件
+               
                for(int i=0;i<mBannerUrl.size();i++){
                    AsyncImageTask down = new AsyncImageTask(drawable -> {
-                       ImageView imageView = new ImageView(ApplicationContext.getContext());
-                       imageView.setImageDrawable(drawable);
-                       mImageList.add(imageView);
+                       mDrawableList.add(drawable);
                        
-                       if(mImageList.size() == mBannerUrl.size()){
-                           onHomePageListener.onSuccess(mImageList);
+                       if(mDrawableList.size() == mBannerUrl.size()){
+                           onHomePageListener.onSuccess(mDrawableList);
                        }
                    });
                    down.execute(mBannerUrl.get(i));

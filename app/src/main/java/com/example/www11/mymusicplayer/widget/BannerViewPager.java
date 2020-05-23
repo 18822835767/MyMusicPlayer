@@ -1,6 +1,7 @@
 package com.example.www11.mymusicplayer.widget;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -26,7 +27,6 @@ import static com.example.www11.mymusicplayer.util.Constants.Banner.START;
 import static com.example.www11.mymusicplayer.util.Constants.Banner.STOP;
 
 /**
- * todo 尝试下从banner接口获取的轮播图数据
  * 实现轮播图，自定义控件.
  * <p>
  * 通过无线循环实现。
@@ -45,7 +45,7 @@ public class BannerViewPager extends FrameLayout {
     /**
      * 存放图片的Url，是“实际图片”的数量
      */
-    private List<Integer> mImageUrls;
+    private List<Drawable> mDrawables;
 
     /**
      * 存放要展示的图片，"实际图片"的数量。
@@ -84,7 +84,7 @@ public class BannerViewPager extends FrameLayout {
     public BannerViewPager(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
-        mImageUrls = new ArrayList<>();
+        mDrawables = new ArrayList<>();
         mViews = new ArrayList<>();
         init(context, attrs);
     }
@@ -118,7 +118,7 @@ public class BannerViewPager extends FrameLayout {
     /**
      * 初始化imageUrls的资源。
      */
-    public void setData(List<ImageView> images) {
+    public void setData(List<Drawable> drawables) {
 //        this.mImageUrls.clear();
 //        this.mCount = imageUrls.size();//存放用户“看到”的图片数量.
 //        //“轮播图”里存放的数量 = 用户看到的+2
@@ -126,14 +126,18 @@ public class BannerViewPager extends FrameLayout {
 //        this.mImageUrls.addAll(imageUrls);
 //        this.mImageUrls.add(imageUrls.get(0));
         mViews.clear();
-        mCount = images.size();
-        mViews.add(images.get(mCount-1));
-        mViews.addAll(images);
-        mViews.add(images.get(0));
+        mCount = drawables.size();
+        mDrawables.add(drawables.get(mCount-1));
+        mDrawables.addAll(drawables);
+        mDrawables.add(drawables.get(0));
+        
+//        mViews.add(images.get(mCount-1));
+//        mViews.addAll(images);
+//        mViews.add(images.get(0));
         
 
         initIndicator();
-//        getShowImage();
+        getShowImage();
         setUI();
     }
 
@@ -163,18 +167,17 @@ public class BannerViewPager extends FrameLayout {
         }
     }
 
-//    /**
-//     * 加载图片，存放到views容器里
-//     */
-//    private void getShowImage() {
-//        for (int i = 0; i < mImageUrls.size(); i++) {
-//            ImageView imageView = new ImageView(mContext);
-//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//            imageView.setImageResource(mImageUrls.get(i));
-//
-//            mViews.add(imageView);
-//        }
-//    }
+    /**
+     * 加载图片，存放到views容器里
+     */
+    private void getShowImage() {
+        for (int i = 0; i < mDrawables.size(); i++) {
+            ImageView imageView = new ImageView(mContext);
+            imageView.setImageDrawable(mDrawables.get(i));
+
+            mViews.add(imageView);
+        }
+    }
 
     /**
      * 设置UI.
