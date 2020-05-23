@@ -17,12 +17,12 @@ import java.util.List;
 
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.BANNER_URL;
 
-public class HomePageModelImpl implements HomePageContract.HomePageModel {
+public class HomePageModelImpl implements HomePageContract.Model {
     private List<String> mBannerUrl = new ArrayList<>();
     private List<ImageView> mImageList = new ArrayList<>();//存放轮播图得到的图片
    
     @Override
-    public void getBanner(HomePageContract.OnHomePageListener onHomePageListener) {
+    public void getBanner(HomePageContract.OnListener onHomePageListener) {
         HttpUrlConnection.sendHttpUrlConnection(BANNER_URL, new HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {

@@ -19,7 +19,7 @@ import static com.example.www11.mymusicplayer.util.Constants.URLConstant.IMAGE_U
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_INFO_BY_NAME_URL;
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_PLAY_URL;
 
-public class SearchModelImpl implements SearchContract.SearchModel {
+public class SearchModelImpl implements SearchContract.Model {
     /**
      * 记录歌曲图片url的下标
      * */
@@ -36,7 +36,7 @@ public class SearchModelImpl implements SearchContract.SearchModel {
     private List<Music> mMusics = new ArrayList<>();
     
     @Override
-    public void searchOrLoadMusic(SearchContract.OnSearchListener onSearchListener, String musicName,
+    public void searchOrLoadMusic(SearchContract.OnListener onSearchListener, String musicName,
                                   int limit, int offset) {
         HttpUrlConnection.sendHttpUrlConnection( String.format(MUSIC_INFO_BY_NAME_URL,musicName,limit,
                 offset), new HttpCallbackListener() {

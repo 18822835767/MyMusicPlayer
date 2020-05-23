@@ -12,11 +12,11 @@ import com.example.www11.mymusicplayer.model.LoginModelImpl;
  * </p>
  * 
  * */
-public class LoginPresenterImpl implements LoginContract.LoginPresenter, LoginContract.OnLoginListener {
-    private LoginContract.LoginModel mLoginModel;
-    private LoginContract.OnLoginView mOnLoginView;
+public class LoginPresenterImpl implements LoginContract.Presenter, LoginContract.OnListener {
+    private LoginContract.Model mLoginModel;
+    private LoginContract.OnView mOnLoginView;
     
-    public LoginPresenterImpl(LoginContract.OnLoginView onLoginView){
+    public LoginPresenterImpl(LoginContract.OnView onLoginView){
         this.mOnLoginView = onLoginView;
         mLoginModel = new LoginModelImpl();
     }

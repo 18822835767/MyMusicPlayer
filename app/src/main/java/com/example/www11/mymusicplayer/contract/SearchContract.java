@@ -2,8 +2,6 @@ package com.example.www11.mymusicplayer.contract;
 
 import com.example.www11.mymusicplayer.entity.Music;
 
-import org.json.JSONException;
-
 import java.util.List;
 
 /**
@@ -13,16 +11,16 @@ public interface SearchContract {
     /**
      * SearchModel接口，被SearchPresenter调用.
      * */
-    interface SearchModel{
+    interface Model {
         //搜索歌曲或者加载更多歌曲
-        void searchOrLoadMusic(OnSearchListener onSearchListener, String musicName, int limit, 
+        void searchOrLoadMusic(OnListener onSearchListener, String musicName, int limit,
                                int offset);
     }
     
     /**
      * SearchPresenter接口，被SearchFragment调用.
      * */
-    interface SearchPresenter{
+    interface Presenter {
         void searchOrLoadMusic(String musicName, int limit, int offset);//搜索歌曲
     }
     
@@ -30,7 +28,7 @@ public interface SearchContract {
      * 这是将SearchModel请求结果反馈给SearchPresenter的Callback接口.
      * SearchPresenter要去实现这个接口.
      * */
-    interface OnSearchListener{
+    interface OnListener {
         void onSuccess(int songCount,List<Music> musics);
         void loadMoreMusics(List<Music> musics);
     }
@@ -39,7 +37,7 @@ public interface SearchContract {
      * SearchPresenter将登陆结果反馈给SearchFragment的View接口.
      * 由SearchFragment去实现这个类.
      * */
-    interface OnSearchView{
+    interface OnView {
         /**
          * 展示用户搜索得到的歌曲.
          * */

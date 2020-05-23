@@ -40,7 +40,7 @@ import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.F
 /**
  * 底部"音乐播放栏"的碎片.
  */
-public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnPlayView {
+public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnView {
 
     private View view;
    
@@ -54,7 +54,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnP
      */
     private Button mPlayOrPause;
     
-    private PlayMusicContract.PlayPresenter mPlayPresenter;
+    private PlayMusicContract.Presenter mPlayPresenter;
     
     /**
      * 用户是否触碰了进度条

@@ -6,12 +6,12 @@ import com.example.www11.mymusicplayer.contract.MusicContract;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.model.MusicModelImpl;
 
-public class MusicPresenterImpl implements MusicContract.MusicPresenter, 
-        MusicContract.OnMusicListener {
-    private MusicContract.MusicModel mMusicModel;
-    private MusicContract.OnMusicView mOnMusicView;
+public class MusicPresenterImpl implements MusicContract.Presenter,
+        MusicContract.OnListener {
+    private MusicContract.Model mMusicModel;
+    private MusicContract.OnView mOnMusicView;
 
-    public MusicPresenterImpl(MusicContract.OnMusicView onMusicView){
+    public MusicPresenterImpl(MusicContract.OnView onMusicView){
         this.mOnMusicView = onMusicView;
         mMusicModel = new MusicModelImpl();
     }

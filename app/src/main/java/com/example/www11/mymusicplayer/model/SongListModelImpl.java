@@ -17,14 +17,14 @@ import static com.example.www11.mymusicplayer.util.Constants.SongListConstant.IM
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.IMAGE_URL_PARAMS;
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.SONG_LIST_URL;
 
-public class SongListModelImpl implements SongListContract.SongListModel{
+public class SongListModelImpl implements SongListContract.Model {
     private List<SongList> mSongLists = new ArrayList<>();
     
     /**
      * 当用户点击"我的歌单"时，会加载歌单数据.
      * */
     @Override
-    public void getUserSongList(SongListContract.OnSongListListener onSongListListener, long userId) {
+    public void getUserSongList(SongListContract.OnListener onSongListListener, long userId) {
         HttpUrlConnection.sendHttpUrlConnection(String.format(SONG_LIST_URL,userId),new HttpCallbackListener(){
             @Override
             public void onSuccess(String dataMessage) {

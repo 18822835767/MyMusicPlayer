@@ -7,12 +7,12 @@ import com.example.www11.mymusicplayer.model.HomePageModelImpl;
 
 import java.util.List;
 
-public class HomePagePresenterImpl implements HomePageContract.HomePagePresenter,
-        HomePageContract.OnHomePageListener {
-    private HomePageContract.HomePageModel mHomePageModel;
-    private HomePageContract.OnHomePageView mOnHomePageView;
+public class HomePagePresenterImpl implements HomePageContract.Presenter,
+        HomePageContract.OnListener {
+    private HomePageContract.Model mHomePageModel;
+    private HomePageContract.OnView mOnHomePageView;
 
-    public HomePagePresenterImpl(HomePageContract.OnHomePageView onHomePageView){
+    public HomePagePresenterImpl(HomePageContract.OnView onHomePageView){
         mOnHomePageView = onHomePageView;
         mHomePageModel = new HomePageModelImpl();
     }

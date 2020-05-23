@@ -1,7 +1,5 @@
 package com.example.www11.mymusicplayer.model;
 
-import android.content.Context;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +18,7 @@ import static com.example.www11.mymusicplayer.util.Constants.URLConstant.IMAGE_U
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_INFO_BY_ID_URL;
 import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_PLAY_URL;
 
-public class MusicModelImpl implements MusicContract.MusicModel {
+public class MusicModelImpl implements MusicContract.Model {
     /**
      * 存放音乐的list
      * */
@@ -30,7 +28,7 @@ public class MusicModelImpl implements MusicContract.MusicModel {
      * 获得歌单中的音乐列表--数据.
      * */
     @Override
-    public void getMusicList(MusicContract.OnMusicListener onMusicListener, long songListId) {
+    public void getMusicList(MusicContract.OnListener onMusicListener, long songListId) {
         HttpUrlConnection.sendHttpUrlConnection(String.format(MUSIC_INFO_BY_ID_URL,songListId),
                 new HttpCallbackListener() {
             @Override

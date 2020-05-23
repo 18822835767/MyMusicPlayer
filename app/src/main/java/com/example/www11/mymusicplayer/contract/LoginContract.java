@@ -9,15 +9,15 @@ public interface LoginContract {
     /**
      * LoginModel接口，被LoginPresenter调用.
      * */
-    interface LoginModel {
-        void login(OnLoginListener listener, String username, String password);
+    interface Model {
+        void login(OnListener listener, String username, String password);
         void handleJson(String dataMessage) throws JSONException;
     }
 
     /**
      * LoginPresenter接口，被LoginActivity调用.
      * */
-    interface LoginPresenter {
+    interface Presenter {
         void login(String username,String password);
     }
 
@@ -25,7 +25,7 @@ public interface LoginContract {
      * 这是将LoginModel请求结果反馈给LoginPresenter的Callback接口.
      * LoginPresenter要去实现这个接口.
      * */
-    interface OnLoginListener {
+    interface OnListener {
         /**
          * 登陆成功.
          * */
@@ -56,7 +56,7 @@ public interface LoginContract {
      * LoginPresenter将登陆结果反馈给LoginActivity的View接口.
      * 由LoginActivity去实现这个类.
      * */
-    interface OnLoginView {
+    interface OnView {
         /**
          * 登陆成功后LoginActivity做相应的显示.
          * */

@@ -13,14 +13,14 @@ import static com.example.www11.mymusicplayer.util.Constants.URLConstant.LOGIN_U
 /**
  * LoginModel的实现类.
  */
-public class LoginModelImpl implements LoginContract.LoginModel {
+public class LoginModelImpl implements LoginContract.Model {
     /**
      * 登陆的用户
      * */
     private User mUser;
 
     @Override
-    public void login(final LoginContract.OnLoginListener listener, String username, String password) {
+    public void login(final LoginContract.OnListener listener, String username, String password) {
         HttpUrlConnection.sendHttpUrlConnection(String.format(LOGIN_URL,username,password),
                 new HttpCallbackListener() {
             @Override

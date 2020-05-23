@@ -9,7 +9,6 @@ import com.example.www11.mymusicplayer.presenter.LoginPresenterImpl;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,7 +17,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mymusicplayer.R;
-import com.example.www11.mymusicplayer.util.Constants;
 
 import java.lang.ref.WeakReference;
 
@@ -27,14 +25,13 @@ import static com.example.www11.mymusicplayer.util.Constants.LoginConstant.FAIL;
 import static com.example.www11.mymusicplayer.util.Constants.LoginConstant.HIDE_LOADING;
 import static com.example.www11.mymusicplayer.util.Constants.LoginConstant.SHOW_LOADING;
 import static com.example.www11.mymusicplayer.util.Constants.LoginConstant.SUCCESS;
-import static com.example.www11.mymusicplayer.util.Constants.LoginConstant.USER;
 
-public class LoginActivity extends AppCompatActivity implements LoginContract.OnLoginView {
+public class LoginActivity extends AppCompatActivity implements LoginContract.OnView {
 
     private EditText mUsername;
     private EditText mPassword;
     private Button mLogin;
-    private LoginContract.LoginPresenter mLoginPresenter;
+    private LoginContract.Presenter mLoginPresenter;
     private ProgressDialog mProgressDialog;
     private Handler mHandler;
     

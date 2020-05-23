@@ -2,10 +2,8 @@ package com.example.www11.mymusicplayer.presenter;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.util.Log;
 
 import java.io.IOException;
-import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -25,7 +23,7 @@ import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.R
 /**
  * 因为要使播放器在服务中，又使播放器可以收到PlayMusicFragment，所以采取单例模式.
  */
-public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
+public class PlayPresenterImpl implements PlayMusicContract.Presenter,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener {
     private volatile static PlayPresenterImpl instance = null;
 
@@ -46,7 +44,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
     /**
      * view接口的引用
      */
-    private PlayMusicContract.OnPlayView mOnPlayView;
+    private PlayMusicContract.OnView mOnPlayView;
     
     /**
      * 表示目前的播放状态，初始是停止播放的状态
@@ -289,7 +287,7 @@ public class PlayPresenterImpl implements PlayMusicContract.PlayPresenter,
      * 为PlayPresenter注册view接口.
      */
     @Override
-    public void registOnPlayView(PlayMusicContract.OnPlayView onPlayView) {
+    public void registOnPlayView(PlayMusicContract.OnView onPlayView) {
         this.mOnPlayView = onPlayView;
     }
 

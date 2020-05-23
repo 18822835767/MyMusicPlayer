@@ -32,10 +32,10 @@ import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.SEAR
 import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.SEARCH_FAIL;
 import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.SEARCH_SUCCESS;
 
-public class SearchFragment extends Fragment implements SearchContract.OnSearchView,
+public class SearchFragment extends Fragment implements SearchContract.OnView,
         AbsListView.OnScrollListener {
     private View view;
-    private SearchContract.SearchPresenter mSearchPresenter;
+    private SearchContract.Presenter mSearchPresenter;
     private EditText mSearchContent;
     private Button mSearchBtn;
     private ListView mListView;

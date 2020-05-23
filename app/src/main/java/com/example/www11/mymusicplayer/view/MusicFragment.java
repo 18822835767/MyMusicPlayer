@@ -35,14 +35,14 @@ import static com.example.www11.mymusicplayer.util.Constants.MusicConstant.SUCCE
 /**
  * 展示音乐列表.
  */
-public class MusicFragment extends Fragment implements MusicContract.OnMusicView,
+public class MusicFragment extends Fragment implements MusicContract.OnView,
         AbsListView.OnScrollListener {
     /**
      * 展示音乐列表.
      */
     private ListView mListView;
 
-    private MusicContract.MusicPresenter mMusicPresenter;
+    private MusicContract.Presenter mMusicPresenter;
 
     /**
      * 保存列表中的音乐.

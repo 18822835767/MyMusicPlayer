@@ -17,7 +17,6 @@ import com.example.mymusicplayer.R;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import com.example.www11.mymusicplayer.adapter.MusicAdapter;
 import com.example.www11.mymusicplayer.adapter.SongListAdapter;
 
 import androidx.annotation.NonNull;
@@ -28,7 +27,6 @@ import com.example.www11.mymusicplayer.contract.SongListContract;
 import com.example.www11.mymusicplayer.entity.SongList;
 import com.example.www11.mymusicplayer.entity.User;
 import com.example.www11.mymusicplayer.presenter.SongListPresenterImpl;
-import com.example.www11.mymusicplayer.util.Constants;
 
 import static com.example.www11.mymusicplayer.util.Constants.SongListConstant.ERROR;
 import static com.example.www11.mymusicplayer.util.Constants.SongListConstant.FAIL;
@@ -37,10 +35,10 @@ import static com.example.www11.mymusicplayer.util.Constants.SongListConstant.SU
 /**
  * 歌单列表的碎片.
  */
-public class SongListFragment extends Fragment implements SongListContract.OnSongListView {
+public class SongListFragment extends Fragment implements SongListContract.OnView {
     private View view;
     private User mUser;
-    private SongListContract.SongListPresenter mSongListPresenter;
+    private SongListContract.Presenter mSongListPresenter;
     private ListView mListView;
     private static List<SongList> mSongLists;
     private Handler mHandler;

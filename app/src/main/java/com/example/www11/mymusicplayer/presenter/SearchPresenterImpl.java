@@ -6,12 +6,12 @@ import com.example.www11.mymusicplayer.model.SearchModelImpl;
 
 import java.util.List;
 
-public class SearchPresenterImpl implements SearchContract.OnSearchListener,
-        SearchContract.SearchPresenter {
-    private SearchContract.OnSearchView mOnSearchView;
-    private SearchContract.SearchModel mSearchModel;
+public class SearchPresenterImpl implements SearchContract.OnListener,
+        SearchContract.Presenter {
+    private SearchContract.OnView mOnSearchView;
+    private SearchContract.Model mSearchModel;
     
-    public SearchPresenterImpl(SearchContract.OnSearchView onSearchView){
+    public SearchPresenterImpl(SearchContract.OnView onSearchView){
         mOnSearchView = onSearchView;
         mSearchModel = new SearchModelImpl();
     }

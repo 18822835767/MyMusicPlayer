@@ -11,7 +11,6 @@ import android.widget.ImageView;
 
 import com.example.mymusicplayer.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -25,8 +24,8 @@ import com.example.www11.mymusicplayer.widget.BannerViewPager;
 /**
  * 音乐首页所对应的view.
  */
-public class HomePageFragment extends Fragment implements View.OnClickListener, 
-        HomePageContract.OnHomePageView {
+public class HomePageFragment extends Fragment implements View.OnClickListener,
+        HomePageContract.OnView {
     /**
      * “我的歌单”按钮
      * */
@@ -44,7 +43,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
      * */
     private ImageButton mSearchBtn;
     
-    private HomePageContract.HomePagePresenter mHomePagePresenter;
+    private HomePageContract.Presenter mHomePagePresenter;
 
     private BannerViewPager banner;
     

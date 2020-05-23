@@ -1,6 +1,5 @@
 package com.example.www11.mymusicplayer.contract;
 
-import org.json.JSONException;
 import java.util.List;
 import com.example.www11.mymusicplayer.entity.Music;
 
@@ -8,14 +7,14 @@ public interface MusicContract {
     /**
      * MusicModel接口，被MusicPresenter调用.
      * */
-    interface MusicModel{
-        void getMusicList(OnMusicListener onMusicListener, long songListId);
+    interface Model {
+        void getMusicList(OnListener onMusicListener, long songListId);
     }
 
     /**
      * MusicPresenter接口，被MusicFragment调用.
      * */
-    interface MusicPresenter{
+    interface Presenter {
         void getMusicList(long songListId);
     }
 
@@ -23,7 +22,7 @@ public interface MusicContract {
      * 这是将MusicModel请求结果反馈给MusicPresenter的Callback接口.
      * MusicPresenter要去实现这个接口.
      * */
-    interface OnMusicListener {
+    interface OnListener {
         /**
          * 成功得到歌单中的歌曲.
          * */
@@ -44,7 +43,7 @@ public interface MusicContract {
      * MusicPresenter将结果反馈给MusicActivity的View接口.
      * 由MusicFragment去实现这个类.
      * */
-    interface OnMusicView {
+    interface OnView {
         /**
          * 展示用户歌单.
          * */
