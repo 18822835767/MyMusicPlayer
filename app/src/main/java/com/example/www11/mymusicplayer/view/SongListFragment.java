@@ -74,7 +74,7 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
         //初始化presenter
         mSongListPresenter = new SongListPresenterImpl(this);
 
-        mHandler = new MyHandler(this);
+        mHandler = new UIHandler(this);
         
         setListItem();
     }
@@ -119,10 +119,10 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
         mHandler.sendMessage(message);
     }
 
-    private static class MyHandler extends Handler {
+    private static class UIHandler extends Handler {
         WeakReference<SongListFragment> mWeakRef;
 
-        MyHandler(SongListFragment fragment) {
+        UIHandler(SongListFragment fragment) {
             mWeakRef = new WeakReference<>(fragment);
         }
 

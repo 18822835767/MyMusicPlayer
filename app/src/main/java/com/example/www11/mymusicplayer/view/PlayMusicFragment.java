@@ -106,7 +106,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
         mPlayPresenter = PlayPresenterImpl.getInstance();
         mPlayPresenter.registOnPlayView(this);
 
-        mHandler = new MyHandler(this);
+        mHandler = new UIHandler(this);
 //        mPlayQueue = view.findViewById(R.id.play_queue);
     }
 
@@ -266,10 +266,10 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
 //        mPopWindow.showAtLocation(view, Gravity.BOTTOM,0,0);
 //    }
 
-    private static class MyHandler extends Handler {
+    private static class UIHandler extends Handler {
         WeakReference<PlayMusicFragment> mWeakReference;
 
-        MyHandler(PlayMusicFragment playMusicFragment) {
+        UIHandler(PlayMusicFragment playMusicFragment) {
             mWeakReference = new WeakReference<>(playMusicFragment);
         }
 

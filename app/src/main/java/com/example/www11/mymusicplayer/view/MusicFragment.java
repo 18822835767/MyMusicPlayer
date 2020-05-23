@@ -61,7 +61,7 @@ public class MusicFragment extends Fragment implements MusicContract.OnView,
      */
     private MusicAdapter mAdapter;
 
-    private MyHandler mHandler;
+    private UIHandler mHandler;
 
     /**
      * 得到回调接口.
@@ -98,7 +98,7 @@ public class MusicFragment extends Fragment implements MusicContract.OnView,
         if (getActivity() != null) {
             mAdapter = new MusicAdapter(getActivity(), R.layout.music_item, mMusics);
         }
-        mHandler = new MyHandler(this);
+        mHandler = new UIHandler(this);
         mListView.setAdapter(mAdapter);
 
         //设置监听
@@ -166,10 +166,10 @@ public class MusicFragment extends Fragment implements MusicContract.OnView,
 
     }
 
-    private static class MyHandler extends Handler {
+    private static class UIHandler extends Handler {
         WeakReference<MusicFragment> mWeakFragment;
 
-        MyHandler(MusicFragment musicFragment) {
+        UIHandler(MusicFragment musicFragment) {
             mWeakFragment = new WeakReference<>(musicFragment);
         }
 

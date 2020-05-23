@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
 
     private void initData(){
         mLoginPresenter = new LoginPresenterImpl(this);
-        mHandler = new MyHandler(LoginActivity.this);
+        mHandler = new UIHandler(LoginActivity.this);
         
         mUsername = findViewById(R.id.username);
         mPassword = findViewById(R.id.password);
@@ -98,10 +98,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
         mHandler.sendMessage(message);
     }
     
-    private static class MyHandler extends Handler{
+    private static class UIHandler extends Handler{
         WeakReference<Activity> mWeakActivityRef;
 
-        MyHandler(Activity activity) {
+        UIHandler(Activity activity) {
             mWeakActivityRef = new WeakReference<>(activity);
         }
 

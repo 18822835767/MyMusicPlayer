@@ -71,7 +71,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnView,
     private boolean loadFinishFlag = true;
     
     private MusicAdapter mAdapter;
-    private MyHandler mHandler;
+    private UIHandler mHandler;
 
     /**
      * 记录搜索的歌曲还有多少未被加载
@@ -107,7 +107,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnView,
         if (getActivity() != null) {
             mAdapter = new MusicAdapter(getActivity(), R.layout.music_item, mMusics);
         }
-        mHandler = new MyHandler(this);
+        mHandler = new UIHandler(this);
 
         //设置监听
         mListView.setOnScrollListener(this);
@@ -195,10 +195,10 @@ public class SearchFragment extends Fragment implements SearchContract.OnView,
         }
     }
 
-    private static class MyHandler extends Handler {
+    private static class UIHandler extends Handler {
         WeakReference<SearchFragment> mWeakRef;
 
-        MyHandler(SearchFragment fragment) {
+        UIHandler(SearchFragment fragment) {
             mWeakRef = new WeakReference<>(fragment);
         }
 

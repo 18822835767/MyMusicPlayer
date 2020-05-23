@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,7 +96,7 @@ public class BannerViewPager extends FrameLayout {
         View view = LayoutInflater.from(context).inflate(R.layout.banner_view_pager, this);
         mViewPager = view.findViewById(R.id.view_pager);
         mIndicatorGroup = findViewById(R.id.indicator);
-        mHandler = new MyHandler(this);
+        mHandler = new UIHandler(this);
     }
 
     /**
@@ -258,12 +257,11 @@ public class BannerViewPager extends FrameLayout {
             }
         }
     }
-
-    //todo 不要采取MyXXX这种命名方式
-    private static class MyHandler extends Handler {
+    
+    private static class UIHandler extends Handler {
         WeakReference<BannerViewPager> mBannerWeakRef;
 
-        MyHandler(BannerViewPager bannerViewPager) {
+        UIHandler(BannerViewPager bannerViewPager) {
             mBannerWeakRef = new WeakReference<>(bannerViewPager);
         }
 
