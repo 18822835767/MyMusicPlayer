@@ -75,7 +75,8 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         }
 
         /*
-         * 请求图片的设定.
+         * 先判断内存中是否有缓存好的图片，有直接拿，没有则去网络请求.
+         * 关于cancelPotentialWork(url,image):
          * 若后台的任务是imageview在请求另外一张图片，则取消任务。
          * 若后台的任务请求的图片刚好和imageview需要的一致，则if下面的不执行.
          * 若该imageview后台无请求任务，cancelPo...返回true,则执行if里的语句.

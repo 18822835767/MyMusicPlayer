@@ -13,13 +13,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.example.mymusicplayer.R;
+
 import java.lang.ref.WeakReference;
 import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.example.www11.mymusicplayer.entity.SongList;
 import com.example.www11.mymusicplayer.util.BitmapWorkerTask;
+import com.example.www11.mymusicplayer.util.ImageMemoryCache;
 import com.example.www11.mymusicplayer.util.ViewHolderTool;
 
 
@@ -29,17 +34,17 @@ import com.example.www11.mymusicplayer.util.ViewHolderTool;
 public class SongListAdapter extends ArrayAdapter<SongList> {
     /**
      * 子项布局的id
-     * */
+     */
     private int mResourceId;
-    
+
     /**
      * 歌单所在的listview
-     * */
+     */
     private ListView mListView;
-    
+
     /**
      * 空白图片
-     * */
+     */
     private Bitmap mLoadingBitmap;
 
     public SongListAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<SongList> objects) {
@@ -64,10 +69,10 @@ public class SongListAdapter extends ArrayAdapter<SongList> {
         } else {
             view = convertView;
         }
-        
-        TextView textView = ViewHolderTool.get(view,R.id.song_list_name);
-        ImageView image = ViewHolderTool.get(view,R.id.song_list_image);
-        
+
+        TextView textView = ViewHolderTool.get(view, R.id.song_list_name);
+        ImageView image = ViewHolderTool.get(view, R.id.song_list_image);
+
         if (songList != null) {
             url = songList.getCoverImgUrl();
             image.setImageResource(R.drawable.empty_photo);
@@ -75,16 +80,21 @@ public class SongListAdapter extends ArrayAdapter<SongList> {
         }
 
         /*
-         * 请求图片的设定.
+         * 先判断内存中是否有缓存好的图片，有直接拿，没有则去网络请求.
+         * 关于cancelPotentialWork(url,image):
          * 若后台的任务是imageview在请求另外一张图片，则取消任务。
          * 若后台的任务请求的图片刚好和imageview需要的一致，则if下面的不执行.
          * 若该imageview后台无请求任务，cancelPo...返回true,则执行if里的语句.
          * */
-        if (cancelPotentialWork(url, image)) {
+        BitmapDrawable drawable = ImageMemoryCache.getBitmapFromMemoryCache(url);
+        if (drawable != null) {
+            cancelPotentialWork(url, image);
+            image.setImageDrawable(drawable);
+        } else if (cancelPotentialWork(url, image)) {
             //新建请求图片的task，该task含有imageview的弱引用
             BitmapWorkerTask task = new BitmapWorkerTask(image);
             //先给AsyncDrawable关联task的引用，imageview可以通过AsyncDrawable关联到task
-           AsyncDrawable asyncDrawable = new AsyncDrawable(getContext().getResources(),
+            AsyncDrawable asyncDrawable = new AsyncDrawable(getContext().getResources(),
                     mLoadingBitmap, task);//先放入一张空白的图片
             //imageview设定该空白的图片
             image.setImageDrawable(asyncDrawable);
@@ -93,7 +103,7 @@ public class SongListAdapter extends ArrayAdapter<SongList> {
         }
         return view;
     }
-    
+
     /**
      * 取消其他图片的后台下载任务.
      * <p>
