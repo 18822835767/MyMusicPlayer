@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.mymusicplayer.R;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -208,6 +209,14 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
 
             View view = View.inflate(getActivity(), R.layout.play_queue, null);
             mQueueList = view.findViewById(R.id.queue_list);
+            
+            List<Music> musics = new ArrayList<>();
+            musics.add(new Music("说好的幸福呢",1,"...","周杰伦"));
+            musics.add(new Music("说好的幸福呢",1,"...","周杰伦"));
+            musics.add(new Music("说好的幸福呢",1,"...","周杰伦"));
+            musics.add(new Music("说好的幸福呢",1,"...","周杰伦"));
+            PlayQueueAdapter adapter = new PlayQueueAdapter(getActivity(),R.layout.play_queue_item,musics);
+            mQueueList.setAdapter(adapter);
             
             dialog.setContentView(view);
 
