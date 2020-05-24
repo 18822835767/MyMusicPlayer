@@ -234,11 +234,11 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
             }
         }
         
-        //设置数据
-        changeDialogData();
-        
         //展示窗口
         mQueueDialog.show();
+
+        //设置窗口中的数据
+        changeDialogData();
     }
     
     /**
@@ -246,11 +246,13 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
      * */
     public void changeDialogData(){
         //为播放队列设置数据源
-        if (getActivity() != null) {
-            mAdapter = new PlayQueueAdapter(getActivity(), R.layout.play_queue_item,
-                    mPlayPresenter.getMusics());
-            mAdapter.setCurrentPosition(mPlayPresenter.getCurrentPosition());
-            mQueueList.setAdapter(mAdapter);
+        if (getActivity() != null && mQueueDialog != null) {
+            if(mQueueDialog.isShowing()){
+                mAdapter = new PlayQueueAdapter(getActivity(), R.layout.play_queue_item,
+                        mPlayPresenter.getMusics());
+                mAdapter.setCurrentPosition(mPlayPresenter.getCurrentPosition());
+                mQueueList.setAdapter(mAdapter);
+            }
         }
     }
     
