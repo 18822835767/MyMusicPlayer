@@ -45,6 +45,11 @@ public interface PlayMusicContract {
          * 改变音乐的播放状态
          * */
         void changePlayMode(int mode);
+
+        /**
+         * 获取当前在播放的音乐列表.
+         * */
+        List<Music> getMusics();
     }
 
     /**

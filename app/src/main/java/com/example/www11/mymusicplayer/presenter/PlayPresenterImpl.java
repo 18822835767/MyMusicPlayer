@@ -339,9 +339,12 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
         }
     }
     
-    
     public MediaPlayer getMediaPlayer() {
         return mMediaPlayer;
+    }
+
+    public List<Music> getMusics() {
+        return mMusics;
     }
 }
 
