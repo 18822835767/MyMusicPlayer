@@ -43,7 +43,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnView,
     /**
      * 存放搜索后得到的音乐列表
      */
-    private static List<Music> mMusics = new ArrayList<>();
+    private List<Music> mMusics = new ArrayList<>();
 
     /**
      * 碎片和活动通信的回调接口
@@ -130,7 +130,7 @@ public class SearchFragment extends Fragment implements SearchContract.OnView,
      */
     @Override
     public void showSearchMusics(int songCount, List<Music> musics) {
-        mMusics.clear();
+        mMusics = new ArrayList<>();
         mMusics.addAll(musics);
 
         //记录剩余歌曲的总数
