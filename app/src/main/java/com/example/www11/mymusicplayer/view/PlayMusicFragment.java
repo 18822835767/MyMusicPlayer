@@ -103,6 +103,10 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
      */
     private View mPlayQueueView;
 
+    /**
+     * 播放队列的listView对应的适配器.
+     * */
+    private PlayQueueAdapter mAdapter;
 
     @Nullable
     @Override
@@ -232,18 +236,26 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
             }
         }
         
+        //设置数据
+        setDialogData();
+        
+        //展示窗口
+        mQueueDialog.show();
+    }
+    
+    /**
+     * 为播放队列设置数据/
+     * */
+    private void setDialogData(){
         //为播放队列设置数据源
         if (getActivity() != null) {
-            PlayQueueAdapter adapter = new PlayQueueAdapter(getActivity(), R.layout.play_queue_item,
+            mAdapter = new PlayQueueAdapter(getActivity(), R.layout.play_queue_item,
                     mPlayPresenter.getMusics());
-            adapter.setCurrentPosition(mPlayPresenter.getCurrentPosition());
-            mQueueList.setAdapter(adapter);
-
-            //展示自定义的窗口
-            mQueueDialog.show();
+            mAdapter.setCurrentPosition(mPlayPresenter.getCurrentPosition());
+            mQueueList.setAdapter(mAdapter);
         }
-
     }
+    
 
     /**
      * view接口，调整播放状态的UI.
