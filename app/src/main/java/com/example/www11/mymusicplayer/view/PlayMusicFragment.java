@@ -5,11 +5,14 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -215,6 +218,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
             musics.add(new Music("说好的幸福呢",1,"...","周杰伦"));
             musics.add(new Music("说好的幸福呢",1,"...","周杰伦"));
             musics.add(new Music("说好的幸福呢",1,"...","周杰伦"));
+            
             PlayQueueAdapter adapter = new PlayQueueAdapter(getActivity(),R.layout.play_queue_item,musics);
             mQueueList.setAdapter(adapter);
             
@@ -223,8 +227,14 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
             Window window = dialog.getWindow();
             if (window != null) {
                 window.setGravity(Gravity.BOTTOM);
-                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
+//                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 
+//                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                WindowManager.LayoutParams layoutParams = window.getAttributes();
+                DisplayMetrics dm = new DisplayMetrics();
+                window.getWindowManager().getDefaultDisplay().getMetrics(dm);
+                int screenHeight = dm.heightPixels;
+                layoutParams.height = screenHeight/2;
+                window.setAttributes(layoutParams);
             }
             dialog.show();
         }
