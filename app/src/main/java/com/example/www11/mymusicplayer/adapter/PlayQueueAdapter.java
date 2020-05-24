@@ -33,6 +33,7 @@ public class PlayQueueAdapter extends ArrayAdapter<Music> {
         View view;
         Music music = getItem(position);
         
+        
         if(convertView == null){
             view = LayoutInflater.from(getContext()).inflate(R.layout.play_queue_item,null);
         }else{

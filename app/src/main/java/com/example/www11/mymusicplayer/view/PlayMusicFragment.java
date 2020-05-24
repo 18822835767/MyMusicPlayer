@@ -85,18 +85,23 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
 
     /**
      * 音乐播放队列的按钮点击.
-     * */
+     */
     private ImageButton mPlayQueue;
-    
+
     /**
      * 自定义的Dialog，从底部弹出一个播放列表.
-     * */
+     */
     private Dialog mQueueDialog;
-    
+
     /**
      * 播放队列所对应的listView
-     * */
+     */
     private ListView mQueueList;
+
+    /**
+     * 音乐播放队列所对应的view.
+     */
+    private View mPlayQueueView;
 
 
     @Nullable
@@ -129,6 +134,9 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
 
         mHandler = new UIHandler(this);
         mPlayQueue = view.findViewById(R.id.play_queue);
+
+        mPlayQueueView = View.inflate(getActivity(), R.layout.play_queue, null);
+        mQueueList = mPlayQueueView.findViewById(R.id.queue_list);
     }
 
     private void initEvent() {
@@ -204,23 +212,14 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
 
     /**
      * 从底部弹出一个列表.
-     * */
+     */
     private void showBottomDialog() {
-        Dialog dialog;
-        if (getActivity() != null) {
-            dialog = new Dialog(getActivity());
-
-            View view = View.inflate(getActivity(), R.layout.play_queue, null);
-            mQueueList = view.findViewById(R.id.queue_list);
+        if (getActivity() != null && mQueueDialog == null) {
+            mQueueDialog = new Dialog(getActivity());
             
-            PlayQueueAdapter adapter = new PlayQueueAdapter(getActivity(),R.layout.play_queue_item,
-                    mPlayPresenter.getMusics());
-            adapter.setCurrentPosition(mPlayPresenter.getCurrentPosition());
-            mQueueList.setAdapter(adapter);
-            
-            dialog.setContentView(view);
+            mQueueDialog.setContentView(mPlayQueueView);//设置dialog对应的视图
 
-            Window window = dialog.getWindow();
+            Window window = mQueueDialog.getWindow();//得到dialog的窗口
             //设置窗口位置和大小等信息
             if (window != null) {
                 window.setGravity(Gravity.BOTTOM);
@@ -228,12 +227,22 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
                 DisplayMetrics dm = new DisplayMetrics();//可以得到屏幕分辨率等信息
                 window.getWindowManager().getDefaultDisplay().getMetrics(dm);//传入屏幕的信息
                 int screenHeight = dm.heightPixels;//获取屏幕的高度
-                layoutParams.height = screenHeight/2;//设置高度
+                layoutParams.height = screenHeight / 2;//设置高度
                 window.setAttributes(layoutParams);
             }
-            //展示自定义的窗口
-            dialog.show();
         }
+        
+        //为播放队列设置数据源
+        if (getActivity() != null) {
+            PlayQueueAdapter adapter = new PlayQueueAdapter(getActivity(), R.layout.play_queue_item,
+                    mPlayPresenter.getMusics());
+            adapter.setCurrentPosition(mPlayPresenter.getCurrentPosition());
+            mQueueList.setAdapter(adapter);
+
+            //展示自定义的窗口
+            mQueueDialog.show();
+        }
+
     }
 
     /**
