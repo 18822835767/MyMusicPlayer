@@ -103,8 +103,13 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
 
     /**
      * 播放队列的listView对应的适配器.
-     * */
+     */
     private PlayQueueAdapter mAdapter;
+    
+    /**
+     * 标记最近一次的音乐播放位置.
+     * */
+    private int mLastPosition;
 
     @Nullable
     @Override
@@ -218,7 +223,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
     private void showBottomDialog() {
         if (getActivity() != null && mQueueDialog == null) {
             mQueueDialog = new Dialog(getActivity());
-            
+
             mQueueDialog.setContentView(mPlayQueueView);//设置dialog对应的视图
 
             Window window = mQueueDialog.getWindow();//得到dialog的窗口
@@ -233,29 +238,45 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
                 window.setAttributes(layoutParams);
             }
         }
-        
+
+        //设置listView的数据
+        if (getActivity() != null) {
+            mAdapter = new PlayQueueAdapter(getActivity(), R.layout.play_queue_item,
+                    mPlayPresenter.getMusics());
+            mAdapter.setCurrentPosition(mPlayPresenter.getCurrentPosition());
+            mLastPosition = mPlayPresenter.getCurrentPosition();//记录最近一次的音乐播放位置
+            mQueueList.setAdapter(mAdapter);
+        }
+
         //展示窗口
         mQueueDialog.show();
-
-        //设置窗口中的数据
-        changeDialogData();
     }
-    
+
     /**
-     * 播放队列更改数据.
-     * */
-    public void changeDialogData(){
+     * 播放队列更新数据.
+     * <p>
+     *     这里在播放下一首音乐时，如果播放队列是开着的，要实时更新数据，即改变播放的音乐展示红色，其他展示
+     *     黑色，这里将音乐的某个成员变量与空字符串做拼接，之后在notifyDataSetChanged()则会更新相应的数据.
+     * </p>
+     */
+    @Override
+    public void changeDialogData() {
         //为播放队列设置数据源
         if (getActivity() != null && mQueueDialog != null) {
             if(mQueueDialog.isShowing()){
-                mAdapter = new PlayQueueAdapter(getActivity(), R.layout.play_queue_item,
-                        mPlayPresenter.getMusics());
-                mAdapter.setCurrentPosition(mPlayPresenter.getCurrentPosition());
-                mQueueList.setAdapter(mAdapter);
+                List<Music> musics = mPlayPresenter.getMusics();//得到当前正在播放的音乐列表
+                Music music = musics.get(mLastPosition);//要更新的数据
+                music.setName(music.getName()+"");
+                int currentPosition = mPlayPresenter.getCurrentPosition();
+                music = musics.get(currentPosition);//要更新的数据
+                music.setName(music.getName()+"");
+                mAdapter.setCurrentPosition(currentPosition);//设置当前的音乐播放位置
+                mLastPosition = currentPosition;//记录最新一次的音乐播放位置
+                mAdapter.notifyDataSetChanged();//更新数据
             }
         }
     }
-    
+
 
     /**
      * view接口，调整播放状态的UI.
