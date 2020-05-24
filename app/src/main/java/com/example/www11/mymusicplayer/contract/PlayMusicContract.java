@@ -50,6 +50,11 @@ public interface PlayMusicContract {
          * 获取当前在播放的音乐列表.
          * */
         List<Music> getMusics();
+        
+        /**
+         * 获取当前音乐的播放位置.
+         * */
+        int getCurrentPosition();
     }
 
     /**

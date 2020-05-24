@@ -1,6 +1,7 @@
 package com.example.www11.mymusicplayer.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class PlayQueueAdapter extends ArrayAdapter<Music> {
+    /**
+     * 当前音乐的播放位置标记为红色.
+     * */
+    private int mCurrentPosition = -1;
     
     public PlayQueueAdapter(@NonNull Context context, int resource, @NonNull List<Music> objects) {
         super(context, resource, objects);
@@ -40,8 +45,23 @@ public class PlayQueueAdapter extends ArrayAdapter<Music> {
         if(music != null){
             musicName.setText(music.getName());
             singerName.setText(music.getSingerName());
+            
+            if(position == mCurrentPosition){
+                //当前正在播放的歌曲设置为红色
+                musicName.setTextColor(Color.RED);
+                singerName.setTextColor(Color.RED);
+            }else{
+                //不是当前正在播放的歌曲，则设置为黑色
+                musicName.setTextColor(Color.BLACK);
+                singerName.setTextColor(Color.BLACK);
+            }
+            
         }
         
         return view;
+    }
+
+    public void setCurrentPosition(int currentPosition) {
+        mCurrentPosition = currentPosition;
     }
 }

@@ -215,6 +215,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
             
             PlayQueueAdapter adapter = new PlayQueueAdapter(getActivity(),R.layout.play_queue_item,
                     mPlayPresenter.getMusics());
+            adapter.setCurrentPosition(mPlayPresenter.getCurrentPosition());
             mQueueList.setAdapter(adapter);
             
             dialog.setContentView(view);

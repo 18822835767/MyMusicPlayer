@@ -346,5 +346,11 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
     public List<Music> getMusics() {
         return mMusics;
     }
+
+    @Override
+    public int getCurrentPosition() {
+        return mCurrentPosition;
+    }
+
 }
 
