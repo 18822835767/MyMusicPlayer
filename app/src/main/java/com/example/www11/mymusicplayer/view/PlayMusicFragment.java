@@ -225,17 +225,17 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
             dialog.setContentView(view);
 
             Window window = dialog.getWindow();
+            //设置窗口位置和大小等信息
             if (window != null) {
                 window.setGravity(Gravity.BOTTOM);
-//                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 
-//                        ViewGroup.LayoutParams.WRAP_CONTENT);
                 WindowManager.LayoutParams layoutParams = window.getAttributes();
-                DisplayMetrics dm = new DisplayMetrics();
-                window.getWindowManager().getDefaultDisplay().getMetrics(dm);
-                int screenHeight = dm.heightPixels;
-                layoutParams.height = screenHeight/2;
+                DisplayMetrics dm = new DisplayMetrics();//可以得到屏幕分辨率等信息
+                window.getWindowManager().getDefaultDisplay().getMetrics(dm);//传入屏幕的信息
+                int screenHeight = dm.heightPixels;//获取屏幕的高度
+                layoutParams.height = screenHeight/2;//设置高度
                 window.setAttributes(layoutParams);
             }
+            //展示自定义的窗口
             dialog.show();
         }
     }
