@@ -16,7 +16,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, BitmapDrawable> {
     /**
      * task关联的图片的url.
      * */
-    public String imageUrl;
+    public String mImageUrl;
     
     /**
      * task关联imageView的弱引用.

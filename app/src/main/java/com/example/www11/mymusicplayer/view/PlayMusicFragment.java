@@ -209,8 +209,6 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
                         ViewGroup.LayoutParams.WRAP_CONTENT);
             }
             dialog.show();
-
-
         }
     }
 

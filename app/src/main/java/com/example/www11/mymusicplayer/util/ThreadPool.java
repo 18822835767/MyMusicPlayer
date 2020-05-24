@@ -7,17 +7,17 @@ import java.util.concurrent.Executors;
  * 线程池.
  * */
 public class ThreadPool {
-    private static ExecutorService threadPool;
+    private static ExecutorService sThreadPool;
     
     static {
-        threadPool = Executors.newCachedThreadPool();
+        sThreadPool = Executors.newCachedThreadPool();
     }
     
     static ExecutorService getThreadPool(){
-        return threadPool;
+        return sThreadPool;
     }
     
     public static void shutDownPool(){
-        threadPool.shutdown();
+        sThreadPool.shutdown();
     }
 }

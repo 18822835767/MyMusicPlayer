@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,7 +109,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
     private boolean cancelPotentialWork(String url, ImageView imageView) {
         BitmapWorkerTask task = getBitmapWorkerTask(imageView);
         if (task != null) {
-            String imageUrl = task.imageUrl;
+            String imageUrl = task.mImageUrl;
             //将正在请求的url和需要使用的图片的url进行对比.
             if (imageUrl == null || !imageUrl.equals(url)) {
                 //url不一致的情况下，将任务取消

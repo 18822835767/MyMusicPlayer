@@ -115,7 +115,7 @@ public class SongListAdapter extends ArrayAdapter<SongList> {
     private boolean cancelPotentialWork(String url, ImageView imageView) {
         BitmapWorkerTask task = getBitmapWorkerTask(imageView);
         if (task != null) {
-            String imageUrl = task.imageUrl;
+            String imageUrl = task.mImageUrl;
             //将正在请求的url和需要使用的图片的url进行对比.
             if (imageUrl == null || !imageUrl.equals(url)) {
                 //url不一致的情况下，将任务取消
