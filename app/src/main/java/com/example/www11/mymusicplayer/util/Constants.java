@@ -26,7 +26,7 @@ public class Constants {
         public static final String MUSIC_INFO_BY_NAME_URL = SERVER_HOST+"search?keywords= %1$s&lim" +
                 "it= %2$s&offset= %3$s";
         public static final String SONG_LIST_URL = SERVER_HOST+"user/playlist?uid=%s";
-        //网易云接口的设计，可以在图片url后面加上需要的宽度和高度，即可以加载缩略图,参数是：宽度和高度
+        //可以在图片url后面加上需要的宽度和高度，即可以加载缩略图,参数是：宽度和高度
         public static final String IMAGE_URL_PARAMS = "?param=%1$sy%2$s";
     }
     

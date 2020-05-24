@@ -1,12 +1,15 @@
 package com.example.www11.mymusicplayer.view;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -43,24 +46,24 @@ import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.F
 public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnView {
 
     private View view;
-   
+
     /**
      * 进度条
      */
     private SeekBar mSeekBar;
-    
+
     /**
      * 播放或者暂停按钮
      */
     private Button mPlayOrPause;
-    
+
     private PlayMusicContract.Presenter mPlayPresenter;
-    
+
     /**
      * 用户是否触碰了进度条
      */
     private boolean mUserTouchProgress = false;
-    
+
     private ImageButton mPlayNext;
     private ImageButton mPlayPre;
     private TextView mSingerName;
@@ -74,8 +77,15 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
      */
     private int mPlayMode = ORDER_PLAY;
 
-//    private ImageButton mPlayQueue;//音乐播放队列的按钮点击
-//    private PopupWindow mPopWindow;//弹出的播放列表管理
+    /**
+     * 音乐播放队列的按钮点击.
+     * */
+    private ImageButton mPlayQueue;
+    
+    /**
+     * 自定义的Dialog，从底部弹出一个播放列表.
+     * */
+    private Dialog mQueueDialog;
 
 
     @Nullable
@@ -107,7 +117,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
         mPlayPresenter.registOnPlayView(this);
 
         mHandler = new UIHandler(this);
-//        mPlayQueue = view.findViewById(R.id.play_queue);
+        mPlayQueue = view.findViewById(R.id.play_queue);
     }
 
     private void initEvent() {
@@ -141,7 +151,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
             }
         });
 
-//        mPlayQueue.setOnClickListener(v -> showPopupWindow());
+        mPlayQueue.setOnClickListener(v -> showBottomDialog());
 
         mPlayModeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +189,29 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
      */
     void playMusics(List<Music> musics, int position) {
         mPlayPresenter.playMusic(musics, position);
+    }
+
+    /**
+     * 从底部弹出一个列表.
+     * */
+    private void showBottomDialog() {
+        Dialog dialog;
+        if (getActivity() != null) {
+            dialog = new Dialog(getActivity());
+
+            View view = View.inflate(getActivity(), R.layout.play_queue, null);
+            dialog.setContentView(view);
+
+            Window window = dialog.getWindow();
+            if (window != null) {
+                window.setGravity(Gravity.BOTTOM);
+                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+            dialog.show();
+
+
+        }
     }
 
     /**
@@ -249,22 +282,6 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
     public void onDestroy() {
         super.onDestroy();
     }
-
-//    /**
-//     * 用户点击播放列表管理时弹出一个popupwindow.
-//     * */
-//    private void showPopupWindow(){
-//        //弹出列表的内容
-//        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.play_queue,null);
-//        mPopWindow = new PopupWindow(contentView,ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.MATCH_PARENT);
-//        
-//        mPopWindow.setBackgroundDrawable(new ColorDrawable());
-//        mPopWindow.setOutsideTouchable(true);
-//        mPopWindow.setOutsideTouchable(true);
-//        
-//        mPopWindow.showAtLocation(view, Gravity.BOTTOM,0,0);
-//    }
 
     private static class UIHandler extends Handler {
         WeakReference<PlayMusicFragment> mWeakReference;
