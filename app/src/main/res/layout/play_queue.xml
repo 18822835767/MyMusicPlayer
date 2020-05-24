@@ -5,41 +5,9 @@
     android:layout_height="match_parent"
     android:background="#fff">
 
-    <TextView
-        android:id="@+id/tv_take_photo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="拍摄"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:textColor="@android:color/background_dark"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
-
-    <TextView
-        android:id="@+id/tv_take_pic"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="从手机相册选择"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:textColor="@android:color/background_dark"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@android:color/darker_gray"/>
-
-    <TextView
-        android:id="@+id/tv_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="取消"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:textColor="@android:color/background_dark"/>
+    <ListView
+        android:id="@+id/queue_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

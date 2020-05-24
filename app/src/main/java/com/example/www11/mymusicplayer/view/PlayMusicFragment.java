@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.www11.mymusicplayer.adapter.PlayQueueAdapter;
 import com.example.www11.mymusicplayer.contract.PlayMusicContract;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.presenter.PlayPresenterImpl;
@@ -86,6 +88,11 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
      * 自定义的Dialog，从底部弹出一个播放列表.
      * */
     private Dialog mQueueDialog;
+    
+    /**
+     * 播放队列所对应的listView
+     * */
+    private ListView mQueueList;
 
 
     @Nullable
@@ -200,6 +207,8 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
             dialog = new Dialog(getActivity());
 
             View view = View.inflate(getActivity(), R.layout.play_queue, null);
+            mQueueList = view.findViewById(R.id.queue_list);
+            
             dialog.setContentView(view);
 
             Window window = dialog.getWindow();
