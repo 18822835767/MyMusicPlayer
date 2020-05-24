@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.example.mymusicplayer.R;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.util.BitmapWorkerTask;
@@ -21,23 +22,24 @@ import com.example.www11.mymusicplayer.util.ViewHolderTool;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
  * 采用imageView和task(BitmapWorkTask)双关联的方式来避免图片的乱序与闪图.
  * imageView和task关联的方式式采用弱引用进行的，防止回收不了.
- * */
+ */
 public class MusicAdapter extends ArrayAdapter<Music> {
 
     /**
      * adapter所对应的listview
-     * */
+     */
     private ListView mListView;
-    
+
     /**
      * 空白图片
-     * */
+     */
     private Bitmap mLoadingBitmap;
 
     public MusicAdapter(@NonNull Context context, int textViewResourceId, @NonNull List<Music> objects) {
@@ -51,7 +53,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         if (mListView == null) {
             mListView = (ListView) parent;
         }
-        
+
         View view;
         Music music = getItem(position);
         String url = null;
@@ -61,16 +63,16 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         } else {
             view = convertView;
         }
-        
-        TextView musicName = ViewHolderTool.get(view,R.id.music_name);
-        TextView singerName = ViewHolderTool.get(view,R.id.singer_name);
-        ImageView image = ViewHolderTool.get(view,R.id.music_image);
+
+        TextView musicName = ViewHolderTool.get(view, R.id.music_name);
+        TextView singerName = ViewHolderTool.get(view, R.id.singer_name);
+        ImageView image = ViewHolderTool.get(view, R.id.music_image);
 
         //设定歌曲名字和歌手名字
         if (music != null) {
             url = music.getPicUrl();
             musicName.setText(music.getName());
-           singerName.setText(music.getSingerName());
+            singerName.setText(music.getSingerName());
         }
 
         /*
@@ -81,10 +83,10 @@ public class MusicAdapter extends ArrayAdapter<Music> {
          * 若该imageview后台无请求任务，cancelPo...返回true,则执行if里的语句.
          * */
         BitmapDrawable drawable = ImageMemoryCache.getBitmapFromMemoryCache(url);
-        if(drawable != null){
-            cancelPotentialWork(url,image);
+        if (drawable != null) {
+            cancelPotentialWork(url, image);
             image.setImageDrawable(drawable);
-        }else if(cancelPotentialWork(url, image)){
+        } else if (cancelPotentialWork(url, image)) {
             //新建请求图片的task，该task含有imageview的弱引用
             BitmapWorkerTask task = new BitmapWorkerTask(image);
             //先给AsyncDrawable关联task的引用，imageview可以通过AsyncDrawable关联到task
@@ -146,9 +148,9 @@ public class MusicAdapter extends ArrayAdapter<Music> {
     /**
      * imageView关联task的媒介.
      * <p>
-     *     当imageView正在等待task请求图片的过程中，imageView设定的drawable是这一个，内部实际上是一个空白图片.
-     *     当imageView请求图片结束后，内部设定的drawable将不是这个，而是另外的一个BitmapDrawable。
-     *     请求图片的过程中,imageView可以通过该AsyncDrawable得到实时的关联的task.
+     * 当imageView正在等待task请求图片的过程中，imageView设定的drawable是这一个，内部实际上是一个空白图片.
+     * 当imageView请求图片结束后，内部设定的drawable将不是这个，而是另外的一个BitmapDrawable。
+     * 请求图片的过程中,imageView可以通过该AsyncDrawable得到实时的关联的task.
      * </p>
      */
     static class AsyncDrawable extends BitmapDrawable {
