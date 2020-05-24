@@ -83,5 +83,10 @@ public interface PlayMusicContract {
         void showError();
         
         void showFail(String msg);
+
+        /**
+         * 通知播放队列更改数据.
+         * */
+        void changeDialogData();
     }
 }

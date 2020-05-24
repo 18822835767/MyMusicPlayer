@@ -234,6 +234,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
         }
 
         initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
+        mOnPlayView.changeDialogData();
     }
 
     /**

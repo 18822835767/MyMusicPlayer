@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,6 @@ import android.widget.Toast;
 import com.example.mymusicplayer.R;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -237,16 +235,16 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
         }
         
         //设置数据
-        setDialogData();
+        changeDialogData();
         
         //展示窗口
         mQueueDialog.show();
     }
     
     /**
-     * 为播放队列设置数据/
+     * 播放队列更改数据.
      * */
-    private void setDialogData(){
+    public void changeDialogData(){
         //为播放队列设置数据源
         if (getActivity() != null) {
             mAdapter = new PlayQueueAdapter(getActivity(), R.layout.play_queue_item,
