@@ -216,7 +216,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
             mOnPlayView.showFail("当前没有歌哦");
             return;
         }
-
+        
         switch (mPlayMode) {
             //列表循环播放
             case ORDER_PLAY:
