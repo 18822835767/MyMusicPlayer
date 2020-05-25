@@ -110,6 +110,11 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
      * 标记最近一次的音乐播放位置.
      * */
     private int mLastPosition;
+    
+    /**
+     * 播放队列中的"下一首"播放按钮.
+     * */
+    private Button mPlayNextBtn;
 
     @Nullable
     @Override
@@ -144,6 +149,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
 
         mPlayQueueView = View.inflate(getActivity(), R.layout.play_queue, null);
         mQueueList = mPlayQueueView.findViewById(R.id.queue_list);
+        mPlayNextBtn = mPlayQueueView.findViewById(R.id.next_one);
     }
 
     private void initEvent() {
@@ -179,35 +185,32 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
 
         mPlayQueue.setOnClickListener(v -> showBottomDialog());
 
-        mPlayModeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (mPlayMode) {
-                    case ORDER_PLAY:
-                        mPlayPresenter.changePlayMode(RANDOM_PLAY);
-                        Toast.makeText(getActivity(), "随机播放", Toast.LENGTH_SHORT).show();
-                        mPlayModeBtn.setBackgroundResource(R.drawable.random_play);
-                        mPlayMode = RANDOM_PLAY;
-                        break;
-                    case RANDOM_PLAY:
-                        mPlayPresenter.changePlayMode(LOOP_PLAY);
-                        Toast.makeText(getActivity(), "单曲循环", Toast.LENGTH_SHORT).show();
-                        mPlayModeBtn.setBackgroundResource(R.drawable.loop_play);
-                        mPlayMode = LOOP_PLAY;
-                        break;
-                    case LOOP_PLAY:
-                        mPlayPresenter.changePlayMode(ORDER_PLAY);
-                        Toast.makeText(getActivity(), "列表循环", Toast.LENGTH_SHORT).show();
-                        mPlayModeBtn.setBackgroundResource(R.drawable.order_play);
-                        mPlayMode = ORDER_PLAY;
-                        break;
-                }
+        mPlayModeBtn.setOnClickListener(v -> {
+            switch (mPlayMode) {
+                case ORDER_PLAY:
+                    mPlayPresenter.changePlayMode(RANDOM_PLAY);
+                    Toast.makeText(getActivity(), "随机播放", Toast.LENGTH_SHORT).show();
+                    mPlayModeBtn.setBackgroundResource(R.drawable.random_play);
+                    mPlayMode = RANDOM_PLAY;
+                    break;
+                case RANDOM_PLAY:
+                    mPlayPresenter.changePlayMode(LOOP_PLAY);
+                    Toast.makeText(getActivity(), "单曲循环", Toast.LENGTH_SHORT).show();
+                    mPlayModeBtn.setBackgroundResource(R.drawable.loop_play);
+                    mPlayMode = LOOP_PLAY;
+                    break;
+                case LOOP_PLAY:
+                    mPlayPresenter.changePlayMode(ORDER_PLAY);
+                    Toast.makeText(getActivity(), "列表循环", Toast.LENGTH_SHORT).show();
+                    mPlayModeBtn.setBackgroundResource(R.drawable.order_play);
+                    mPlayMode = ORDER_PLAY;
+                    break;
             }
         });
 
         mPlayNext.setOnClickListener(v -> mPlayPresenter.playNext());
         mPlayPre.setOnClickListener(v -> mPlayPresenter.playPre());
-
+        mPlayNextBtn.setOnClickListener(v -> mPlayPresenter.playNext());
     }
 
     /**
