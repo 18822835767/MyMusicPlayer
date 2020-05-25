@@ -202,6 +202,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
         if (mp != null) {
             mp.start();
             mOnPlayView.showMusicInfo(mMusics.get(mCurrentPosition));//播放栏中显示歌曲的信息
+            mOnPlayView.onPlayStateChange(PLAY_STATE_PLAY);
         }
     }
 
