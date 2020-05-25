@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.mymusicplayer.R;
@@ -17,11 +18,13 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class PlayQueueAdapter extends ArrayAdapter<Music> {
+public class PlayQueueAdapter extends ArrayAdapter<Music> implements View.OnClickListener{
     /**
      * 当前音乐的播放位置标记为红色.
      * */
     private int mCurrentPosition = -1;
+    
+    private InnerItemOnClickListener mListener = null;
     
     public PlayQueueAdapter(@NonNull Context context, int resource, @NonNull List<Music> objects) {
         super(context, resource, objects);
@@ -42,6 +45,7 @@ public class PlayQueueAdapter extends ArrayAdapter<Music> {
 
         TextView musicName = ViewHolderTool.get(view,R.id.music_name);
         TextView singerName = ViewHolderTool.get(view,R.id.singer_name);
+        ImageButton removeMusic = ViewHolderTool.get(view,R.id.remove_music);
         
         if(music != null){
             musicName.setText(music.getName());
@@ -56,13 +60,39 @@ public class PlayQueueAdapter extends ArrayAdapter<Music> {
                 musicName.setTextColor(Color.BLACK);
                 singerName.setTextColor(Color.BLACK);
             }
-            
         }
+        
+        removeMusic.setOnClickListener(this);
+        removeMusic.setTag(position);//保存当前xx按钮所在的位置
         
         return view;
     }
 
     public void setCurrentPosition(int currentPosition) {
         mCurrentPosition = currentPosition;
+    }
+
+    /**
+     * 为适配器设置回调接口.
+     * */
+    public void setListener(InnerItemOnClickListener listener) {
+        mListener = listener;
+    }
+
+    /**
+     * 回调接口中的方法.
+     * */
+    @Override
+    public void onClick(View v) {
+        if(mListener != null){
+            mListener.itemClick(v);
+        }
+    }
+
+    /**
+     * 当listView内部的xx被点击后回调这个接口.
+     * */
+    public interface InnerItemOnClickListener{
+        void itemClick(View v);
     }
 }

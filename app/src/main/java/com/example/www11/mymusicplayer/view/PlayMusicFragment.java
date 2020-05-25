@@ -47,7 +47,8 @@ import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.F
 /**
  * 底部"音乐播放栏"的碎片.
  */
-public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnView {
+public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnView, 
+        PlayQueueAdapter.InnerItemOnClickListener {
 
     private View view;
 
@@ -247,6 +248,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
             mAdapter = new PlayQueueAdapter(getActivity(), R.layout.play_queue_item,
                     mPlayPresenter.getMusics());
             mAdapter.setCurrentPosition(mPlayPresenter.getCurrentPosition());
+            mAdapter.setListener(this);//设置回调接口
             mLastPosition = mPlayPresenter.getCurrentPosition();//记录最近一次的音乐播放位置
             mQueueList.setAdapter(mAdapter);
         }
@@ -348,6 +350,14 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void itemClick(View v) {
+        int position = (int) v.getTag();
+        if(v.getId() == R.id.remove_music){
+            Toast.makeText(getActivity(),"点击了"+position+"首歌曲",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private static class UIHandler extends Handler {
