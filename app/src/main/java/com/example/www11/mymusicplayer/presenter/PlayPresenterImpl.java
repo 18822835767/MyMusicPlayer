@@ -182,8 +182,8 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
      */
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        if (!mReset) {
-            //mediaPlayer没有经过了reset()，正常出错
+        if (!mReset && mCurrentState == PLAY_STATE_PLAY) {
+            //mediaPlayer没有经过了reset(),正常出错,并且当前处于播放状态
             mOnPlayView.showError();
             mOnPlayView.onPlayStateChange(mCurrentState);
             playNext();
