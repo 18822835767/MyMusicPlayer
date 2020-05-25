@@ -49,7 +49,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
     /**
      * 表示目前的播放状态，初始是停止播放的状态
      * */
-    private int currentState = PLAY_STATE_STOP;
+    private int mCurrentState = PLAY_STATE_STOP;
     
     private MediaPlayer mMediaPlayer = new MediaPlayer();
     /**
@@ -93,7 +93,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
             mOnPlayView.showFail("当前没有歌哦");
             return;
         }
-        switch (currentState) {
+        switch (mCurrentState) {
             //表示第一次播放时
             case PLAY_STATE_STOP:
                 if (mMediaPlayer == null) {
@@ -112,7 +112,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
                     e.printStackTrace();
                 }
 
-                currentState = PLAY_STATE_PLAY;
+                mCurrentState = PLAY_STATE_PLAY;
                 startTimer();
                 mFirstPlay = false;
                 break;
@@ -120,7 +120,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
             case PLAY_STATE_PLAY:
                 if (mMediaPlayer != null) {
                     mMediaPlayer.pause();
-                    currentState = PLAY_STATE_PAUSE;
+                    mCurrentState = PLAY_STATE_PAUSE;
                     stopTimer();
                 }
                 break;
@@ -128,7 +128,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
             case PLAY_STATE_PAUSE:
                 if (mMediaPlayer != null) {
                     mMediaPlayer.start();
-                    currentState = PLAY_STATE_PLAY;
+                    mCurrentState = PLAY_STATE_PLAY;
                     startTimer();
                 }
                 break;
@@ -138,7 +138,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
 
         //回调view接口方法，通知界面播放状态的更新
         if (mOnPlayView != null) {
-            mOnPlayView.onPlayStateChange(currentState);
+            mOnPlayView.onPlayStateChange(mCurrentState);
         }
     }
 
@@ -185,7 +185,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
         if (!mReset) {
             //mediaPlayer没有经过了reset()，正常出错
             mOnPlayView.showError();
-            mOnPlayView.onPlayStateChange(currentState);
+            mOnPlayView.onPlayStateChange(mCurrentState);
             playNext();
         } else {
             //调用了reset(),实际并没有出错
@@ -202,7 +202,8 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
         if (mp != null) {
             mp.start();
             mOnPlayView.showMusicInfo(mMusics.get(mCurrentPosition));//播放栏中显示歌曲的信息
-            mOnPlayView.onPlayStateChange(PLAY_STATE_PLAY);
+            mCurrentState = PLAY_STATE_PLAY;
+            mOnPlayView.onPlayStateChange(mCurrentState);
         }
     }
 
