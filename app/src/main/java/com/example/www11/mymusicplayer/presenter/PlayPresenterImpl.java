@@ -355,5 +355,9 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
         return mCurrentPosition;
     }
 
+    @Override
+    public void setCurrentPosition(int currentPosition) {
+        mCurrentPosition = currentPosition;
+    }
 }
 

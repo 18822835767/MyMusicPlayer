@@ -47,7 +47,7 @@ import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.F
 /**
  * 底部"音乐播放栏"的碎片.
  */
-public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnView, 
+public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnView,
         PlayQueueAdapter.InnerItemOnClickListener {
 
     private View view;
@@ -106,15 +106,15 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
      * 播放队列的listView对应的适配器.
      */
     private PlayQueueAdapter mAdapter;
-    
+
     /**
      * 标记最近一次的音乐播放位置.
-     * */
+     */
     private int mLastPosition;
-    
+
     /**
      * 播放队列中的"下一首"播放按钮.
-     * */
+     */
     private Button mPlayNextBtn;
 
     @Nullable
@@ -260,21 +260,21 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
     /**
      * 播放队列更新数据.
      * <p>
-     *     这里在播放下一首音乐时，如果播放队列是开着的，要实时更新数据，即改变播放的音乐展示红色，其他展示
-     *     黑色，这里将音乐的某个成员变量与空字符串做拼接，之后在notifyDataSetChanged()则会更新相应的数据.
+     * 这里在播放下一首音乐时，如果播放队列是开着的，要实时更新数据，即改变播放的音乐展示红色，其他展示
+     * 黑色，这里将音乐的某个成员变量与空字符串做拼接，之后在notifyDataSetChanged()则会更新相应的数据.
      * </p>
      */
     @Override
     public void changeDialogData() {
         //为播放队列设置数据源
         if (getActivity() != null && mQueueDialog != null) {
-            if(mQueueDialog.isShowing()){
+            if (mQueueDialog.isShowing()) {
                 List<Music> musics = mPlayPresenter.getMusics();//得到当前正在播放的音乐列表
                 Music music = musics.get(mLastPosition);//要更新的数据
-                music.setName(music.getName()+"");
+                music.setName(music.getName() + "");
                 int currentPosition = mPlayPresenter.getCurrentPosition();
                 music = musics.get(currentPosition);//要更新的数据
-                music.setName(music.getName()+"");
+                music.setName(music.getName() + "");
                 mAdapter.setCurrentPosition(currentPosition);//设置当前的音乐播放位置
                 mLastPosition = currentPosition;//记录最新一次的音乐播放位置
                 mAdapter.notifyDataSetChanged();//更新数据
@@ -352,11 +352,25 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
         super.onDestroy();
     }
 
+    /**
+     * 当播放队列的xx被点击时，会回调这个方法.
+     * */
     @Override
     public void itemClick(View v) {
-        int position = (int) v.getTag();
-        if(v.getId() == R.id.remove_music){
-            Toast.makeText(getActivity(),"点击了"+position+"首歌曲",Toast.LENGTH_SHORT).show();
+        int position = (int) v.getTag();//获得被点击的item的位置
+        if (v.getId() == R.id.remove_music) {
+            if (position < mLastPosition) {
+                //如果被点击的item位于正在播放的item的上方
+                mAdapter.setCurrentPosition(mLastPosition - 1);
+                mLastPosition -= 1;
+                mPlayPresenter.setCurrentPosition(mPlayPresenter.getCurrentPosition() - 1);
+                mPlayPresenter.getMusics().remove(position);
+                mAdapter.notifyDataSetChanged();
+            }else if(position > mLastPosition){
+                //如果被点击的item位于正在播放的item的下方
+                mPlayPresenter.getMusics().remove(position);
+                mAdapter.notifyDataSetChanged();
+            }
         }
     }
 
