@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:name="com.example.www11.mymusicplayer.util.ApplicationContext"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.example.www11.mymusicplayer.view.LoginActivity">
+        <activity android:name="com.example.www11.mymusicplayer.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
         </activity>
 
         <activity
-            android:name="com.example.www11.mymusicplayer.view.MainActivity"
+            android:name="com.example.www11.mymusicplayer.main.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <service

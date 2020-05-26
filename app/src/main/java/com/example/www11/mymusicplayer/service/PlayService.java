@@ -11,8 +11,8 @@ import android.os.Build;
 import android.os.IBinder;
 
 import com.example.mymusicplayer.R;
-import com.example.www11.mymusicplayer.contract.PlayMusicContract;
-import com.example.www11.mymusicplayer.presenter.PlayPresenterImpl;
+import com.example.www11.mymusicplayer.playmusic.PlayMusicContract;
+import com.example.www11.mymusicplayer.playmusic.PlayPresenterImpl;
 import com.example.www11.mymusicplayer.util.ThreadPool;
 
 import static com.example.www11.mymusicplayer.util.Constants.ServiceConstant.CHANNEL_ID;
