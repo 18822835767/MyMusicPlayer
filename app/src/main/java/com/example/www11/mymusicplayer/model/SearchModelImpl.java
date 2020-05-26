@@ -15,9 +15,9 @@ import java.util.List;
 import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.IMAGE_HEIGHT;
 import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.IMAGE_URLS;
 import static com.example.www11.mymusicplayer.util.Constants.SearchConstant.IMAGE_WIDTH;
-import static com.example.www11.mymusicplayer.util.Constants.URLConstant.IMAGE_URL_PARAMS;
-import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_INFO_BY_NAME_URL;
-import static com.example.www11.mymusicplayer.util.Constants.URLConstant.MUSIC_PLAY_URL;
+import static com.example.www11.mymusicplayer.util.URLConstant.IMAGE_URL_PARAMS;
+import static com.example.www11.mymusicplayer.util.URLConstant.MUSIC_INFO_BY_NAME_URL;
+import static com.example.www11.mymusicplayer.util.URLConstant.MUSIC_PLAY_URL;
 
 public class SearchModelImpl implements SearchContract.Model {
     /**

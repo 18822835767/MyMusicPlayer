@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.www11.mymusicplayer.util.Constants.URLConstant.BANNER_URL;
+import static com.example.www11.mymusicplayer.util.URLConstant.BANNER_URL;
 
 public class HomePageModelImpl implements HomePageContract.Model {
     private List<String> mBannerUrl = new ArrayList<>();

@@ -8,7 +8,7 @@ import com.example.www11.mymusicplayer.entity.User;
 import com.example.www11.mymusicplayer.util.HttpCallbackListener;
 import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
-import static com.example.www11.mymusicplayer.util.Constants.URLConstant.LOGIN_URL;
+import static com.example.www11.mymusicplayer.util.URLConstant.LOGIN_URL;
 
 /**
  * LoginModel的实现类.

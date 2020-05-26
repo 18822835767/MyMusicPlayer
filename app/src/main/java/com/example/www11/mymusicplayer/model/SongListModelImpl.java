@@ -14,8 +14,9 @@ import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
 import static com.example.www11.mymusicplayer.util.Constants.SongListConstant.IMAGE_HEIGHT;
 import static com.example.www11.mymusicplayer.util.Constants.SongListConstant.IMAGE_WIDTH;
-import static com.example.www11.mymusicplayer.util.Constants.URLConstant.IMAGE_URL_PARAMS;
-import static com.example.www11.mymusicplayer.util.Constants.URLConstant.SONG_LIST_URL;
+import static com.example.www11.mymusicplayer.util.URLConstant.IMAGE_URL_PARAMS;
+import static com.example.www11.mymusicplayer.util.URLConstant.SONG_LIST_URL;
+
 
 public class SongListModelImpl implements SongListContract.Model {
     private List<SongList> mSongLists = new ArrayList<>();
