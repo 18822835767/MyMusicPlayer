@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.example.www11.mymusicplayer.contract.SongListContract;
 import com.example.www11.mymusicplayer.entity.SongList;
-import com.example.www11.mymusicplayer.util.HttpCallbackListener;
 import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
 import static com.example.www11.mymusicplayer.util.Constants.SongListConstant.IMAGE_HEIGHT;
@@ -26,7 +25,8 @@ public class SongListModelImpl implements SongListContract.Model {
      * */
     @Override
     public void getUserSongList(SongListContract.OnListener onSongListListener, long userId) {
-        HttpUrlConnection.sendHttpUrlConnection(String.format(SONG_LIST_URL,userId),new HttpCallbackListener(){
+        HttpUrlConnection.sendHttpUrlConnection(String.format(SONG_LIST_URL,userId),
+                new HttpUrlConnection.HttpCallbackListener(){
             @Override
             public void onSuccess(String dataMessage) {
                 try {

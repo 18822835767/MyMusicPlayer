@@ -1,12 +1,9 @@
 package com.example.www11.mymusicplayer.model;
 
 import android.graphics.drawable.Drawable;
-import android.widget.ImageView;
 
 import com.example.www11.mymusicplayer.contract.HomePageContract;
-import com.example.www11.mymusicplayer.util.ApplicationContext;
 import com.example.www11.mymusicplayer.util.AsyncImageTask;
-import com.example.www11.mymusicplayer.util.HttpCallbackListener;
 import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
 import org.json.JSONArray;
@@ -24,7 +21,7 @@ public class HomePageModelImpl implements HomePageContract.Model {
    
     @Override
     public void getBanner(HomePageContract.OnListener onHomePageListener) {
-        HttpUrlConnection.sendHttpUrlConnection(BANNER_URL, new HttpCallbackListener() {
+        HttpUrlConnection.sendHttpUrlConnection(BANNER_URL, new HttpUrlConnection.HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {
                 try{

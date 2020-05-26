@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.example.www11.mymusicplayer.contract.MusicContract;
 import com.example.www11.mymusicplayer.entity.Music;
-import com.example.www11.mymusicplayer.util.HttpCallbackListener;
 import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
 import static com.example.www11.mymusicplayer.util.Constants.MusicConstant.IMAGE_HEIGHT;
@@ -31,7 +30,7 @@ public class MusicModelImpl implements MusicContract.Model {
     @Override
     public void getMusicList(MusicContract.OnListener onMusicListener, long songListId) {
         HttpUrlConnection.sendHttpUrlConnection(String.format(MUSIC_INFO_BY_ID_URL,songListId),
-                new HttpCallbackListener() {
+                new HttpUrlConnection.HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {
                 try {
@@ -74,7 +73,7 @@ public class MusicModelImpl implements MusicContract.Model {
     * */
     private void setMusicUrl(Music music){
         HttpUrlConnection.sendHttpUrlConnection(String.format(MUSIC_PLAY_URL,music.getId()), 
-                new HttpCallbackListener() {
+                new HttpUrlConnection.HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {
                 try {

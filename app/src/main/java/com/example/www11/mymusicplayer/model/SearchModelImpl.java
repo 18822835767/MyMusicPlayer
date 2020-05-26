@@ -2,7 +2,6 @@ package com.example.www11.mymusicplayer.model;
 
 import com.example.www11.mymusicplayer.contract.SearchContract;
 import com.example.www11.mymusicplayer.entity.Music;
-import com.example.www11.mymusicplayer.util.HttpCallbackListener;
 import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
 import org.json.JSONArray;
@@ -39,7 +38,7 @@ public class SearchModelImpl implements SearchContract.Model {
     public void searchOrLoadMusic(SearchContract.OnListener onSearchListener, String musicName,
                                   int limit, int offset) {
         HttpUrlConnection.sendHttpUrlConnection( String.format(MUSIC_INFO_BY_NAME_URL,musicName,limit,
-                offset), new HttpCallbackListener() {
+                offset), new HttpUrlConnection.HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {
                 mMusics.clear();
@@ -99,7 +98,7 @@ public class SearchModelImpl implements SearchContract.Model {
      * */
     private void setMusicUrl(Music music){
         HttpUrlConnection.sendHttpUrlConnection(String.format(MUSIC_PLAY_URL,music.getId()),
-                new HttpCallbackListener() {
+                new HttpUrlConnection.HttpCallbackListener() {
                     @Override
                     public void onSuccess(String dataMessage) {
                         try {

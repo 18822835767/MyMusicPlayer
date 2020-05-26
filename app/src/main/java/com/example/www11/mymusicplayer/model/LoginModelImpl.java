@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import com.example.www11.mymusicplayer.contract.LoginContract;
 import com.example.www11.mymusicplayer.entity.User;
-import com.example.www11.mymusicplayer.util.HttpCallbackListener;
 import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
 import static com.example.www11.mymusicplayer.util.URLConstant.LOGIN_URL;
@@ -22,7 +21,7 @@ public class LoginModelImpl implements LoginContract.Model {
     @Override
     public void login(final LoginContract.OnListener listener, String username, String password) {
         HttpUrlConnection.sendHttpUrlConnection(String.format(LOGIN_URL,username,password),
-                new HttpCallbackListener() {
+                new HttpUrlConnection.HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {
                 try {
