@@ -9,7 +9,7 @@ public class HomePagePresenterImpl implements HomePageContract.Presenter,
     private HomePageModel mHomePageModel;
     private HomePageContract.OnView mOnHomePageView;
 
-    public HomePagePresenterImpl(HomePageContract.OnView onHomePageView){
+    HomePagePresenterImpl(HomePageContract.OnView onHomePageView){
         mOnHomePageView = onHomePageView;
         mHomePageModel = new HomePageModelImpl();
     }
@@ -22,5 +22,15 @@ public class HomePagePresenterImpl implements HomePageContract.Presenter,
     @Override
     public void onSuccess(List<Drawable> drawableList) {
         mOnHomePageView.showBanner(drawableList);
+    }
+
+    @Override
+    public void onStart() {
+        mOnHomePageView.showLoading();
+    }
+
+    @Override
+    public void onFinish() {
+        mOnHomePageView.hideLoading();
     }
 }

@@ -391,13 +391,13 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
                     case FAIL:
                         String message = (String) msg.obj;
                         if (activity != null) {
-                            Toast.makeText(fragment.getActivity(), message,
+                            Toast.makeText(activity, message,
                                     Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case ERROR:
                         if (activity != null) {
-                            Toast.makeText(fragment.getActivity(), "播放出现错误,自动为您播放下一首",
+                            Toast.makeText(activity, "播放出现错误,自动为您播放下一首",
                                     Toast.LENGTH_SHORT).show();
                         }
                         break;

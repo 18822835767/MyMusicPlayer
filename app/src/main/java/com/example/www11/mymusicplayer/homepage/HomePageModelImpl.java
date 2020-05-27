@@ -55,7 +55,7 @@ public class HomePageModelImpl implements HomePageModel {
 
             @Override
             public void onStart() {
-
+               
             }
 
             @Override

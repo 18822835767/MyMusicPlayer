@@ -1,8 +1,11 @@
 package com.example.www11.mymusicplayer.homepage;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import android.widget.ImageButton;
 
 import com.example.mymusicplayer.R;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -109,6 +113,34 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
         banner.setData(drawableList);
     }
 
+    @Override
+    public void showLoading() {
+        
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+//    private static class UIHandler extends Handler{
+//        WeakReference<HomePageFragment> mWeakFragment;
+//        
+//        UIHandler(HomePageFragment homePageFragment){
+//            mWeakFragment = new WeakReference<>(homePageFragment);
+//        }
+//
+//        @Override
+//        public void handleMessage(@NonNull Message msg) {
+//            HomePageFragment fragment = mWeakFragment.get();
+//            Activity activity = null;
+//            if(fragment != null){
+//                activity = fragment.getActivity();
+//            }
+//            
+//        }
+//    }
+    
     /**
      * 当用户点击"我的歌单"或者“本地歌单”的按钮时候调用.
      * MainActivity去实现，作为碎片和活动之间通信的回调接口.

@@ -175,7 +175,7 @@ public class MusicListFragment extends Fragment implements MusicListContract.OnV
         public void handleMessage(@NonNull Message msg) {
             MusicListFragment musicFragment = mWeakFragment.get();
             Activity activity = null;
-            if (mWeakFragment != null) {
+            if (musicFragment != null) {
                 activity = musicFragment.getActivity();
             }
             if (musicFragment != null) {
@@ -186,14 +186,14 @@ public class MusicListFragment extends Fragment implements MusicListContract.OnV
                         break;
                     case FAIL:
                         if (activity != null) {
-                            Toast.makeText(musicFragment.getActivity(), "请求失败",
+                            Toast.makeText(activity, "请求失败",
                                     Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case ERROR:
                         if (activity != null) {
                             AlertDialog.Builder errorDialog = new AlertDialog.Builder(
-                                    musicFragment.getActivity());
+                                    activity);
                             errorDialog.setTitle("错误");
                             errorDialog.setMessage("请求错误");
                             errorDialog.setPositiveButton("OK", (dialog, which) -> {

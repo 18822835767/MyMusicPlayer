@@ -15,6 +15,16 @@ public interface HomePageModel {
          * 成功得到轮播图的图片.
          * */
         void onSuccess(List<Drawable> drawableList);
+
+        /**
+         * Presenter做开始请求时的业务处理.
+         */
+        void onStart();
+
+        /**
+         * Presenter做结束请求时的业务处理.
+         */
+        void onFinish();
     }
     
 }
