@@ -4,7 +4,6 @@ package com.example.www11.mymusicplayer.util;
  * 存放url以及host等信息的常量类.
  * */
 public class URLConstant {
-    //todo phone是ket 参数是value,如何更优雅地处理
     //服务器ip地址
     private static final String SERVER_HOST = "http://182.254.170.97:3000/";
     //登陆对应的url
