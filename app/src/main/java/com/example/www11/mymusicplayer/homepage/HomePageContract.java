@@ -18,14 +18,9 @@ public interface HomePageContract {
         void showBanner(List<Drawable> drawableList);
 
         /**
-         * HomePageFragment做开始请求业务的UI处理.
+         * 轮播图加载错误后view做相应的提示.
          * */
-        void showLoading();
-
-        /**
-         * HomePageFragment做结束请求业务的UI处理.
-         * */
-        void hideLoading();
+        void showError(String errorMsg);
     }
     
 }

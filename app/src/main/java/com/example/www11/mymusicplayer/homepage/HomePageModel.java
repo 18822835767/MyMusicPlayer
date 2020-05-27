@@ -17,14 +17,10 @@ public interface HomePageModel {
         void onSuccess(List<Drawable> drawableList);
 
         /**
-         * Presenter做开始请求时的业务处理.
+         * '
+         * 加载错误(断网...).
          */
-        void onStart();
-
-        /**
-         * Presenter做结束请求时的业务处理.
-         */
-        void onFinish();
+        void onError(String errorMsg);
     }
     
 }

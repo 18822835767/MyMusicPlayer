@@ -25,12 +25,8 @@ public class HomePagePresenterImpl implements HomePageContract.Presenter,
     }
 
     @Override
-    public void onStart() {
-        mOnHomePageView.showLoading();
+    public void onError(String errorMsg) {
+        mOnHomePageView.showError(errorMsg);
     }
 
-    @Override
-    public void onFinish() {
-        mOnHomePageView.hideLoading();
-    }
 }

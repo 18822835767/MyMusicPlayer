@@ -15,6 +15,13 @@ public class Constants {
     }
     
     /**
+     * 音乐首页对应的常量.
+     * */
+    public static class HomePage{
+        public static final int ERROR = 0;
+    }
+    
+    /**
      * 底部播放栏对应的常量.
      * */
     public static class PlayMusicConstant{

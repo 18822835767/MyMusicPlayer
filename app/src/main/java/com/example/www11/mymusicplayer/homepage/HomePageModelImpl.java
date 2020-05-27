@@ -50,7 +50,7 @@ public class HomePageModelImpl implements HomePageModel {
 
             @Override
             public void onError(String errorMsg) {
-
+                onHomePageListener.onError(errorMsg);
             }
 
             @Override

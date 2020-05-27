@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.mymusicplayer.R;
 
@@ -24,6 +25,8 @@ import androidx.fragment.app.Fragment;
 import com.example.www11.mymusicplayer.homepage.HomePageContract;
 import com.example.www11.mymusicplayer.homepage.HomePagePresenterImpl;
 import com.example.www11.mymusicplayer.widget.BannerViewPager;
+
+import static com.example.www11.mymusicplayer.util.Constants.HomePage.ERROR;
 
 /**
  * 音乐首页所对应的view.
@@ -51,6 +54,8 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
 
     private BannerViewPager banner;
     
+    private Handler mHandler;
+    
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -73,13 +78,6 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
      * 初始化轮播图数据.
      * */
     private void initData() {
-        //为轮播图设置数据
-//        BannerViewPager banner = view.findViewById(R.id.banner_view_pager);
-//        List<Integer> imageUrl = new ArrayList<>();
-//        imageUrl.add(R.drawable.one);
-//        imageUrl.add(R.drawable.two);
-//        imageUrl.add(R.drawable.thr);
-//        banner.setData(imageUrl);
         banner = view.findViewById(R.id.banner_view_pager);
         mHomePagePresenter = new HomePagePresenterImpl(this);
         mHomePagePresenter.getBanner();
@@ -87,6 +85,8 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
 
         mMySongList = view.findViewById(R.id.my_song_list);
         mSearchBtn = view.findViewById(R.id.search);
+        
+        mHandler = new UIHandler(this);
     }
 
     private void initEvent() {
@@ -114,32 +114,37 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void showLoading() {
-        
+    public void showError(String errorMsg) {
+        Message message = Message.obtain();
+        message.what = ERROR;
+        mHandler.sendMessage(message);
     }
 
-    @Override
-    public void hideLoading() {
 
+    private static class UIHandler extends Handler{
+        WeakReference<HomePageFragment> mWeakFragment;
+
+        UIHandler(HomePageFragment homePageFragment){
+            mWeakFragment = new WeakReference<>(homePageFragment);
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            HomePageFragment fragment = mWeakFragment.get();
+            Activity activity = null;
+            if(fragment != null){
+                activity = fragment.getActivity();
+            }
+            if(fragment != null){
+                if(msg.what == ERROR){
+                    if(activity != null){
+                        Toast.makeText(activity,"轮播图加载失败",Toast.LENGTH_SHORT).show();
+                    }
+                    
+                }
+            }
+        }
     }
-
-//    private static class UIHandler extends Handler{
-//        WeakReference<HomePageFragment> mWeakFragment;
-//        
-//        UIHandler(HomePageFragment homePageFragment){
-//            mWeakFragment = new WeakReference<>(homePageFragment);
-//        }
-//
-//        @Override
-//        public void handleMessage(@NonNull Message msg) {
-//            HomePageFragment fragment = mWeakFragment.get();
-//            Activity activity = null;
-//            if(fragment != null){
-//                activity = fragment.getActivity();
-//            }
-//            
-//        }
-//    }
     
     /**
      * 当用户点击"我的歌单"或者“本地歌单”的按钮时候调用.
