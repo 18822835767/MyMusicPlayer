@@ -9,7 +9,7 @@ public class SearchPresenterImpl implements SearchModel.OnListener,
     private SearchContract.OnView mOnSearchView;
     private SearchModel mSearchModel;
     
-    public SearchPresenterImpl(SearchContract.OnView onSearchView){
+    SearchPresenterImpl(SearchContract.OnView onSearchView){
         mOnSearchView = onSearchView;
         mSearchModel = new SearchModelImpl();
     }

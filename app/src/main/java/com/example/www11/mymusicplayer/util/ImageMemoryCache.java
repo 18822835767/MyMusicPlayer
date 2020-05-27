@@ -28,7 +28,7 @@ public class ImageMemoryCache {
     /**
      * 想缓存中加入图片.
      * */
-    public static void addBitmapToMemory(String key,BitmapDrawable drawable){
+    static void addBitmapToMemory(String key, BitmapDrawable drawable){
         if(getBitmapFromMemoryCache(key) == null){
             sMemoryCache.put(key,drawable);
         }

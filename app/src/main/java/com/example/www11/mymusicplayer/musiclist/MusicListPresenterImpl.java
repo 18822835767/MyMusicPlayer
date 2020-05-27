@@ -9,7 +9,7 @@ public class MusicListPresenterImpl implements MusicListContract.Presenter,
     private MusicListModel mMusicModel;
     private MusicListContract.OnView mOnMusicView;
 
-    public MusicListPresenterImpl(MusicListContract.OnView onMusicView) {
+    MusicListPresenterImpl(MusicListContract.OnView onMusicView) {
         this.mOnMusicView = onMusicView;
         mMusicModel = new MusicListModelImpl();
     }

@@ -16,7 +16,7 @@ public class SongListPresenterImpl implements SongListContract.Presenter,
      * */
     private SongListContract.OnView mOnSongListView;
     
-    public SongListPresenterImpl(SongListContract.OnView onSongListView){
+    SongListPresenterImpl(SongListContract.OnView onSongListView){
         this.mOnSongListView = onSongListView;
         mSongListModel = new SongListModelImpl();
     }

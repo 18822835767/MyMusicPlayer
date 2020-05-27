@@ -14,7 +14,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter, LoginModel.O
     private LoginModel mLoginModel;
     private LoginContract.OnView mOnLoginView;
     
-    public LoginPresenterImpl(LoginContract.OnView onLoginView){
+    LoginPresenterImpl(LoginContract.OnView onLoginView){
         this.mOnLoginView = onLoginView;
         mLoginModel = new LoginModelImpl();
     }

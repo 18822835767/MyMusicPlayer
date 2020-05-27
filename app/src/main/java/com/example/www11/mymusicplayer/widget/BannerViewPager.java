@@ -76,8 +76,7 @@ public class BannerViewPager extends FrameLayout {
      * 保存 手 滑动时的时间。下面进行判断，防止手滑动后又立即轮播
      */
     private long mSlideTime = 0;
-    
-    private BannerAdapter adapter;
+
     private Context mContext;
     private Handler mHandler;
 
@@ -119,22 +118,11 @@ public class BannerViewPager extends FrameLayout {
      * 初始化imageUrls的资源。
      */
     public void setData(List<Drawable> drawables) {
-//        this.mImageUrls.clear();
-//        this.mCount = imageUrls.size();//存放用户“看到”的图片数量.
-//        //“轮播图”里存放的数量 = 用户看到的+2
-//        this.mImageUrls.add(imageUrls.get(mCount - 1));
-//        this.mImageUrls.addAll(imageUrls);
-//        this.mImageUrls.add(imageUrls.get(0));
         mViews.clear();
         mCount = drawables.size();
         mDrawables.add(drawables.get(mCount-1));
         mDrawables.addAll(drawables);
         mDrawables.add(drawables.get(0));
-        
-//        mViews.add(images.get(mCount-1));
-//        mViews.addAll(images);
-//        mViews.add(images.get(0));
-        
 
         initIndicator();
         getShowImage();
@@ -186,7 +174,7 @@ public class BannerViewPager extends FrameLayout {
      * </p>
      */
     private void setUI() {
-        adapter = new BannerAdapter();
+        BannerAdapter adapter = new BannerAdapter();
         mViewPager.setAdapter(adapter);
         mViewPager.addOnPageChangeListener(onPageChangeListener);
         mViewPager.setCurrentItem(1);
