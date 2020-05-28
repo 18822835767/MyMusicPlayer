@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.mymusicplayer.R;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.www11.mymusicplayer.adapter.SongListAdapter;
@@ -38,14 +39,11 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
     private User mUser;
     private SongListContract.Presenter mSongListPresenter;
     private ListView mListView;
-    private static List<SongList> mSongLists;
+    private List<SongList> mSongLists = new ArrayList<>();
     private Handler mHandler;
-    
-    /**
-     * 标志歌单是否加载成功.
-     * */
-    private boolean mLoadSuccess = false;
 
+    private SongListAdapter mAdapter;
+    
     /**
      * 碎片和活动通信的接口引用
      */
@@ -69,14 +67,6 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
         return view;
     }
     
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(!mLoadSuccess){
-            setListItem();
-        }
-    }
-
     private void initData() {
         mUser = mCallback.getUser();
         mListView = view.findViewById(R.id.song_list);
@@ -85,6 +75,14 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
         mSongListPresenter = new SongListPresenterImpl(this);
 
         mHandler = new UIHandler(this);
+
+        if (getActivity() != null) {
+            mAdapter = new SongListAdapter(getActivity(),
+                    R.layout.song_list_item, mSongLists);
+            mListView.setAdapter(mAdapter);
+        }
+
+        setListItem();
     }
 
     private void initEvent() {
@@ -99,14 +97,16 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
     /**
      * 设置歌单列表每一项的数据.
      */
-    private void setListItem() {
+    public void setListItem() {
+        mSongLists.clear();
+        mAdapter.notifyDataSetChanged();
         mSongListPresenter.getUserSongList(mUser.getId());
     }
 
     @Override
     public void showSongList(List<SongList> songLists) {
-        mLoadSuccess = true;//标志请求成功
-        mSongLists = songLists;
+        mSongLists.clear();
+        mSongLists.addAll(songLists);
         Message message = Message.obtain();
         message.what = SUCCESS;
         mHandler.sendMessage(message);
@@ -141,9 +141,7 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
                 switch (msg.what) {
                     case SUCCESS:
                         if (fragment.getActivity() != null) {
-                            SongListAdapter adapter = new SongListAdapter(fragment.getActivity(),
-                                    R.layout.song_list_item, mSongLists);
-                            fragment.mListView.setAdapter(adapter);
+                            fragment.mAdapter.notifyDataSetChanged();
                         }
                         break;
                     case FAIL:
@@ -168,7 +166,7 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
             }
         }
     }
-    
+
     /**
      * 当用户点击某张"歌单"的时候调用.
      * MainActivity去实现，作为碎片和活动之间通信的回调接口.

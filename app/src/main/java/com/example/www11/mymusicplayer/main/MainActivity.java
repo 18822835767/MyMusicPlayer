@@ -167,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                     mMap.put(mSongListFragment, SHOW_SONG_LIST);
                 } else {
                     transaction.show(mSongListFragment);
+                    mSongListFragment.setListItem();
                 }
 
                 addFragment(mSongListFragment);
