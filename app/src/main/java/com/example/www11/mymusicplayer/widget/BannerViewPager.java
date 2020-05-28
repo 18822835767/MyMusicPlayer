@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +31,7 @@ import static com.example.www11.mymusicplayer.util.Constants.Banner.STOP;
  * 实现轮播图，自定义控件.
  * <p>
  * 通过无线循环实现。
- * 假如展示三张图片V1 V2 V3，那么程序中的图片实际上是V3 V1 V2 V3 V1。
- * 暂时轮播项目中的资源文件.
+ * 假如展示三张图片V1 V2 V3，那么程序中的图片实际上是V3 V1 V2 V3 V1.
  * </p>
  */
 public class BannerViewPager extends FrameLayout {
@@ -43,12 +43,12 @@ public class BannerViewPager extends FrameLayout {
     private LinearLayout mIndicatorGroup;
 
     /**
-     * 存放图片的Url，是“实际图片”的数量
+     * 存放"实际"要展示的图片.
      */
     private List<Drawable> mDrawables;
 
     /**
-     * 存放要展示的图片，"实际图片"的数量。
+     * 存放"实际"要展示的图片.
      */
     private List<View> mViews;
 
@@ -134,7 +134,7 @@ public class BannerViewPager extends FrameLayout {
      */
     private void initIndicator() {
         mTips = new ImageView[mCount];
-        //设置小圆点在
+        //设置小圆点在线性布局中的参数
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(new ViewGroup.
                 LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         layoutParams.height = 20;
@@ -186,20 +186,18 @@ public class BannerViewPager extends FrameLayout {
      */
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
         //主要是为了设置小圆点的下标
         @Override
         public void onPageSelected(int position) {
             int max = mViews.size();
-            int temp = position;//当前pager的下标
+            int temp;//当前pager的下标
             mCurrentItem = position;
             if (position == 0) {
                 //选择到最左边的pager时
-                mCurrentItem = max - 1;
-            } else if (position == max) {
+                mCurrentItem = max - 2;
+            } else if (position == max - 1) {
                 //选择到最右边的pager时
                 mCurrentItem = 1;
             }
@@ -222,7 +220,7 @@ public class BannerViewPager extends FrameLayout {
                         mViewPager.setCurrentItem(1, false);
                     }
                     break;
-                //用户用手去滑动时
+                //用户用手去滑动时，刚开始触碰时触发该事件
                 case ViewPager.SCROLL_STATE_DRAGGING:
                     //记录用户用手开始拖拽时的时间
                     mSlideTime = System.currentTimeMillis();
