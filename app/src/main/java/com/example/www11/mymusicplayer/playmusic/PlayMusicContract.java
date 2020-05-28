@@ -59,6 +59,11 @@ public interface PlayMusicContract {
          * 设置当前的音乐播放位置.
          * */
         void setCurrentPosition(int currentPosition);
+        
+        /**
+         * 返回当前的音乐播放模式.
+         * */
+        int getPlayMode();
     }
 
     /**

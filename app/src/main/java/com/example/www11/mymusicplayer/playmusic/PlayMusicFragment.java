@@ -134,6 +134,8 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
         if (mPlayPresenter != null && mPlayPresenter.getMusics().size() != 0) {
             Music music = mPlayPresenter.getMusics().get(mPlayPresenter.getCurrentPosition());
             showMusicInfo(music);
+            mPlayMode = mPlayPresenter.getPlayMode();
+            mPlayPresenter.changePlayMode(mPlayMode);
         }
     }
 
