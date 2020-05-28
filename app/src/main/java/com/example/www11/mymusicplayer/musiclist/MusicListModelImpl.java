@@ -32,6 +32,7 @@ public class MusicListModelImpl implements MusicListModel {
                 new HttpUrlConnection.HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {
+                mMusics.clear();
                 try {
                     handleMusicInfoJson(dataMessage);
                 } catch (JSONException e) {
@@ -52,7 +53,7 @@ public class MusicListModelImpl implements MusicListModel {
 
             @Override
             public void onError(String errorMsg) {
-                onMusicListener.onError();
+                onMusicListener.onError(errorMsg);
             }
 
             @Override

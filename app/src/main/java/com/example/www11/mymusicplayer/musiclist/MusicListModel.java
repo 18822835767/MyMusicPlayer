@@ -28,6 +28,6 @@ public interface MusicListModel {
         /**
          * 错误(断网...).
          */
-        void onError();
+        void onError(String errorMsg);
     }
 }

@@ -98,7 +98,7 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
      * 设置歌单列表每一项的数据.
      */
     public void setListItem() {
-        mSongLists.clear();
+        mSongLists.clear();//先清空列表项数据
         mAdapter.notifyDataSetChanged();
         mSongListPresenter.getUserSongList(mUser.getId());
     }

@@ -181,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
                     mMap.put(mMusicFragment, SHOW_MUSIC);
                 } else {
                     transaction.show(mMusicFragment);
+                    mMusicFragment.setMusicItem();
                 }
 
                 addFragment(mMusicFragment);
@@ -227,7 +228,6 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
         }
         if (mMusicFragment != null) {
             transaction.hide(mMusicFragment);
-            mMusicFragment = null;
         }
         if (mSearchFragment != null) {
             transaction.hide(mSearchFragment);

@@ -30,7 +30,7 @@ public class MusicListPresenterImpl implements MusicListContract.Presenter,
     }
 
     @Override
-    public void onError() {
-        mOnMusicView.showError();
+    public void onError(String errorMsg) {
+        mOnMusicView.showError(errorMsg);
     }
 }

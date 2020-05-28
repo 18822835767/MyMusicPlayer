@@ -114,7 +114,9 @@ public class MusicListFragment extends Fragment implements MusicListContract.OnV
     /**
      * 设置歌单中的歌曲显示.
      */
-    private void setMusicItem() {
+    public void setMusicItem() {
+        mMusics.clear();//先清空列表项数据
+        mAdapter.notifyDataSetChanged();
         mMusicPresenter.getMusicList(mCallback.getSongListId());
     }
 
@@ -144,9 +146,10 @@ public class MusicListFragment extends Fragment implements MusicListContract.OnV
      * 出现错误.
      */
     @Override
-    public void showError() {
+    public void showError(String errorMsg) {
         Message message = Message.obtain();
         message.what = ERROR;
+        message.obj = errorMsg;
         mHandler.sendMessage(message);
     }
 
@@ -185,7 +188,7 @@ public class MusicListFragment extends Fragment implements MusicListContract.OnV
                             AlertDialog.Builder errorDialog = new AlertDialog.Builder(
                                     musicFragment.getActivity());
                             errorDialog.setTitle("错误");
-                            errorDialog.setMessage("请求错误");
+                            errorDialog.setMessage("请求错误" + "\n" + msg.obj);
                             errorDialog.setPositiveButton("OK", (dialog, which) -> {
                             });
                             errorDialog.show();

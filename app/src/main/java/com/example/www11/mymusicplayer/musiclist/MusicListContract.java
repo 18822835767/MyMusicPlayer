@@ -29,6 +29,6 @@ public interface MusicListContract {
         /**
          * 错误(断网等情况...).
          * */
-        void showError();
+        void showError(String errorMsg);
     }
 }
