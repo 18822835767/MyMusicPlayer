@@ -45,6 +45,11 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
     private SongListAdapter mAdapter;
     
     /**
+     * 标记歌单的加载是否成功.
+     * */
+    private boolean mLoadSuccess = false;
+    
+    /**
      * 碎片和活动通信的接口引用
      */
     private OnSongListListener mCallback;
@@ -98,13 +103,16 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
      * 设置歌单列表每一项的数据.
      */
     public void setListItem() {
-        mSongLists.clear();//先清空列表项数据
-        mAdapter.notifyDataSetChanged();
-        mSongListPresenter.getUserSongList(mUser.getId());
+        if(!mLoadSuccess){
+            mSongLists.clear();//先清空列表项数据
+            mAdapter.notifyDataSetChanged();
+            mSongListPresenter.getUserSongList(mUser.getId());
+        }
     }
 
     @Override
     public void showSongList(List<SongList> songLists) {
+        mLoadSuccess = true;//标记歌单加载成功，防止重复加载
         mSongLists.clear();
         mSongLists.addAll(songLists);
         Message message = Message.obtain();
