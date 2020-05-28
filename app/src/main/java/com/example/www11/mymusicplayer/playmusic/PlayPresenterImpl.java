@@ -365,5 +365,10 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
     public int getPlayMode() {
         return mPlayMode;
     }
+
+    @Override
+    public int getPlayState() {
+        return mCurrentState;
+    }
 }
 

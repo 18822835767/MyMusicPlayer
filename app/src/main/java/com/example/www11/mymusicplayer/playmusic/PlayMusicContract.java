@@ -64,6 +64,11 @@ public interface PlayMusicContract {
          * 返回当前的音乐播放模式.
          * */
         int getPlayMode();
+        
+        /**
+         * 返回当前时"播放"还是"暂停"
+         * */
+        int getPlayState();
     }
 
     /**

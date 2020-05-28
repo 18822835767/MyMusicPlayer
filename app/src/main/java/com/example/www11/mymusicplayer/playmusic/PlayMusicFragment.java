@@ -74,7 +74,6 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
     private TextView mMusicName;
     private ImageView mMusicPicture;
     private ImageButton mPlayModeBtn;
-    private Handler mHandler;
 
     /**
      * 记录播放的方式，默认是列表循环
@@ -132,10 +131,12 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
     public void onResume() {
         super.onResume();
         if (mPlayPresenter != null && mPlayPresenter.getMusics().size() != 0) {
+            //如果服务开着，活动销毁，再次打开活动时恢复底部播放栏的UI状态
             Music music = mPlayPresenter.getMusics().get(mPlayPresenter.getCurrentPosition());
-            showMusicInfo(music);
+            showMusicInfo(music);//恢复歌曲信息
             mPlayMode = mPlayPresenter.getPlayMode();
-            mPlayPresenter.changePlayMode(mPlayMode);
+            mPlayPresenter.changePlayMode(mPlayMode);//恢复播放模式
+            onPlayStateChange(mPlayPresenter.getPlayState());//恢复"播放"或者"暂停"按钮
         }
     }
 
