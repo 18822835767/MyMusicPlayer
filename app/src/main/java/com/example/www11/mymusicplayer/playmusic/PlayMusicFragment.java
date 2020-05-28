@@ -127,6 +127,9 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
         return view;
     }
 
+    /**
+     * 主要作用是恢复底部的ui.
+     * */
     @Override
     public void onResume() {
         super.onResume();
@@ -134,9 +137,20 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
             //如果服务开着，活动销毁，再次打开活动时恢复底部播放栏的UI状态
             Music music = mPlayPresenter.getMusics().get(mPlayPresenter.getCurrentPosition());
             showMusicInfo(music);//恢复歌曲信息
-            mPlayMode = mPlayPresenter.getPlayMode();
-            mPlayPresenter.changePlayMode(mPlayMode);//恢复播放模式
             onPlayStateChange(mPlayPresenter.getPlayState());//恢复"播放"或者"暂停"按钮
+            //恢复播放模式
+            mPlayMode = mPlayPresenter.getPlayMode();
+            switch (mPlayMode) {
+                case RANDOM_PLAY:
+                    mPlayModeBtn.setBackgroundResource(R.drawable.random_play);
+                    break;
+                case LOOP_PLAY:
+                    mPlayModeBtn.setBackgroundResource(R.drawable.loop_play);
+                    break;
+                case ORDER_PLAY:
+                    mPlayModeBtn.setBackgroundResource(R.drawable.order_play);
+                    break;
+            }
         }
     }
 
