@@ -131,7 +131,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
     @Override
     public void onResume() {
         super.onResume();
-        if(mPlayPresenter != null && mPlayPresenter.getMusics().size() != 0){
+        if (mPlayPresenter != null && mPlayPresenter.getMusics().size() != 0) {
             Music music = mPlayPresenter.getMusics().get(mPlayPresenter.getCurrentPosition());
             showMusicInfo(music);
         }
@@ -152,8 +152,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
 
         mPlayPresenter = PlayPresenterImpl.getInstance();
         mPlayPresenter.registOnPlayView(this);
-
-        mHandler = new UIHandler(this);
+        
         mPlayQueue = view.findViewById(R.id.play_queue);
 
         mPlayQueueView = View.inflate(getActivity(), R.layout.play_queue, null);
@@ -342,17 +341,18 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
      */
     @Override
     public void showError() {
-        Message message = Message.obtain();
-        message.what = ERROR;
-        mHandler.sendMessage(message);
+        if (getActivity() != null) {
+            Toast.makeText(getActivity(), "播放出现错误,自动为您播放下一首",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void showFail(String msg) {
-        Message message = Message.obtain();
-        message.what = FAIL;
-        message.obj = msg;
-        mHandler.sendMessage(message);
+        if (getActivity() != null) {
+            Toast.makeText(getActivity(), msg,
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -362,7 +362,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
 
     /**
      * 当播放队列的xx被点击时，会回调这个方法.
-     * */
+     */
     @Override
     public void itemClick(View v) {
         int position = (int) v.getTag();//获得被点击的item的位置
@@ -374,42 +374,10 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
                 mPlayPresenter.setCurrentPosition(mPlayPresenter.getCurrentPosition() - 1);
                 mPlayPresenter.getMusics().remove(position);
                 mAdapter.notifyDataSetChanged();
-            }else if(position > mLastPosition){
+            } else if (position > mLastPosition) {
                 //如果被点击的item位于正在播放的item的下方
                 mPlayPresenter.getMusics().remove(position);
                 mAdapter.notifyDataSetChanged();
-            }
-        }
-    }
-
-    private static class UIHandler extends Handler {
-        WeakReference<PlayMusicFragment> mWeakReference;
-
-        UIHandler(PlayMusicFragment playMusicFragment) {
-            mWeakReference = new WeakReference<>(playMusicFragment);
-        }
-
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            PlayMusicFragment fragment = mWeakReference.get();
-            if (fragment != null) {
-                switch (msg.what) {
-                    case FAIL:
-                        String message = (String) msg.obj;
-                        if (fragment.getActivity() != null) {
-                            Toast.makeText(fragment.getActivity(), message,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        break;
-                    case ERROR:
-                        if (fragment.getActivity() != null) {
-                            Toast.makeText(fragment.getActivity(), "播放出现错误,自动为您播放下一首",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        break;
-                    default:
-                        break;
-                }
             }
         }
     }
