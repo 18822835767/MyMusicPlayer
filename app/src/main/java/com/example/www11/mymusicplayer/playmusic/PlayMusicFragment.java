@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -125,6 +126,15 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
         initEvent();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mPlayPresenter != null && mPlayPresenter.getMusics().size() != 0){
+            Music music = mPlayPresenter.getMusics().get(mPlayPresenter.getCurrentPosition());
+            showMusicInfo(music);
+        }
     }
 
     /**
