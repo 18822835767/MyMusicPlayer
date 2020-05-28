@@ -131,14 +131,10 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
         @Override
         public void handleMessage(@NonNull Message msg) {
             HomePageFragment fragment = mWeakFragment.get();
-            Activity activity = null;
-            if(fragment != null){
-                activity = fragment.getActivity();
-            }
             if(fragment != null){
                 if(msg.what == ERROR){
-                    if(activity != null){
-                        Toast.makeText(activity,"轮播图加载失败",Toast.LENGTH_SHORT).show();
+                    if(fragment.getActivity() != null){
+                        Toast.makeText(fragment.getActivity(),"轮播图加载失败",Toast.LENGTH_SHORT).show();
                     }
                     
                 }

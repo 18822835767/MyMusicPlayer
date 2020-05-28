@@ -382,22 +382,18 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
         @Override
         public void handleMessage(@NonNull Message msg) {
             PlayMusicFragment fragment = mWeakReference.get();
-            Activity activity = null;
-            if (fragment != null) {
-                activity = fragment.getActivity();
-            }
             if (fragment != null) {
                 switch (msg.what) {
                     case FAIL:
                         String message = (String) msg.obj;
-                        if (activity != null) {
-                            Toast.makeText(activity, message,
+                        if (fragment.getActivity() != null) {
+                            Toast.makeText(fragment.getActivity(), message,
                                     Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case ERROR:
-                        if (activity != null) {
-                            Toast.makeText(activity, "播放出现错误,自动为您播放下一首",
+                        if (fragment.getActivity() != null) {
+                            Toast.makeText(fragment.getActivity(), "播放出现错误,自动为您播放下一首",
                                     Toast.LENGTH_SHORT).show();
                         }
                         break;
