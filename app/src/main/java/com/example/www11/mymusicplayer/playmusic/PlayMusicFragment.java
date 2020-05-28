@@ -197,21 +197,12 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
             switch (mPlayMode) {
                 case ORDER_PLAY:
                     mPlayPresenter.changePlayMode(RANDOM_PLAY);
-                    Toast.makeText(getActivity(), "随机播放", Toast.LENGTH_SHORT).show();
-                    mPlayModeBtn.setBackgroundResource(R.drawable.random_play);
-                    mPlayMode = RANDOM_PLAY;
                     break;
                 case RANDOM_PLAY:
                     mPlayPresenter.changePlayMode(LOOP_PLAY);
-                    Toast.makeText(getActivity(), "单曲循环", Toast.LENGTH_SHORT).show();
-                    mPlayModeBtn.setBackgroundResource(R.drawable.loop_play);
-                    mPlayMode = LOOP_PLAY;
                     break;
                 case LOOP_PLAY:
                     mPlayPresenter.changePlayMode(ORDER_PLAY);
-                    Toast.makeText(getActivity(), "列表循环", Toast.LENGTH_SHORT).show();
-                    mPlayModeBtn.setBackgroundResource(R.drawable.order_play);
-                    mPlayMode = ORDER_PLAY;
                     break;
             }
         });
@@ -286,6 +277,30 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
                 mLastPosition = currentPosition;//记录最新一次的音乐播放位置
                 mAdapter.notifyDataSetChanged();//更新数据
             }
+        }
+    }
+
+    /**
+     * 播放模式改变时，回调这个方法.
+     * */
+    @Override
+    public void showPlayMode(int playMode) {
+        switch (playMode) {
+            case RANDOM_PLAY:
+                Toast.makeText(getActivity(), "随机播放", Toast.LENGTH_SHORT).show();
+                mPlayModeBtn.setBackgroundResource(R.drawable.random_play);
+                mPlayMode = RANDOM_PLAY;
+                break;
+            case LOOP_PLAY:
+                Toast.makeText(getActivity(), "单曲循环", Toast.LENGTH_SHORT).show();
+                mPlayModeBtn.setBackgroundResource(R.drawable.loop_play);
+                mPlayMode = LOOP_PLAY;
+                break;
+            case ORDER_PLAY:
+                Toast.makeText(getActivity(), "列表循环", Toast.LENGTH_SHORT).show();
+                mPlayModeBtn.setBackgroundResource(R.drawable.order_play);
+                mPlayMode = ORDER_PLAY;
+                break;
         }
     }
 

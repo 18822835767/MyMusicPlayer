@@ -92,5 +92,10 @@ public interface PlayMusicContract {
          * 通知播放队列更新数据.
          * */
         void changeDialogData();
+        
+        /**
+         * 展示音乐播放模式的UI.
+         * */
+        void showPlayMode(int playMode);
     }
 }

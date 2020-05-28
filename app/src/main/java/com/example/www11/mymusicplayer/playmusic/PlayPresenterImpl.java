@@ -293,8 +293,10 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
         this.mOnPlayView = onPlayView;
     }
 
+    @Override
     public void changePlayMode(int mode){
         mPlayMode = mode;
+        mOnPlayView.showPlayMode(mPlayMode);
     }
     
     /**
