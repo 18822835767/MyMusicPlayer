@@ -125,11 +125,6 @@ public class MusicListFragment extends Fragment implements MusicListContract.OnV
     public void showMusics(List<Music> musics) {
         mMusics.clear();
         mMusics.addAll(musics);
-        //创建一个新的适配器
-        if (getActivity() != null) {
-            mAdapter = new MusicAdapter(getActivity(), R.layout.music_item, mMusics);
-        }
-
         Message message = Message.obtain();
         message.what = SUCCESS;
         mHandler.sendMessage(message);
@@ -177,8 +172,7 @@ public class MusicListFragment extends Fragment implements MusicListContract.OnV
             if (musicFragment != null) {
                 switch (msg.what) {
                     case SUCCESS:
-                        //设置新的适配器，刷新数据
-                        musicFragment.mListView.setAdapter(musicFragment.mAdapter);
+                        musicFragment.mAdapter.notifyDataSetChanged();
                         break;
                     case FAIL:
                         if (musicFragment.getActivity() != null) {
