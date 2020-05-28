@@ -22,18 +22,18 @@ import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.R
 /**
  * 因为要使播放器在服务中，又使播放器可以收到PlayMusicFragment，所以采取单例模式.
  */
-public class PlayPresenterImpl implements PlayMusicContract.Presenter,
-        MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener {
-    private volatile static PlayPresenterImpl instance = null;
+public class PlayController implements MediaPlayer.OnCompletionListener, 
+        MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener {
+    private volatile static PlayController instance = null;
 
-    private PlayPresenterImpl() {
+    private PlayController() {
     }
 
-    public static PlayPresenterImpl getInstance() {
+    public static PlayController getInstance() {
         if (instance == null) {
-            synchronized (PlayPresenterImpl.class) {
+            synchronized (PlayController.class) {
                 if (instance == null) {
-                    instance = new PlayPresenterImpl();
+                    instance = new PlayController();
                 }
             }
         }
@@ -43,7 +43,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
     /**
      * view接口的引用
      */
-    private PlayMusicContract.OnView mOnPlayView;
+    private OnView mOnPlayView;
     
     /**
      * 表示目前的播放状态，初始是停止播放的状态
@@ -85,9 +85,8 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
      * 记录播放的方式，默认是列表循环
      * */
     private int mPlayMode = ORDER_PLAY;
-
-    @Override
-    public void playOrPause() {
+    
+    void playOrPause() {
         if (mMusics.size() == 0) {
             mOnPlayView.showFail("当前没有歌哦");
             return;
@@ -209,8 +208,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
     /**
      * 用户点击时，播放下一首歌曲.
      */
-    @Override
-    public void playNext() {
+    void playNext() {
         if (mMusics.size() == 0) {
             mOnPlayView.showFail("当前没有歌哦");
             return;
@@ -241,8 +239,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
     /**
      * 用户点击时，播放上一首歌曲.
      */
-    @Override
-    public void playPre() {
+    void playPre() {
         if (mMusics.size() == 0) {
             mOnPlayView.showFail("当前没有歌哦");
             return;
@@ -260,8 +257,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
     /**
      * 用户点击歌单中的某首歌播放时，主活动会调用这个方法.
      */
-    @Override
-    public void playMusic(List<Music> musics, int position) {
+    void playMusic(List<Music> musics, int position) {
         mMusics = musics;
         mCurrentPosition = position;
 
@@ -276,8 +272,7 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
     /**
      * @param seek 表示进度条播放位置，进度条总共分为100份
      */
-    @Override
-    public void seekTo(int seek) {
+    void seekTo(int seek) {
         if (mMediaPlayer != null) {
             //这里时用户拖动进度条，currentProcess表示拖动后音乐处于的播放时间点
             int currentProcess = (int) ((seek * 1.0f / 100) * mMediaPlayer.getDuration());
@@ -286,15 +281,13 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
     }
 
     /**
-     * 为PlayPresenter注册view接口.
+     * 为PlayController注册view接口.
      */
-    @Override
-    public void registOnPlayView(PlayMusicContract.OnView onPlayView) {
+    void registOnPlayView(OnView onPlayView) {
         this.mOnPlayView = onPlayView;
     }
-
-    @Override
-    public void changePlayMode(int mode){
+    
+    void changePlayMode(int mode){
         mPlayMode = mode;
         mOnPlayView.showPlayMode(mPlayMode);
     }
@@ -350,24 +343,20 @@ public class PlayPresenterImpl implements PlayMusicContract.Presenter,
     public List<Music> getMusics() {
         return mMusics;
     }
-
-    @Override
-    public int getCurrentPosition() {
+    
+    int getCurrentPosition() {
         return mCurrentPosition;
     }
 
-    @Override
-    public void setCurrentPosition(int currentPosition) {
+    void setCurrentPosition(int currentPosition) {
         mCurrentPosition = currentPosition;
     }
-
-    @Override
-    public int getPlayMode() {
+    
+    int getPlayMode() {
         return mPlayMode;
     }
-
-    @Override
-    public int getPlayState() {
+    
+    int getPlayState() {
         return mCurrentState;
     }
 }

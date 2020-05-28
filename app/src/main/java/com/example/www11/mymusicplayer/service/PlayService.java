@@ -11,8 +11,7 @@ import android.os.Build;
 import android.os.IBinder;
 
 import com.example.mymusicplayer.R;
-import com.example.www11.mymusicplayer.playmusic.PlayMusicContract;
-import com.example.www11.mymusicplayer.playmusic.PlayPresenterImpl;
+import com.example.www11.mymusicplayer.playmusic.PlayController;
 import com.example.www11.mymusicplayer.util.ThreadPool;
 
 import static com.example.www11.mymusicplayer.util.Constants.ServiceConstant.CHANNEL_ID;
@@ -22,14 +21,14 @@ import static com.example.www11.mymusicplayer.util.Constants.ServiceConstant.CHA
  * 当音乐在播放状态时，会开启这一个服务.
  */
 public class PlayService extends Service {
-    private PlayMusicContract.Presenter mPlayPresenter;
+    private PlayController mPlayController;
     private NotificationManager mNotificationManager;
     
     @Override
     public void onCreate() {
         super.onCreate();
-        if (mPlayPresenter == null) {
-            mPlayPresenter = PlayPresenterImpl.getInstance();
+        if (mPlayController == null) {
+            mPlayController = PlayController.getInstance();
         }
     }
 
@@ -51,12 +50,12 @@ public class PlayService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        MediaPlayer mediaPlayer = mPlayPresenter.getMediaPlayer();
+        MediaPlayer mediaPlayer = mPlayController.getMediaPlayer();
         if (null != mediaPlayer) {
             mediaPlayer.stop();
             mediaPlayer.release();
         }
-        mPlayPresenter = null;
+        mPlayController = null;
         ThreadPool.shutDownPool();//关闭线程池
     }
     

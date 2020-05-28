@@ -1,12 +1,8 @@
 package com.example.www11.mymusicplayer.playmusic;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +19,6 @@ import android.widget.Toast;
 
 import com.example.mymusicplayer.R;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -40,13 +35,11 @@ import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.P
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.PLAY_STATE_PLAY;
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.PLAY_STATE_STOP;
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.RANDOM_PLAY;
-import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.ERROR;
-import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.FAIL;
 
 /**
  * 底部"音乐播放栏"的碎片.
  */
-public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnView,
+public class PlayMusicFragment extends Fragment implements OnView, 
         PlayQueueAdapter.InnerItemOnClickListener {
 
     private View view;
@@ -61,7 +54,7 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
      */
     private Button mPlayOrPause;
 
-    private PlayMusicContract.Presenter mPlayPresenter;
+    private PlayController mPlayController;
 
     /**
      * 用户是否触碰了进度条
@@ -133,13 +126,13 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
     @Override
     public void onResume() {
         super.onResume();
-        if (mPlayPresenter != null && mPlayPresenter.getMusics().size() != 0) {
+        if (mPlayController != null && mPlayController.getMusics().size() != 0) {
             //如果服务开着，活动销毁，再次打开活动时恢复底部播放栏的UI状态
-            Music music = mPlayPresenter.getMusics().get(mPlayPresenter.getCurrentPosition());
+            Music music = mPlayController.getMusics().get(mPlayController.getCurrentPosition());
             showMusicInfo(music);//恢复歌曲信息
-            onPlayStateChange(mPlayPresenter.getPlayState());//恢复"播放"或者"暂停"按钮
+            onPlayStateChange(mPlayController.getPlayState());//恢复"播放"或者"暂停"按钮
             //恢复播放模式
-            mPlayMode = mPlayPresenter.getPlayMode();
+            mPlayMode = mPlayController.getPlayMode();
             switch (mPlayMode) {
                 case RANDOM_PLAY:
                     mPlayModeBtn.setBackgroundResource(R.drawable.random_play);
@@ -167,8 +160,8 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
         mMusicPicture = view.findViewById(R.id.music_picture);
         mPlayModeBtn = view.findViewById(R.id.play_mode);
 
-        mPlayPresenter = PlayPresenterImpl.getInstance();
-        mPlayPresenter.registOnPlayView(this);
+        mPlayController = PlayController.getInstance();
+        mPlayController.registOnPlayView(this);
         
         mPlayQueue = view.findViewById(R.id.play_queue);
 
@@ -195,16 +188,16 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
                 //用户释放进度条时
                 int touchProgress = seekBar.getProgress();
 
-                if (mPlayPresenter != null) {
-                    mPlayPresenter.seekTo(touchProgress);//更新进度条
+                if (mPlayController != null) {
+                    mPlayController.seekTo(touchProgress);//更新进度条
                 }
                 mUserTouchProgress = false;
             }
         });
 
         mPlayOrPause.setOnClickListener(v -> {
-            if (mPlayPresenter != null) {
-                mPlayPresenter.playOrPause();
+            if (mPlayController != null) {
+                mPlayController.playOrPause();
             }
         });
 
@@ -213,27 +206,27 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
         mPlayModeBtn.setOnClickListener(v -> {
             switch (mPlayMode) {
                 case ORDER_PLAY:
-                    mPlayPresenter.changePlayMode(RANDOM_PLAY);
+                    mPlayController.changePlayMode(RANDOM_PLAY);
                     break;
                 case RANDOM_PLAY:
-                    mPlayPresenter.changePlayMode(LOOP_PLAY);
+                    mPlayController.changePlayMode(LOOP_PLAY);
                     break;
                 case LOOP_PLAY:
-                    mPlayPresenter.changePlayMode(ORDER_PLAY);
+                    mPlayController.changePlayMode(ORDER_PLAY);
                     break;
             }
         });
 
-        mPlayNext.setOnClickListener(v -> mPlayPresenter.playNext());
-        mPlayPre.setOnClickListener(v -> mPlayPresenter.playPre());
-        mPlayNextBtn.setOnClickListener(v -> mPlayPresenter.playNext());
+        mPlayNext.setOnClickListener(v -> mPlayController.playNext());
+        mPlayPre.setOnClickListener(v -> mPlayController.playPre());
+        mPlayNextBtn.setOnClickListener(v -> mPlayController.playNext());
     }
 
     /**
      * 用户点击歌单中的歌曲时，MainActivity调用该方法
      */
     public void playMusics(List<Music> musics, int position) {
-        mPlayPresenter.playMusic(musics, position);
+        mPlayController.playMusic(musics, position);
     }
 
     /**
@@ -261,10 +254,10 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
         //设置listView的数据
         if (getActivity() != null) {
             mAdapter = new PlayQueueAdapter(getActivity(), R.layout.play_queue_item,
-                    mPlayPresenter.getMusics());
-            mAdapter.setCurrentPosition(mPlayPresenter.getCurrentPosition());
+                    mPlayController.getMusics());
+            mAdapter.setCurrentPosition(mPlayController.getCurrentPosition());
             mAdapter.setListener(this);//设置回调接口
-            mLastPosition = mPlayPresenter.getCurrentPosition();//记录最近一次的音乐播放位置
+            mLastPosition = mPlayController.getCurrentPosition();//记录最近一次的音乐播放位置
             mQueueList.setAdapter(mAdapter);
         }
 
@@ -284,10 +277,10 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
         //为播放队列设置数据源
         if (getActivity() != null && mQueueDialog != null) {
             if (mQueueDialog.isShowing()) {
-                List<Music> musics = mPlayPresenter.getMusics();//得到当前正在播放的音乐列表
+                List<Music> musics = mPlayController.getMusics();//得到当前正在播放的音乐列表
                 Music music = musics.get(mLastPosition);//要更新的数据
                 music.setName(music.getName() + "");
-                int currentPosition = mPlayPresenter.getCurrentPosition();
+                int currentPosition = mPlayController.getCurrentPosition();
                 music = musics.get(currentPosition);//要更新的数据
                 music.setName(music.getName() + "");
                 mAdapter.setCurrentPosition(currentPosition);//设置当前的音乐播放位置
@@ -403,12 +396,12 @@ public class PlayMusicFragment extends Fragment implements PlayMusicContract.OnV
                 //如果被点击的item位于正在播放的item的上方
                 mAdapter.setCurrentPosition(mLastPosition - 1);
                 mLastPosition -= 1;
-                mPlayPresenter.setCurrentPosition(mPlayPresenter.getCurrentPosition() - 1);
-                mPlayPresenter.getMusics().remove(position);
+                mPlayController.setCurrentPosition(mPlayController.getCurrentPosition() - 1);
+                mPlayController.getMusics().remove(position);
                 mAdapter.notifyDataSetChanged();
             } else if (position > mLastPosition) {
                 //如果被点击的item位于正在播放的item的下方
-                mPlayPresenter.getMusics().remove(position);
+                mPlayController.getMusics().remove(position);
                 mAdapter.notifyDataSetChanged();
             }
         }
