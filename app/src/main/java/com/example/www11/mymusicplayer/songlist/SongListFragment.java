@@ -40,6 +40,11 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
     private ListView mListView;
     private static List<SongList> mSongLists;
     private Handler mHandler;
+    
+    /**
+     * 标志歌单是否加载成功.
+     * */
+    private boolean mLoadSuccess = false;
 
     /**
      * 碎片和活动通信的接口引用
@@ -63,7 +68,14 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
 
         return view;
     }
-
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!mLoadSuccess){
+            setListItem();
+        }
+    }
 
     private void initData() {
         mUser = mCallback.getUser();
@@ -73,8 +85,6 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
         mSongListPresenter = new SongListPresenterImpl(this);
 
         mHandler = new UIHandler(this);
-
-        setListItem();
     }
 
     private void initEvent() {
@@ -83,7 +93,6 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
             if (mCallback != null) {
                 mCallback.showMusics(songList.getId());
             }
-
         });
     }
 
@@ -96,6 +105,7 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
 
     @Override
     public void showSongList(List<SongList> songLists) {
+        mLoadSuccess = true;//标志请求成功
         mSongLists = songLists;
         Message message = Message.obtain();
         message.what = SUCCESS;
