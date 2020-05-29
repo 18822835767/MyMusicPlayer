@@ -88,14 +88,14 @@ public class SongListAdapter extends ArrayAdapter<SongList> {
          * */
         BitmapDrawable drawable = ImageMemoryCache.getBitmapFromMemoryCache(url);
         if (drawable != null) {
-            cancelPotentialWork(url, image);
+            BitmapWorkerTask.cancelPotentialWork(url, image);
             image.setImageDrawable(drawable);
-        } else if (cancelPotentialWork(url, image)) {
+        } else if (BitmapWorkerTask.cancelPotentialWork(url, image)) {
             //新建请求图片的task，该task含有imageview的弱引用
             BitmapWorkerTask task = new BitmapWorkerTask(image);
             //先给AsyncDrawable关联task的引用，imageview可以通过AsyncDrawable关联到task
-            AsyncDrawable asyncDrawable = new AsyncDrawable(getContext().getResources(),
-                    mLoadingBitmap, task);//先放入一张空白的图片
+            BitmapWorkerTask.AsyncDrawable asyncDrawable = new BitmapWorkerTask.AsyncDrawable(
+                    getContext().getResources(), mLoadingBitmap, task);//先放入一张空白的图片
             //imageview设定该空白的图片
             image.setImageDrawable(asyncDrawable);
             //task根据url去请求图片
@@ -103,73 +103,4 @@ public class SongListAdapter extends ArrayAdapter<SongList> {
         }
         return view;
     }
-
-    /**
-     * 取消其他图片的后台下载任务.
-     * <p>
-     * 若该imageView正在请求的下载任务和当前需要的图片不一致，则cancel掉该任务，并且返回true.
-     * 若该imageView正在请求的下载任务和当前需要的图片一致，则继续该请求任务，返回false.
-     * 若该imageView目前无下载任务，则返回true.
-     * </p>
-     */
-    private boolean cancelPotentialWork(String url, ImageView imageView) {
-        BitmapWorkerTask task = getBitmapWorkerTask(imageView);
-        if (task != null) {
-            String imageUrl = task.mImageUrl;
-            //将正在请求的url和需要使用的图片的url进行对比.
-            if (imageUrl == null || !imageUrl.equals(url)) {
-                //url不一致的情况下，将任务取消
-                task.cancel(true);
-            } else {
-                //url一致的情况下，任务正常进行
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * 通过imageView得到imageView关联的task.
-     * <p>
-     * 假如imageView正在请求图片，那么imageView的drawable将会是一个带有空白图片的AsyncDrawable，
-     * 然后间接得到iamgeView关联的task,返回其关联的实时的task
-     * 假如imageView没有在请求图片，即imageView内部的图片是BitmapDrawable，那么此时该imageView没有
-     * 相关的task,返回null.
-     * </p>
-     */
-    private BitmapWorkerTask getBitmapWorkerTask(ImageView imageView) {
-        if (imageView != null) {
-            Drawable drawable = imageView.getDrawable();//得到imageView当前的drawable
-            if (drawable instanceof AsyncDrawable) {//此时正在执行图片请求的任务，有相关联的任务并返回
-                AsyncDrawable asyncDrawable = (AsyncDrawable) drawable;
-                return asyncDrawable.getBitmapWorkerTask();
-            }
-        }
-        //没有相关联的任务，imageView没有在执行请求任务，返回null.
-        return null;
-    }
-
-    /**
-     * imageView关联task的媒介.
-     * <p>
-     * 当imageView正在等待task请求图片的过程中，imageView设定的drawable是这一个，内部实际上是一个空白图片.
-     * 当imageView请求图片结束后，内部设定的drawable将不是这个，而是另外的一个BitmapDrawable。
-     * 请求图片的过程中,imageView可以通过该AsyncDrawable得到实时的关联的task.
-     * </p>
-     */
-    static class AsyncDrawable extends BitmapDrawable {
-        //task的弱引用
-        private WeakReference<BitmapWorkerTask> bitmapWorkerTaskWeakReference;
-
-        AsyncDrawable(Resources res, Bitmap bitmap, BitmapWorkerTask bitmapWorkerTask) {
-            super(res, bitmap);
-            bitmapWorkerTaskWeakReference = new WeakReference<>(bitmapWorkerTask);
-        }
-
-        //得到task的引用
-        BitmapWorkerTask getBitmapWorkerTask() {
-            return bitmapWorkerTaskWeakReference.get();
-        }
-    }
-
 }
