@@ -56,18 +56,6 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, BitmapDrawable> {
     }
     
     /**
-     * 获取当前BitmapWorkerTask所关联的ImageView.
-     * */
-    private ImageView getAttachedImageView(){
-        ImageView imageView = imageViewReference.get();
-        BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
-        if(this == bitmapWorkerTask){
-            return imageView;
-        }
-        return null;
-    }
-    
-    /**
      * 执行图片的下载任务.
      */
     private Bitmap downloadBitmap(String imageUrl) {
@@ -113,6 +101,18 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, BitmapDrawable> {
         return true;
     }
 
+    /**
+     * 获取当前BitmapWorkerTask所关联的ImageView.
+     * */
+    private ImageView getAttachedImageView(){
+        ImageView imageView = imageViewReference.get();
+        BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
+        if(this == bitmapWorkerTask){
+            return imageView;
+        }
+        return null;
+    }
+    
     /**
      * 通过imageView得到imageView关联的task.
      * <p>
