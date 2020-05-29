@@ -88,7 +88,6 @@ public class SongListAdapter extends ArrayAdapter<SongList> {
          * */
         BitmapDrawable drawable = ImageMemoryCache.getBitmapFromMemoryCache(url);
         if (drawable != null) {
-            BitmapWorkerTask.cancelPotentialWork(url, image);
             image.setImageDrawable(drawable);
         } else if (BitmapWorkerTask.cancelPotentialWork(url, image)) {
             //新建请求图片的task，该task含有imageview的弱引用
