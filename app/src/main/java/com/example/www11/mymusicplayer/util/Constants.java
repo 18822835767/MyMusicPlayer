@@ -118,7 +118,18 @@ public class Constants {
                 "https://p2.music.126.net/v0LaYOX44ZiJjC1bzZbKOg==/109951163884032084.jpg",
                 "https://p1.music.126.net/SVVLu19lyd5-2fAkZUzJaA==/95657511628586.jpg",
                 "https://p1.music.126.net/z6RjWF1-xzHCSPsGJdCYzg==/84662395356387.jpg",
-                "https://p1.music.126.net/u-ZZ94osLvam_mFiVYOwBQ==/106652627911530.jpg"
+                "https://p1.music.126.net/u-ZZ94osLvam_mFiVYOwBQ==/106652627911530.jpg",
+                
+                "https://p1.music.126.net/PcJq6i7zMcPgudejdn1yeg==/109951163256302356.jpg",
+                "https://p2.music.126.net/08gFETjPzObLUSTgaNr1gg==/109951163855320167.jpg",
+                "https://p2.music.126.net/wCTWFXLFu-_iCvyUpz3MgA==/556352883666649.jpg",
+                "https://p2.music.126.net/b2nl6jsVbqj23IV8dVvJcg==/7766950139663735.jpg",
+                "https://p2.music.126.net/n9D1R_zL_XaKW9zfW8s2tA==/5920870115754269.jpg",
+                "https://p2.music.126.net/DmtHv4WgoAUWRNFcaNJGlA==/3395291908778307.jpg",
+                "https://p2.music.126.net/PehnaQ-BaAXeQg1d5s7leA==/6635552673699715.jpg",
+                "https://p1.music.126.net/s8V5kdNiwyEQb0nrVuh-PQ==/109951164713484351.jpg",
+                "https://p2.music.126.net/wGhf8z-_BYki8uPBHmWgZA==/109951163463758536.jpg",
+                "https://p2.music.126.net/dLkalW4CyC6hAZQS6xXFeA==/109951163649564629.jpg"
         };
 
         //网络请求的访问状态
