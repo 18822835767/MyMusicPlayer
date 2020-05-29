@@ -140,8 +140,8 @@ public class SongListAdapter extends ArrayAdapter<SongList> {
     private BitmapWorkerTask getBitmapWorkerTask(ImageView imageView) {
         if (imageView != null) {
             Drawable drawable = imageView.getDrawable();//得到imageView当前的drawable
-            if (drawable instanceof MusicAdapter.AsyncDrawable) {//此时正在执行图片请求的任务，有相关联的任务并返回
-                MusicAdapter.AsyncDrawable asyncDrawable = (MusicAdapter.AsyncDrawable) drawable;
+            if (drawable instanceof AsyncDrawable) {//此时正在执行图片请求的任务，有相关联的任务并返回
+                AsyncDrawable asyncDrawable = (AsyncDrawable) drawable;
                 return asyncDrawable.getBitmapWorkerTask();
             }
         }
