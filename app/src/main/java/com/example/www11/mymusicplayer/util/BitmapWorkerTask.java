@@ -29,12 +29,12 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, BitmapDrawable> {
 
     @Override
     protected BitmapDrawable doInBackground(String... strings) {
-        String imageUrl = strings[0];//图片的url
+        mImageUrl = strings[0];//图片的url
         //在后台开始下载图片
-        Bitmap bitmap = downloadBitmap(imageUrl);
+        Bitmap bitmap = downloadBitmap(mImageUrl);
         BitmapDrawable drawable = new BitmapDrawable(ApplicationContext.getContext().getResources(),
                 bitmap);
-        ImageMemoryCache.addBitmapToMemory(imageUrl,drawable);
+        ImageMemoryCache.addBitmapToMemory(mImageUrl,drawable);
         //返回得到的下载后的图片
         return drawable;
     }

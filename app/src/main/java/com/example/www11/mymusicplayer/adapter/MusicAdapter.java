@@ -13,16 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.mymusicplayer.R;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.util.BitmapWorkerTask;
 import com.example.www11.mymusicplayer.util.ImageMemoryCache;
 import com.example.www11.mymusicplayer.util.ViewHolderTool;
-
 import java.lang.ref.WeakReference;
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -79,7 +76,7 @@ public class MusicAdapter extends ArrayAdapter<Music> {
          * 先判断内存中是否有缓存好的图片，有直接拿，没有则去网络请求.
          * 关于cancelPotentialWork(url,image):
          * 若后台的任务是imageview在请求另外一张图片，则取消任务。
-         * 若后台的任务请求的图片刚好和imageview需要的一致，则if下面的不执行.
+         * 若后台的任务请求的图片刚好和imageview需要的一致，则不取消任务，并且返回false.
          * 若该imageview后台无请求任务，cancelPo...返回true,则执行if里的语句.
          * */
         BitmapDrawable drawable = ImageMemoryCache.getBitmapFromMemoryCache(url);
