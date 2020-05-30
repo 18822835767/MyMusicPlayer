@@ -16,14 +16,19 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.mymusicplayer.R;
+
 import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import com.example.www11.mymusicplayer.adapter.PlayQueueAdapter;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.util.AsyncImageTask;
+
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.LOOP_PLAY;
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.ORDER_PLAY;
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.PLAY_STATE_PAUSE;
@@ -34,12 +39,12 @@ import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.R
 /**
  * 底部"音乐播放栏"的碎片.
  */
-public class PlayMusicFragment extends Fragment implements OnView, 
+public class PlayMusicFragment extends Fragment implements OnView,
         PlayQueueAdapter.InnerItemOnClickListener {
 
     /**
      * 底部播放栏.
-     * */
+     */
     private View view;
 
     /**
@@ -54,7 +59,7 @@ public class PlayMusicFragment extends Fragment implements OnView,
 
     /**
      * 控制音乐播放的类.
-     * */
+     */
     private PlayController mPlayController;
 
     /**
@@ -123,7 +128,7 @@ public class PlayMusicFragment extends Fragment implements OnView,
 
     /**
      * 主要作用是恢复底部的ui.
-     * */
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -164,7 +169,7 @@ public class PlayMusicFragment extends Fragment implements OnView,
 
         mPlayController = PlayController.getInstance();
         mPlayController.registOnPlayView(this);
-        
+
         mPlayQueue = view.findViewById(R.id.play_queue);
 
         mPlayQueueView = View.inflate(getActivity(), R.layout.play_queue, null);
@@ -294,7 +299,7 @@ public class PlayMusicFragment extends Fragment implements OnView,
 
     /**
      * 播放模式改变时，回调这个方法.
-     * */
+     */
     @Override
     public void showPlayMode(int playMode) {
         switch (playMode) {

@@ -2,6 +2,7 @@ package com.example.www11.mymusicplayer.playmusic;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.R
 /**
  * 因为要使播放器在服务中，又使播放器可以收到PlayMusicFragment，所以采取单例模式.
  */
-public class PlayController implements MediaPlayer.OnCompletionListener, 
+public class PlayController implements MediaPlayer.OnCompletionListener,
         MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener {
     private volatile static PlayController instance = null;
 
@@ -39,53 +40,59 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
         }
         return instance;
     }
-    
+
     /**
      * view接口的引用
      */
     private OnView mOnPlayView;
-    
+
     /**
      * 表示目前的播放状态，初始是停止播放的状态
-     * */
+     */
     private int mCurrentState = PLAY_STATE_STOP;
-    
+
     private MediaPlayer mMediaPlayer = new MediaPlayer();
+
     /**
-     * 定时器，每个一段时间通过回调更新UI
-     * */
+     * 定时器，每隔一段时间通过回调更新UI
+     */
     private Timer mTimer;
-    
+
     /**
      * 定时任务
-     * */
+     */
     private SeekTimeTask mSeekTimeTask;
-    
+
     /**
      * 存放要播放音乐的列表
-     * */
+     */
     private List<Music> mMusics = new ArrayList<>();
 
     /**
      * 是否是第一次点击播放
-     * */
+     */
     private boolean mFirstPlay = true;
-    
+
     /**
      * 判断用户是否调用了mediaPlayer的reset()
-     * */
+     */
     private boolean mReset = false;
-    
+
     /**
      * 表示当前的播放位置
-     * */
+     */
     private int mCurrentPosition = 0;
-    
+
     /**
      * 记录播放的方式，默认是列表循环
-     * */
+     */
     private int mPlayMode = ORDER_PLAY;
     
+    /**
+     * 标记是否开启了定时任务.
+     * */
+    private boolean mStartTimer = false;
+
     void playOrPause() {
         if (mMusics.size() == 0) {
             mOnPlayView.showFail("当前没有歌哦");
@@ -181,7 +188,7 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
         if (!mReset && mCurrentState == PLAY_STATE_PLAY) {
-            //mediaPlayer没有经过了reset(),正常出错,并且当前处于播放状态
+            //mediaPlayer不是经过reset()而出错,而是正常出错,并且当前处于播放状态
             mOnPlayView.showError();
             mOnPlayView.onPlayStateChange(mCurrentState);
             playNext();
@@ -202,6 +209,10 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
             mOnPlayView.showMusicInfo(mMusics.get(mCurrentPosition));//播放栏中显示歌曲的信息
             mCurrentState = PLAY_STATE_PLAY;
             mOnPlayView.onPlayStateChange(mCurrentState);
+            //若更新进度条的定时任务没有开启，那么开启
+            if(!mStartTimer){
+                startTimer();
+            }
         }
     }
 
@@ -213,7 +224,7 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
             mOnPlayView.showFail("当前没有歌哦");
             return;
         }
-        
+
         switch (mPlayMode) {
             //列表循环播放
             case ORDER_PLAY:
@@ -287,12 +298,12 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
     void registOnPlayView(OnView onPlayView) {
         this.mOnPlayView = onPlayView;
     }
-    
-    void changePlayMode(int mode){
+
+    void changePlayMode(int mode) {
         mPlayMode = mode;
         mOnPlayView.showPlayMode(mPlayMode);
     }
-    
+
     /**
      * 当音乐在播放的时候，开启TimerTask
      */
@@ -304,6 +315,7 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
             mSeekTimeTask = new SeekTimeTask();
         }
         mTimer.schedule(mSeekTimeTask, 0, 300);//定时任务，周期为300ms
+        mStartTimer = true;
     }
 
     /**
@@ -318,6 +330,7 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
             mSeekTimeTask.cancel();
             mSeekTimeTask = null;
         }
+        mStartTimer = false;
     }
 
     /**
@@ -336,7 +349,7 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
             }
         }
     }
-    
+
     public MediaPlayer getMediaPlayer() {
         return mMediaPlayer;
     }
@@ -344,7 +357,7 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
     public List<Music> getMusics() {
         return mMusics;
     }
-    
+
     int getCurrentPosition() {
         return mCurrentPosition;
     }
@@ -352,11 +365,11 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
     void setCurrentPosition(int currentPosition) {
         mCurrentPosition = currentPosition;
     }
-    
+
     int getPlayMode() {
         return mPlayMode;
     }
-    
+
     int getPlayState() {
         return mCurrentState;
     }
