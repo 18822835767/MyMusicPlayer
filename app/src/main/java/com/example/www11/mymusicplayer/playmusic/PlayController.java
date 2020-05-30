@@ -258,13 +258,14 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
      * 用户点击歌单中的某首歌播放时，主活动会调用这个方法.
      */
     void playMusic(List<Music> musics, int position) {
-        mMusics = musics;
+        mMusics.clear();
+        mMusics.addAll(musics);
         mCurrentPosition = position;
 
         if (mFirstPlay) {
             playOrPause();
         } else {
-            initMediaPlayerData(musics.get(position).getMusicURL());
+            initMediaPlayerData(mMusics.get(position).getMusicURL());
         }
     }
 
