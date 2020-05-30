@@ -103,6 +103,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, BitmapDrawable> {
 
     /**
      * 获取当前BitmapWorkerTask所关联的ImageView.
+     * 通过ImageView反向获取最新关联的task.
      * */
     private ImageView getAttachedImageView(){
         ImageView imageView = imageViewReference.get();

@@ -230,7 +230,7 @@ public class PlayMusicFragment extends Fragment implements OnView,
     }
 
     /**
-     * 从底部弹出一个列表.
+     * 从底部弹出一个列表(音乐的播放列表).
      */
     private void showBottomDialog() {
         if (getActivity() != null && mQueueDialog == null) {

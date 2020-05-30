@@ -1,10 +1,10 @@
 package com.example.www11.mymusicplayer.login;
 
-
-import org.json.JSONException;
-
 import com.example.www11.mymusicplayer.entity.User;
 
+/**
+ * "登陆"所对应的契约类.
+ * */
 public interface LoginContract {
     /**
      * LoginPresenter接口，被LoginActivity调用.
@@ -29,7 +29,7 @@ public interface LoginContract {
         void showFail();
 
         /**
-         * 登陆错误后LoginActivity做相应的提示.
+         * 登陆出现错误后LoginActivity做相应的提示.
          * */
         void showError(String errorMsg);
 

@@ -27,7 +27,7 @@ import static com.example.www11.mymusicplayer.util.Constants.LoginConstant.SHOW_
 import static com.example.www11.mymusicplayer.util.Constants.LoginConstant.SUCCESS;
 
 /**
- * 登陆对应的活动.
+ * "登陆"对应的活动.
  * */
 public class LoginActivity extends AppCompatActivity implements LoginContract.OnView {
 
@@ -141,7 +141,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.On
                         break;
                     default:
                         break;
-
                 }
             }
         }

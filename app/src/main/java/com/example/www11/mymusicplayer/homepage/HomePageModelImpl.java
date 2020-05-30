@@ -17,7 +17,11 @@ import static com.example.www11.mymusicplayer.util.URLConstant.BANNER_URL;
 
 public class HomePageModelImpl implements HomePageModel {
     private List<String> mBannerUrl = new ArrayList<>();
-    private List<Drawable> mDrawableList = new ArrayList<>();//存放轮播图得到的图片
+    
+    /**
+     * 存放轮播图得到的图片.
+     * */
+    private List<Drawable> mDrawableList = new ArrayList<>();
    
     @Override
     public void getBanner(HomePageModel.OnListener onHomePageListener) {

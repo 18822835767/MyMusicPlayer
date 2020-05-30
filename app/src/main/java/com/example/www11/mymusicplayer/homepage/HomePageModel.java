@@ -17,7 +17,7 @@ public interface HomePageModel {
         void onSuccess(List<Drawable> drawableList);
 
         /**
-         * '
+         * 
          * 加载错误(断网...).
          */
         void onError(String errorMsg);

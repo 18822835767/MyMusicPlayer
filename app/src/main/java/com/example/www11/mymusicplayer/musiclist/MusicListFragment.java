@@ -1,6 +1,5 @@
 package com.example.www11.mymusicplayer.musiclist;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -55,7 +54,7 @@ public class MusicListFragment extends Fragment implements MusicListContract.OnV
     private OnMusicListener mCallback;
 
     /**
-     * 适配器的引用变量
+     * listView适配器.
      */
     private MusicAdapter mAdapter;
 
@@ -92,7 +91,7 @@ public class MusicListFragment extends Fragment implements MusicListContract.OnV
 
         mMusicPresenter = new MusicListPresenterImpl(this);
 
-        //因为listview设置监听之前，需要先设置适配器，所以这里先设置适配器
+        //因为listView设置监听之前，需要先设置适配器，所以这里先设置适配器
         if (getActivity() != null) {
             mAdapter = new MusicAdapter(getActivity(), R.layout.music_item, mMusics);
         }
@@ -115,8 +114,10 @@ public class MusicListFragment extends Fragment implements MusicListContract.OnV
      * 设置歌单中的歌曲显示.
      */
     public void setMusicItem() {
-        mMusics.clear();//先清空列表项数据
+        //先清空列表项数据
+        mMusics.clear();
         mAdapter.notifyDataSetChanged();
+
         mMusicPresenter.getMusicList(mCallback.getSongListId());
     }
 
@@ -154,13 +155,11 @@ public class MusicListFragment extends Fragment implements MusicListContract.OnV
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-    }
+    public void onScrollStateChanged(AbsListView view, int scrollState) {}
 
     @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-    }
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, 
+                         int totalItemCount) {}
 
     private static class UIHandler extends Handler {
         WeakReference<MusicListFragment> mWeakFragment;

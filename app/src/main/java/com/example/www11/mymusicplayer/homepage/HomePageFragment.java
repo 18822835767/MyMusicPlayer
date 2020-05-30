@@ -35,27 +35,27 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
         HomePageContract.OnView {
     /**
      * “我的歌单”按钮
-     * */
+     */
     private Button mMySongList;
-    
+
     private View view;
-    
+
     /**
      * 碎片和活动通信的接口引用
-     * */
+     */
     private OnHomePageListener mCallback;
-    
+
     /**
      * 搜索的按钮
-     * */
+     */
     private ImageButton mSearchBtn;
-    
+
     private HomePageContract.Presenter mHomePagePresenter;
 
     private BannerViewPager banner;
-    
+
     private Handler mHandler;
-    
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -66,8 +66,8 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.home_page,container,false);  
-        
+        view = inflater.inflate(R.layout.home_page, container, false);
+
         initData();
         initEvent();
 
@@ -76,16 +76,16 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
 
     /**
      * 初始化轮播图数据.
-     * */
+     */
     private void initData() {
         banner = view.findViewById(R.id.banner_view_pager);
         mHomePagePresenter = new HomePagePresenterImpl(this);
         mHomePagePresenter.getBanner();
-        
+
 
         mMySongList = view.findViewById(R.id.my_song_list);
         mSearchBtn = view.findViewById(R.id.search);
-        
+
         mHandler = new UIHandler(this);
     }
 
@@ -96,7 +96,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.my_song_list:
                 mCallback.showSongList();
                 break;
@@ -121,33 +121,33 @@ public class HomePageFragment extends Fragment implements View.OnClickListener,
     }
 
 
-    private static class UIHandler extends Handler{
+    private static class UIHandler extends Handler {
         WeakReference<HomePageFragment> mWeakFragment;
 
-        UIHandler(HomePageFragment homePageFragment){
+        UIHandler(HomePageFragment homePageFragment) {
             mWeakFragment = new WeakReference<>(homePageFragment);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
             HomePageFragment fragment = mWeakFragment.get();
-            if(fragment != null){
-                if(msg.what == ERROR){
-                    if(fragment.getActivity() != null){
-                        Toast.makeText(fragment.getActivity(),"轮播图加载失败",Toast.LENGTH_SHORT).show();
+            if (fragment != null) {
+                if (msg.what == ERROR) {
+                    if (fragment.getActivity() != null) {
+                        Toast.makeText(fragment.getActivity(), "轮播图加载失败", Toast.LENGTH_SHORT).show();
                     }
-                    
                 }
             }
         }
     }
-    
+
     /**
      * 当用户点击"我的歌单"或者“本地歌单”的按钮时候调用.
      * MainActivity去实现，作为碎片和活动之间通信的回调接口.
-     * */
+     */
     public interface OnHomePageListener {
         void showSongList();//展示歌单界面
+
         void showSearchPage();//展示搜索界面
     }
 }
