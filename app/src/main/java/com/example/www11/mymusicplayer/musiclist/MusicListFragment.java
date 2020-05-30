@@ -32,8 +32,7 @@ import static com.example.www11.mymusicplayer.util.Constants.MusicConstant.SUCCE
 /**
  * 用户点击歌单时，展示"音乐列表"的碎片.
  */
-public class MusicListFragment extends Fragment implements MusicListContract.OnView,
-        AbsListView.OnScrollListener {
+public class MusicListFragment extends Fragment implements MusicListContract.OnView{
     /**
      * 展示音乐列表.
      */
@@ -91,15 +90,12 @@ public class MusicListFragment extends Fragment implements MusicListContract.OnV
 
         mMusicPresenter = new MusicListPresenterImpl(this);
 
-        //因为listView设置监听之前，需要先设置适配器，所以这里先设置适配器
+        //listView设置设置适配器
         if (getActivity() != null) {
             mAdapter = new MusicAdapter(getActivity(), R.layout.music_item, mMusics);
         }
         mHandler = new UIHandler(this);
         mListView.setAdapter(mAdapter);
-
-        //设置监听
-        mListView.setOnScrollListener(this);
 
         //初始化音乐列表
         setMusicItem();
@@ -153,13 +149,6 @@ public class MusicListFragment extends Fragment implements MusicListContract.OnV
         message.obj = errorMsg;
         mHandler.sendMessage(message);
     }
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {}
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, 
-                         int totalItemCount) {}
 
     private static class UIHandler extends Handler {
         WeakReference<MusicListFragment> mWeakFragment;
