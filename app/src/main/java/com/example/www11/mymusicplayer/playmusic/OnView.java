@@ -7,7 +7,7 @@ import com.example.www11.mymusicplayer.entity.Music;
  * */
 public interface OnView {
     /**
-     * 播放状态改变了，通知view层更新UI。
+     * 播放状态改变了,即"播放"或者"暂停",通知view层更新UI。
      */
     void onPlayStateChange(int state);
 

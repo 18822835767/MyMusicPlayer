@@ -3,6 +3,9 @@ package com.example.www11.mymusicplayer.musiclist;
 import java.util.List;
 import com.example.www11.mymusicplayer.entity.Music;
 
+/**
+ * 用户点击"歌单"时，展示的音乐列表所对应的契约类.
+ * */
 public interface MusicListContract {
     /**
      * Presenter接口，被Fragment调用.

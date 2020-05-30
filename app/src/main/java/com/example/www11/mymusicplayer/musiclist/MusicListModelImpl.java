@@ -32,7 +32,8 @@ public class MusicListModelImpl implements MusicListModel {
                 new HttpUrlConnection.HttpCallbackListener() {
             @Override
             public void onSuccess(String dataMessage) {
-                mMusics.clear();
+                mMusics.clear();//清空之前加载的音乐
+                
                 try {
                     handleMusicInfoJson(dataMessage);
                 } catch (JSONException e) {

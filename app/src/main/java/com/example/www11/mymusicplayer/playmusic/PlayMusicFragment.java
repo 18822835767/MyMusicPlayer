@@ -16,19 +16,14 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.mymusicplayer.R;
-
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.example.www11.mymusicplayer.adapter.PlayQueueAdapter;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.util.AsyncImageTask;
-
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.LOOP_PLAY;
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.ORDER_PLAY;
 import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.PLAY_STATE_PAUSE;
@@ -42,6 +37,9 @@ import static com.example.www11.mymusicplayer.util.Constants.PlayMusicConstant.R
 public class PlayMusicFragment extends Fragment implements OnView, 
         PlayQueueAdapter.InnerItemOnClickListener {
 
+    /**
+     * 底部播放栏.
+     * */
     private View view;
 
     /**
@@ -54,6 +52,9 @@ public class PlayMusicFragment extends Fragment implements OnView,
      */
     private Button mPlayOrPause;
 
+    /**
+     * 控制音乐播放的类.
+     * */
     private PlayController mPlayController;
 
     /**
@@ -128,7 +129,8 @@ public class PlayMusicFragment extends Fragment implements OnView,
         super.onResume();
         if (mPlayController != null && mPlayController.getMusics().size() != 0) {
             //如果服务开着，活动销毁，再次打开活动时恢复底部播放栏的UI状态
-            Music music = mPlayController.getMusics().get(mPlayController.getCurrentPosition());
+            mLastPosition = mPlayController.getCurrentPosition();
+            Music music = mPlayController.getMusics().get(mLastPosition);
             showMusicInfo(music);//恢复歌曲信息
             onPlayStateChange(mPlayController.getPlayState());//恢复"播放"或者"暂停"按钮
             //恢复播放模式

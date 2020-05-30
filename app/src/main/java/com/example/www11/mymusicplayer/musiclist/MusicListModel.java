@@ -11,8 +11,8 @@ public interface MusicListModel {
     void getMusicList(OnListener onMusicListener, long songListId);
         
     /**
-     * 这是将MusicModel请求结果反馈给MusicPresenter的Callback接口.
-     * MusicPresenter要去实现这个接口.
+     * 这是将Model请求结果反馈给Presenter的Callback接口.
+     * Presenter要去实现这个接口.
      */
     interface OnListener {
         /**

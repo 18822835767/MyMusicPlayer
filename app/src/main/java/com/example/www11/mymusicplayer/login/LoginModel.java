@@ -12,8 +12,8 @@ public interface LoginModel {
     void handleJson(String dataMessage) throws JSONException;
     
     /**
-     * 这是将LoginModel请求结果反馈给LoginPresenter的Callback接口.
-     * LoginPresenter要去实现这个接口.
+     * 这是将Model请求结果反馈给Presenter的Callback接口.
+     * Presenter要去实现这个接口.
      */
     interface OnListener {
         /**
