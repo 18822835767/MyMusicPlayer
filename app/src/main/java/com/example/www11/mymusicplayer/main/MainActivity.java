@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.entity.User;
 import com.example.www11.mymusicplayer.homepage.HomePageFragment;
@@ -15,7 +14,6 @@ import com.example.www11.mymusicplayer.musiclist.MusicListFragment;
 import com.example.www11.mymusicplayer.playmusic.PlayMusicFragment;
 import com.example.www11.mymusicplayer.search.SearchFragment;
 import com.example.www11.mymusicplayer.service.PlayService;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -23,17 +21,12 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
-
 import com.example.mymusicplayer.R;
 import com.example.www11.mymusicplayer.songlist.SongListFragment;
-
-import java.net.CookieManager;
-import java.net.CookieStore;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import static com.example.www11.mymusicplayer.util.Constants.LoginConstant.USER;
 import static com.example.www11.mymusicplayer.util.Constants.MainConstant.REQUEST_CODE;
 import static com.example.www11.mymusicplayer.util.Constants.MainConstant.SHOW_HOME_PAGE;

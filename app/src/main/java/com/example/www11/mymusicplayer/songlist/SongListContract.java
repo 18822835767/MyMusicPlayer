@@ -15,8 +15,8 @@ public interface SongListContract {
     }
     
     /**
-     * SongListPresenter将结果反馈给SongListActivity的View接口.
-     * 由SongListFragment去实现这个类.
+     * Presenter将结果反馈给Fragment的View接口.
+     * 由Fragment去实现这个类.
      * */
     interface OnView {
         /**

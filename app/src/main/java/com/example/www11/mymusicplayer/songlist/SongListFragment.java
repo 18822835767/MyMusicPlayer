@@ -1,6 +1,5 @@
 package com.example.www11.mymusicplayer.songlist;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -43,12 +42,12 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
     private Handler mHandler;
 
     private SongListAdapter mAdapter;
-    
+
     /**
      * 标记歌单的加载是否成功.
-     * */
+     */
     private boolean mLoadSuccess = false;
-    
+
     /**
      * 碎片和活动通信的接口引用
      */
@@ -71,7 +70,7 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
 
         return view;
     }
-    
+
     private void initData() {
         mUser = mCallback.getUser();
         mListView = view.findViewById(R.id.song_list);
@@ -103,7 +102,7 @@ public class SongListFragment extends Fragment implements SongListContract.OnVie
      * 设置歌单列表每一项的数据.
      */
     public void setListItem() {
-        if(!mLoadSuccess){
+        if (!mLoadSuccess) {
             mSongLists.clear();//先清空列表项数据
             mAdapter.notifyDataSetChanged();
             mSongListPresenter.getUserSongList(mUser.getId());

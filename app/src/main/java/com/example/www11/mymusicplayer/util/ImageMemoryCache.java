@@ -15,7 +15,7 @@ public class ImageMemoryCache {
     static {
         //应用程序最大的可用内存
         int maxMemory = (int) Runtime.getRuntime().maxMemory();
-        //部分作为图片缓存
+        //部分空间作为图片缓存
         int cacheSize  =maxMemory/8;
         sMemoryCache = new LruCache<String,BitmapDrawable>(cacheSize){
             @Override
@@ -26,7 +26,7 @@ public class ImageMemoryCache {
     }
     
     /**
-     * 想缓存中加入图片.
+     * 向缓存中添加图片.
      * */
     static void addBitmapToMemory(String key, BitmapDrawable drawable){
         if(getBitmapFromMemoryCache(key) == null){

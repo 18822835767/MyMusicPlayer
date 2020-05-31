@@ -5,16 +5,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
  * 可以用于下载单个图片.
- * */
+ */
 public class AsyncImageTask extends AsyncTask<String, Void, BitmapDrawable> {
     /**
      * 回调接口
-     * */
+     */
     private ImageCallback mImageCallback;
 
     public AsyncImageTask(ImageCallback imageCallback) {
@@ -62,7 +63,7 @@ public class AsyncImageTask extends AsyncTask<String, Void, BitmapDrawable> {
         }
         return bitmap;
     }
-    
+
     @FunctionalInterface
     public interface ImageCallback {
         void getDrawable(Drawable drawable);

@@ -58,7 +58,7 @@ public class BannerViewPager extends FrameLayout {
     private ImageView[] mTips;
 
     /**
-     * 用户看到的图片数量
+     * 用户"看到"的图片数量
      */
     private int mCount;
 
@@ -106,9 +106,10 @@ public class BannerViewPager extends FrameLayout {
         public void run() {
             long now = System.currentTimeMillis();//记录现在的时间
             if (now - mSlideTime > mBannerTime - 500) {
-                //手动滑动，且时间满足该条件
+                //正常情况；或者手指滑动，且手指滑动时间较早
                 mHandler.sendEmptyMessage(START);
             } else {
+                //手指滑动，且滑动时间较晚
                 mHandler.sendEmptyMessage(STOP);
             }
         }
@@ -120,7 +121,7 @@ public class BannerViewPager extends FrameLayout {
     public void setData(List<Drawable> drawables) {
         mViews.clear();
         mCount = drawables.size();
-        mDrawables.add(drawables.get(mCount-1));
+        mDrawables.add(drawables.get(mCount - 1));
         mDrawables.addAll(drawables);
         mDrawables.add(drawables.get(0));
 
@@ -130,7 +131,7 @@ public class BannerViewPager extends FrameLayout {
     }
 
     /**
-     * 设置“小圆点”指示器在线性布局中的参数
+     * 设置“小圆点”指示器，并且添加到线性布局中.
      */
     private void initIndicator() {
         mTips = new ImageView[mCount];
@@ -156,7 +157,7 @@ public class BannerViewPager extends FrameLayout {
     }
 
     /**
-     * 加载图片，存放到views容器里
+     * drawable加载到imageView，并且存放到views容器里
      */
     private void getShowImage() {
         for (int i = 0; i < mDrawables.size(); i++) {
@@ -186,9 +187,10 @@ public class BannerViewPager extends FrameLayout {
      */
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
 
-        //主要是为了设置小圆点的下标
+        //根据当前的图片位置计算对应的小圆点的下标
         @Override
         public void onPageSelected(int position) {
             int max = mViews.size();
@@ -232,7 +234,7 @@ public class BannerViewPager extends FrameLayout {
     };
 
     /**
-     * 负责小圆点的切换.
+     * 小圆点颜色的切换.
      * <p>
      * 把当前正显示的图片的小圆点变红色.
      * </p>
@@ -246,7 +248,7 @@ public class BannerViewPager extends FrameLayout {
             }
         }
     }
-    
+
     private static class UIHandler extends Handler {
         WeakReference<BannerViewPager> mBannerWeakRef;
 
@@ -263,13 +265,14 @@ public class BannerViewPager extends FrameLayout {
                     case START:
                         banner.mViewPager.setCurrentItem(banner.mCurrentItem + 1);
                         banner.mHandler.removeCallbacks(banner.runnable);
-                        //在bannerTime后会调用runnable的run()
+                        //重新设定任务
                         banner.mHandler.postDelayed(banner.runnable, banner.mBannerTime);
                         break;
                     //不切换下一张图片
                     case STOP:
-                        banner.mSlideTime = 0;
+                        banner.mSlideTime = 0;//重置手滑动的时间
                         banner.mHandler.removeCallbacks(banner.runnable);
+                        //重新设定任务
                         banner.mHandler.postDelayed(banner.runnable, banner.mBannerTime);
                         break;
                     default:
@@ -298,7 +301,7 @@ public class BannerViewPager extends FrameLayout {
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             View v = mViews.get(position);
             ViewGroup parent = (ViewGroup) v.getParent();
-            if(parent != null){
+            if (parent != null) {
                 parent.removeAllViews();
             }
             container.addView(mViews.get(position));

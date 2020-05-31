@@ -11,9 +11,7 @@ public interface SongListModel {
      * SongListModel接口.
      */
     void getUserSongList(OnListener onSongListListener, long userId);
-    void handleJson(String dataMessage) throws JSONException;
-
-
+    
     /**
      * 这是将SongListModel请求结果反馈给SongListPresenter的Callback接口.
      * SongListPresenter要去实现这个接口.
