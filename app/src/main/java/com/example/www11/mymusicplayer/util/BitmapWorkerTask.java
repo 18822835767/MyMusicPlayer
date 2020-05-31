@@ -78,7 +78,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, BitmapDrawable> {
     }
 
     /**
-     * 取消其他图片的后台下载任务.
+     * 取消其他图片的后台下载任务,主要是为了提升效率使用。
      * <p>
      * 若该imageView正在请求的下载任务和当前需要的图片不一致，则cancel掉该任务，并且返回true.
      * 若该imageView正在请求的下载任务和当前需要的图片一致，则继续该请求任务，返回false.
@@ -102,8 +102,12 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, BitmapDrawable> {
     }
 
     /**
-     * 获取当前BitmapWorkerTask所关联的ImageView.
-     * 通过ImageView反向获取最新关联的task.
+     * 关键代码.
+     * <p>
+     *     获取当前BitmapWorkerTask所关联的ImageView.
+     *     通过ImageView反向获取最新关联的task,然后将获取的task和当前的task对比，同一个task则返回ImageView,
+     *     设置图片；不是同一个task则返回null,不设置图片.
+     * </p>
      * */
     private ImageView getAttachedImageView(){
         ImageView imageView = imageViewReference.get();
