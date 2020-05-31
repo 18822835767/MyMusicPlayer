@@ -159,6 +159,13 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
             stopTimer();
         }
         
+        //音乐的url不对时，自动切换下一首(解决得有点仓促)
+        while(dataSource.equals("null") || dataSource.equals("")){
+            mOnPlayView.showError();
+            nextPosition();
+            dataSource = mMusics.get(mCurrentPosition).getMusicURL();
+        }
+        
         mReset = true;
         mMediaPlayer.reset();
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -225,24 +232,26 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
             return;
         }
 
-        switch (mPlayMode) {
-            //列表循环播放
-            case ORDER_PLAY:
-                if (mCurrentPosition == mMusics.size() - 1) {
-                    mCurrentPosition = 0;
-                } else {
-                    mCurrentPosition++;
-                }
-                break;
-            //随机播放
-            case RANDOM_PLAY:
-                mCurrentPosition = (int) (Math.random() * mMusics.size());
-                break;
-            //单曲循环不用做处理
-            default:
-                break;
-        }
+//        switch (mPlayMode) {
+//            //列表循环播放
+//            case ORDER_PLAY:
+//                if (mCurrentPosition == mMusics.size() - 1) {
+//                    mCurrentPosition = 0;
+//                } else {
+//                    mCurrentPosition++;
+//                }
+//                break;
+//            //随机播放
+//            case RANDOM_PLAY:
+//                mCurrentPosition = (int) (Math.random() * mMusics.size());
+//                break;
+//            //单曲循环不用做处理
+//            default:
+//                break;
+//        }
 
+        nextPosition();
+        
         initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
         mOnPlayView.changeDialogData();//通知播放队列更新数据
     }
@@ -263,6 +272,26 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
         }
 
         initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
+    }
+    
+    private void nextPosition(){
+        switch (mPlayMode) {
+            //列表循环播放
+            case ORDER_PLAY:
+                if (mCurrentPosition == mMusics.size() - 1) {
+                    mCurrentPosition = 0;
+                } else {
+                    mCurrentPosition++;
+                }
+                break;
+            //随机播放
+            case RANDOM_PLAY:
+                mCurrentPosition = (int) (Math.random() * mMusics.size());
+                break;
+            //单曲循环不用做处理
+            default:
+                break;
+        }
     }
 
     /**
