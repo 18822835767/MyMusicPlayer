@@ -16,7 +16,7 @@ public interface SearchContract {
     }
 
     /**
-     * SearchPresenter将登陆结果反馈给SearchFragment的View接口.
+     * SearchPresenter将结果反馈给SearchFragment的View接口.
      * 由SearchFragment去实现这个类.
      * */
     interface OnView {
