@@ -139,11 +139,13 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
             //展示音乐首页
             case SHOW_HOME_PAGE:
                 if (mHomePageFragment == null) {
+                    //若碎片还未创建
                     mHomePageFragment = new HomePageFragment();
                     transaction.add(R.id.fragment_layout, mHomePageFragment);
                     //保存碎片所对应的值
                     mMap.put(mHomePageFragment, SHOW_HOME_PAGE);
                 } else {
+                    //若碎片已经创建
                     transaction.show(mHomePageFragment);
                 }
 
@@ -275,11 +277,15 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
 
     /**
      * 重写"返回键"的方法.
+     * <p>
+     *     这里主要用一个list来存放用户打开的碎片，类似一个"栈"的结构，当用户点击返回时，从"栈"里取出某个碎片
+     *     展示.
+     * </p>
      */
     @Override
     public void onBackPressed() {
         if (mFragmentLinkedList.size() == 1) {
-            //只有一个碎片，说明只剩下主界面，接着就是关闭程序了
+            //只有一个碎片，说明只剩下HomePageFragment，那么关闭程序
             super.onBackPressed();
         } else {
             //不止一个碎片，说明用户只是想返回上一个页面
@@ -311,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements HomePageFragment.
     }
 
     /**
-     * 通过这个方式来启动活动.
+     * 通过这个方式来启动主活动.
      */
     public static void actionStart(Context context, User user) {
         Intent intent = new Intent(context, MainActivity.class);
