@@ -118,7 +118,7 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
                 }
 
                 mCurrentState = PLAY_STATE_PLAY;
-                startTimer();
+               
                 mFirstPlay = false;
                 break;
             //从播放到暂停
@@ -155,6 +155,10 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
             mMediaPlayer = new MediaPlayer();
         }
 
+        if(mCurrentState == PLAY_STATE_PLAY && mStartTimer){
+            stopTimer();
+        }
+        
         mReset = true;
         mMediaPlayer.reset();
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
