@@ -87,7 +87,7 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
      * 记录播放的方式，默认是列表循环
      */
     private int mPlayMode = ORDER_PLAY;
-    
+
     /**
      * 标记是否开启了定时任务.
      * */
@@ -118,7 +118,7 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
                 }
 
                 mCurrentState = PLAY_STATE_PLAY;
-               
+
                 mFirstPlay = false;
                 break;
             //从播放到暂停
@@ -158,20 +158,14 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
         if(mCurrentState == PLAY_STATE_PLAY && mStartTimer){
             stopTimer();
         }
-        
-        //音乐的url不对时，自动切换下一首(解决得有点仓促)
-        while(dataSource.equals("null") || dataSource.equals("")){
-            mOnPlayView.showError();
-            nextPosition();
-            dataSource = mMusics.get(mCurrentPosition).getMusicURL();
-        }
-        
+
         mReset = true;
         mMediaPlayer.reset();
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
             mMediaPlayer.setDataSource(dataSource);
             mMediaPlayer.prepareAsync();
+            mMediaPlayer.pause();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -232,49 +226,6 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
             return;
         }
 
-//        switch (mPlayMode) {
-//            //列表循环播放
-//            case ORDER_PLAY:
-//                if (mCurrentPosition == mMusics.size() - 1) {
-//                    mCurrentPosition = 0;
-//                } else {
-//                    mCurrentPosition++;
-//                }
-//                break;
-//            //随机播放
-//            case RANDOM_PLAY:
-//                mCurrentPosition = (int) (Math.random() * mMusics.size());
-//                break;
-//            //单曲循环不用做处理
-//            default:
-//                break;
-//        }
-
-        nextPosition();
-        
-        initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
-        mOnPlayView.changeDialogData();//通知播放队列更新数据
-    }
-
-    /**
-     * 用户点击时，播放上一首歌曲.
-     */
-    void playPre() {
-        if (mMusics.size() == 0) {
-            mOnPlayView.showFail("当前没有歌哦");
-            return;
-        }
-
-        if (mCurrentPosition == 0) {
-            mCurrentPosition = mMusics.size() - 1;
-        } else {
-            mCurrentPosition--;
-        }
-
-        initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
-    }
-    
-    private void nextPosition(){
         switch (mPlayMode) {
             //列表循环播放
             case ORDER_PLAY:
@@ -292,6 +243,39 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
             default:
                 break;
         }
+
+        initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
+        mOnPlayView.changeDialogData();//通知播放队列更新数据
+    }
+
+    /**
+     * 用户点击时，播放上一首歌曲.
+     */
+    void playPre() {
+        if (mMusics.size() == 0) {
+            mOnPlayView.showFail("当前没有歌哦");
+            return;
+        }
+
+        switch (mPlayMode) {
+            //列表循环播放
+            case ORDER_PLAY:
+                if (mCurrentPosition == 0) {
+                    mCurrentPosition = mMusics.size() - 1;
+                } else {
+                    mCurrentPosition--;
+                }
+                break;
+            //随机播放
+            case RANDOM_PLAY:
+                mCurrentPosition = (int) (Math.random() * mMusics.size());
+                break;
+            //单曲循环不用做处理
+            default:
+                break;
+        }
+
+        initMediaPlayerData(mMusics.get(mCurrentPosition).getMusicURL());
     }
 
     /**
@@ -403,4 +387,3 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
         return mCurrentState;
     }
 }
-
