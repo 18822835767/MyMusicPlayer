@@ -1,6 +1,5 @@
 package com.example.www11.mymusicplayer.search;
 
-import com.example.www11.mymusicplayer.search.SearchContract;
 import com.example.www11.mymusicplayer.entity.Music;
 import com.example.www11.mymusicplayer.util.HttpUrlConnection;
 
@@ -179,5 +178,4 @@ public class SearchModelImpl implements SearchModel {
 
         return result.getInt("songCount");
     }
-
 }

@@ -42,8 +42,6 @@ import static com.example.www11.mymusicplayer.util.Constants.MainConstant.SHOW_S
 import static com.example.www11.mymusicplayer.util.Constants.MainConstant.SHOW_SONG_LIST;
 
 /**
- * todo
- *  1、每次打开应用都得重新登录，考虑下怎么处理
  * 程序的主界面.
  */
 public class MainActivity extends AppCompatActivity implements HomePageFragment.OnHomePageListener,
