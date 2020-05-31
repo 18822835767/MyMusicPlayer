@@ -161,10 +161,6 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
         try {
             mMediaPlayer.setDataSource(dataSource);
             mMediaPlayer.prepareAsync();
-            //监听
-            mMediaPlayer.setOnPreparedListener(this);
-            mMediaPlayer.setOnErrorListener(this);
-            mMediaPlayer.setOnCompletionListener(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
