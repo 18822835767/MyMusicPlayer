@@ -155,6 +155,7 @@ public class PlayController implements MediaPlayer.OnCompletionListener,
             mMediaPlayer = new MediaPlayer();
         }
 
+        //若音乐正在播放并且定时任务开着，那么关闭定时任务
         if(mCurrentState == PLAY_STATE_PLAY && mStartTimer){
             stopTimer();
         }
