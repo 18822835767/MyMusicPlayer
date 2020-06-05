@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -182,14 +183,14 @@ public class SearchFragment extends Fragment implements SearchContract.OnView,
                     loadFinishFlag = false;
                     Toast.makeText(getActivity(), "加载新歌曲...", Toast.LENGTH_SHORT).show();
                     mSearchPresenter.searchOrLoadMusic(mMusicName, mPageSize,
-                            (mPageSize - 1) * mPageSize);
+                            mCurrentPage* mPageSize);
                     mRemaining = mRemaining - mPageSize;//剩余的未加载的歌曲数目
-                } else if (mRemaining > 0 && mRemaining < 20) {
+                } else if (mRemaining > 0) {
                     //未加载的歌曲数目不足的情况下
                     loadFinishFlag = false;
                     Toast.makeText(getActivity(), "加载新歌曲...", Toast.LENGTH_SHORT).show();
-                    mSearchPresenter.searchOrLoadMusic(mMusicName, mPageSize,
-                            mRemaining);
+                    mSearchPresenter.searchOrLoadMusic(mMusicName, mRemaining,
+                            mCurrentPage * mPageSize);
                     mRemaining = 0;//剩余的未加载的歌曲数目
                 }
             }
